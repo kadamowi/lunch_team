@@ -50,18 +50,44 @@ class _HomeScreenState extends State<HomeScreen> {
                   fontWeight: FontWeight.bold),
             ),
             SizedBox(height: 20.0),
-            Center(
-              child: RaisedButton(
-                color: Colors.white,
-                textColor: Colors.lightGreen,
-                child: Text("Hunger list"),
-                onPressed: () {},
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30.0)),
-              ),
+            Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                SizedBox(
+                  width: double.infinity,
+                  child: RaisedButton(
+                    color: Colors.white,
+                    textColor: Colors.lightGreen,
+                    child: Text("Organize lunch"),
+                    onPressed: () {},
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30.0)),
+                  ),
+                ),
+                SizedBox(
+                  width: double.infinity,
+                  child: RaisedButton(
+                    color: Colors.white,
+                    textColor: Colors.lightGreen,
+                    child: Text("Lunches"),
+                    onPressed: () {},
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30.0)),
+                  ),
+                ),
+                SizedBox(
+                  width: double.infinity,
+                  child: RaisedButton(
+                    color: Colors.white,
+                    textColor: Colors.lightGreen,
+                    child: Text("Hunger list"),
+                    onPressed: () {},
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30.0)),
+                  ),
+                ),
+              ],
             ),
-            Center(child: Container()),
-            Center(child: Container())
           ],
         ),
       ),

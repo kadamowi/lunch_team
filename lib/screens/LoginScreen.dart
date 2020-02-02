@@ -41,7 +41,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   fontSize: 24.0,
                   fontWeight: FontWeight.bold),
             ),
-            SizedBox(height: 40.0),
+            SizedBox(height: 20.0),
             Form(
                 key: _formStateKey,
                 autovalidate: true,
@@ -166,7 +166,7 @@ class _LoginScreenState extends State<LoginScreen> {
         .encode(LoginRequest(request: 'user.register', arguments: loginUser));
     // make POST request
     Response response = await post(urlApi, headers: headers, body: reqJson);
-    print('response:'+response.toString());
+    print('response:' + response.toString());
     var result = jsonDecode(response.body);
     var resp = result['response'];
     if (resp != null) {
@@ -181,7 +181,7 @@ class _LoginScreenState extends State<LoginScreen> {
         });
       }
     } else {
-      message = 'Register error '+result.toString();
+      message = 'Register error ' + result.toString();
     }
   }
 
@@ -201,7 +201,8 @@ class _LoginScreenState extends State<LoginScreen> {
       String sessionId = res['session'];
       if (sessionId != null && sessionId != 'null') {
         print('Session id:' + sessionId.substring(1, 10));
-        final SessionLunch sessionLunch = new SessionLunch(loginUser.username,sessionId);
+        final SessionLunch sessionLunch =
+            new SessionLunch(loginUser.username, sessionId);
         Navigator.push(
           //pushReplacement(
           context,
