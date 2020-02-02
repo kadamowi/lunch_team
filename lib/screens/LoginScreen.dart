@@ -208,7 +208,7 @@ class _LoginScreenState extends State<LoginScreen> {
         print('Session id:' + sessionId.substring(1, 10));
         final SessionLunch sessionLunch =
             new SessionLunch(loginUser.username, sessionId);
-        Navigator.push(//)Replacement(
+        Navigator.pushReplacement(
           context,
           MaterialPageRoute(
               builder: (context) => HomeScreen(),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lunch_team/model/LunchTeamCommon.dart';
+import 'package:lunch_team/screens/HungerListScreen.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -10,7 +11,6 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final SessionLunch sessionLunch = ModalRoute.of(context).settings.arguments as SessionLunch;
-    //var sessionLunch = ModalRoute.of(context).settings.arguments;
 
     return Scaffold(
       appBar: AppBar(
@@ -85,7 +85,16 @@ class _HomeScreenState extends State<HomeScreen> {
                     color: Colors.white,
                     textColor: Colors.lightGreen,
                     child: Text("Hunger list"),
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => HungerListScreen(),
+                            settings: RouteSettings(
+                              arguments: sessionLunch,
+                            )),
+                      );
+                    },
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30.0)),
                   ),
