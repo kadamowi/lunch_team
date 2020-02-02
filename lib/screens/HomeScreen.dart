@@ -19,9 +19,13 @@ class _HomeScreenState extends State<HomeScreen> {
       body: Container(
         padding: const EdgeInsets.all(16.0),
         height: double.infinity,
+        width: double.infinity,
         decoration: BoxDecoration(
             gradient:
-                LinearGradient(colors: [Colors.lightGreen, Colors.green])),
+                LinearGradient(colors: [
+                  Theme.of(context).primaryColorLight,
+                  Theme.of(context).primaryColorDark,
+                ])),
         child: Column(
           children: <Widget>[
             Container(
@@ -51,10 +55,10 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             SizedBox(height: 20.0),
             Column(
-              mainAxisSize: MainAxisSize.min,
+              //mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 SizedBox(
-                  width: double.infinity,
+                  width: MediaQuery.of(context).size.width * 0.5,
                   child: RaisedButton(
                     color: Colors.white,
                     textColor: Colors.lightGreen,
@@ -65,7 +69,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 SizedBox(
-                  width: double.infinity,
+                  width: MediaQuery.of(context).size.width * 0.5,
                   child: RaisedButton(
                     color: Colors.white,
                     textColor: Colors.lightGreen,
@@ -76,7 +80,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 SizedBox(
-                  width: double.infinity,
+                  width: MediaQuery.of(context).size.width * 0.5,
                   child: RaisedButton(
                     color: Colors.white,
                     textColor: Colors.lightGreen,

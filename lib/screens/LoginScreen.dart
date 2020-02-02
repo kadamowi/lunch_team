@@ -19,139 +19,144 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        padding: const EdgeInsets.all(16.0),
-        height: double.infinity,
-        decoration: BoxDecoration(
-            gradient:
-                LinearGradient(colors: [Colors.lightGreen, Colors.green])),
-        child: Column(
-          children: <Widget>[
-            Container(
-              margin: const EdgeInsets.only(top: 40.0, bottom: 20.0),
-              height: 100,
-              child: Image(
-                image: AssetImage('images/LunchTeam.png'),
+      body: SingleChildScrollView(
+        child: Container(
+          padding: const EdgeInsets.all(16.0),
+          height: MediaQuery.of(context).size.height,
+          decoration: BoxDecoration(
+              gradient:
+              LinearGradient(colors: [
+                Theme.of(context).primaryColorLight,
+                Theme.of(context).primaryColorDark,
+              ])),
+          child: Column(
+            children: <Widget>[
+              Container(
+                margin: const EdgeInsets.only(top: 80.0, bottom: 20.0),
+                height: 100,
+                child: Image(
+                  image: AssetImage('images/LunchTeam.png'),
+                ),
               ),
-            ),
-            Text(
-              "Lunch Team",
-              style: TextStyle(
-                  color: Colors.white70,
-                  fontSize: 24.0,
-                  fontWeight: FontWeight.bold),
-            ),
-            SizedBox(height: 20.0),
-            Form(
-                key: _formStateKey,
-                autovalidate: true,
-                child: Column(children: <Widget>[
-                  TextFormField(
-                    decoration: InputDecoration(
-                      contentPadding: const EdgeInsets.all(16.0),
-                      prefixIcon: Container(
-                          padding:
-                              const EdgeInsets.only(top: 16.0, bottom: 16.0),
-                          margin: const EdgeInsets.only(right: 8.0),
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(30.0),
-                                  bottomLeft: Radius.circular(30.0),
-                                  topRight: Radius.circular(30.0),
-                                  bottomRight: Radius.circular(10.0))),
-                          child: Icon(
-                            Icons.person,
-                            color: Colors.lightGreen,
-                          )),
-                      hintText: "enter your name",
-                      hintStyle: TextStyle(color: Colors.white54),
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(30.0),
-                          borderSide: BorderSide.none),
-                      filled: true,
-                      fillColor: Colors.white.withOpacity(0.1),
+              Text(
+                "Lunch Team",
+                style: TextStyle(
+                    color: Colors.white70,
+                    fontSize: 24.0,
+                    fontWeight: FontWeight.bold),
+              ),
+              SizedBox(height: 20.0),
+              Form(
+                  key: _formStateKey,
+                  autovalidate: true,
+                  child: Column(children: <Widget>[
+                    TextFormField(
+                      decoration: InputDecoration(
+                        contentPadding: const EdgeInsets.all(16.0),
+                        prefixIcon: Container(
+                            padding:
+                            const EdgeInsets.only(top: 16.0, bottom: 16.0),
+                            margin: const EdgeInsets.only(right: 8.0),
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(30.0),
+                                    bottomLeft: Radius.circular(30.0),
+                                    topRight: Radius.circular(30.0),
+                                    bottomRight: Radius.circular(10.0))),
+                            child: Icon(
+                              Icons.person,
+                              color: Colors.lightGreen,
+                            )),
+                        hintText: "enter your name",
+                        hintStyle: TextStyle(color: Colors.white54),
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(30.0),
+                            borderSide: BorderSide.none),
+                        filled: true,
+                        fillColor: Colors.white.withOpacity(0.1),
+                      ),
+                      onSaved: (value) => loginUser.username = value,
                     ),
-                    onSaved: (value) => loginUser.username = value,
-                  ),
-                  SizedBox(height: 10.0),
-                  TextFormField(
-                    decoration: InputDecoration(
-                      contentPadding: const EdgeInsets.all(16.0),
-                      prefixIcon: Container(
-                          padding:
-                              const EdgeInsets.only(top: 16.0, bottom: 16.0),
-                          margin: const EdgeInsets.only(right: 8.0),
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(30.0),
-                                  bottomLeft: Radius.circular(30.0),
-                                  topRight: Radius.circular(30.0),
-                                  bottomRight: Radius.circular(10.0))),
-                          child: Icon(
-                            Icons.lock,
-                            color: Colors.lightGreen,
-                          )),
-                      hintText: "enter your password",
-                      hintStyle: TextStyle(color: Colors.white54),
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(30.0),
-                          borderSide: BorderSide.none),
-                      filled: true,
-                      fillColor: Colors.white.withOpacity(0.1),
+                    SizedBox(height: 10.0),
+                    TextFormField(
+                      decoration: InputDecoration(
+                        contentPadding: const EdgeInsets.all(16.0),
+                        prefixIcon: Container(
+                            padding:
+                            const EdgeInsets.only(top: 16.0, bottom: 16.0),
+                            margin: const EdgeInsets.only(right: 8.0),
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(30.0),
+                                    bottomLeft: Radius.circular(30.0),
+                                    topRight: Radius.circular(30.0),
+                                    bottomRight: Radius.circular(10.0))),
+                            child: Icon(
+                              Icons.lock,
+                              color: Colors.lightGreen,
+                            )),
+                        hintText: "enter your password",
+                        hintStyle: TextStyle(color: Colors.white54),
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(30.0),
+                            borderSide: BorderSide.none),
+                        filled: true,
+                        fillColor: Colors.white.withOpacity(0.1),
+                      ),
+                      onSaved: (value) => loginUser.password = value,
+                      obscureText: true,
                     ),
-                    onSaved: (value) => loginUser.password = value,
-                    obscureText: true,
-                  ),
-                  SizedBox(height: 30.0),
-                  SizedBox(
-                    width: double.infinity,
-                    child: RaisedButton(
-                      color: Colors.white,
-                      textColor: Colors.lightGreen,
-                      padding: const EdgeInsets.all(20.0),
-                      child: Text("Login".toUpperCase()),
-                      onPressed: () {
-                        _loginButton(context);
-                      },
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30.0)),
-                    ),
-                  ),
-                  Text(
-                    message,
-                    style: TextStyle(
-                        color: Colors.yellowAccent,
-                        fontSize: 16.0,
-                        fontWeight: FontWeight.bold),
-                  ),
-                  //Spacer(),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      FlatButton(
-                        textColor: Colors.white70,
-                        child: Text("Create Account".toUpperCase()),
+                    SizedBox(height: 30.0),
+                    SizedBox(
+                      width: double.infinity,
+                      child: RaisedButton(
+                        color: Colors.white,
+                        textColor: Colors.lightGreen,
+                        padding: const EdgeInsets.all(20.0),
+                        child: Text("Login".toUpperCase()),
                         onPressed: () {
-                          _createAccount();
+                          _loginButton(context);
                         },
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30.0)),
                       ),
-                      Container(
-                        color: Colors.white54,
-                        width: 2.0,
-                        height: 20.0,
-                      ),
-                      FlatButton(
-                        textColor: Colors.white70,
-                        child: Text("Forgot Password".toUpperCase()),
-                        onPressed: () {},
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 10.0),
-                ])),
-          ],
+                    ),
+                    Text(
+                      message,
+                      style: TextStyle(
+                          color: Colors.yellowAccent,
+                          fontSize: 16.0,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    //Spacer(),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        FlatButton(
+                          textColor: Colors.white70,
+                          child: Text("Create Account".toUpperCase()),
+                          onPressed: () {
+                            _createAccount();
+                          },
+                        ),
+                        Container(
+                          color: Colors.white54,
+                          width: 2.0,
+                          height: 20.0,
+                        ),
+                        FlatButton(
+                          textColor: Colors.white70,
+                          child: Text("Forgot Password".toUpperCase()),
+                          onPressed: () {},
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 10.0),
+                  ])),
+            ],
+          ),
         ),
       ),
     );
@@ -203,8 +208,7 @@ class _LoginScreenState extends State<LoginScreen> {
         print('Session id:' + sessionId.substring(1, 10));
         final SessionLunch sessionLunch =
             new SessionLunch(loginUser.username, sessionId);
-        Navigator.push(
-          //pushReplacement(
+        Navigator.push(//)Replacement(
           context,
           MaterialPageRoute(
               builder: (context) => HomeScreen(),

@@ -13,6 +13,8 @@ class MyApp extends StatelessWidget {
       title: 'Lunch Team',
       theme: ThemeData(
         primarySwatch: Colors.blue,
+        primaryColorLight: Colors.lightGreen,
+        primaryColorDark: Colors.green,
       ),
       home: LoginScreen(),
     );
