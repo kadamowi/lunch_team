@@ -1,25 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'dart:convert';
+import 'package:url_launcher/url_launcher.dart';
 
 import 'package:lunch_team/model/LunchTeamCommon.dart';
-import 'package:lunch_team/model/TeamUsersRequest.dart';
-import 'package:lunch_team/model/TeamUserResponse.dart';
+import 'package:lunch_team/model/Restaurant.dart';
+import 'package:lunch_team/model/RestaurantListRequest.dart';
 
-class HungerListScreen extends StatefulWidget {
+class RestaurantListScreen extends StatefulWidget {
   @override
-  _HungerListScreenState createState() => _HungerListScreenState();
+  _RestaurantListScreenState createState() => _RestaurantListScreenState();
 }
 
-class _HungerListScreenState extends State<HungerListScreen> {
+class _RestaurantListScreenState extends State<RestaurantListScreen> {
   @override
   Widget build(BuildContext context) {
     final SessionLunch sessionLunch =
-        ModalRoute.of(context).settings.arguments as SessionLunch;
+    ModalRoute.of(context).settings.arguments as SessionLunch;
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Hunger list'),
+        title: Text('Restaurant list'),
       ),
       body: Container(
         padding: const EdgeInsets.all(16.0),
@@ -27,23 +28,23 @@ class _HungerListScreenState extends State<HungerListScreen> {
         width: double.infinity,
         decoration: BoxDecoration(
             gradient: LinearGradient(colors: [
-          Theme.of(context).primaryColorLight,
-          Theme.of(context).primaryColorDark,
-        ])),
+              Theme.of(context).primaryColorLight,
+              Theme.of(context).primaryColorDark,
+            ])),
         child: Column(
           children: <Widget>[
             Text(
-              "List of people who like to eat in a band",
+              "List of restaurant where eat is prepared",
               style: TextStyle(
                   color: Colors.white70,
                   fontSize: 20.0,
                   fontWeight: FontWeight.bold),
             ),
             SizedBox(height: 20.0),
-            FutureBuilder<List<String>>(
+            FutureBuilder<List<Restaurant>>(
                 future: downloadData(sessionLunch),
                 builder: (BuildContext context,
-                    AsyncSnapshot<List<String>> snapshot) {
+                    AsyncSnapshot<List<Restaurant>> snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return Center(child: Text('Please wait its loading...'));
                   } else {
@@ -56,20 +57,20 @@ class _HungerListScreenState extends State<HungerListScreen> {
                         itemCount: snapshot.data.length,
                         itemBuilder: (context, index) {
                           return Container(
-                            height: 50,
+                            height: 80,
                             padding: const EdgeInsets.all(5),
                             decoration: BoxDecoration(
                               border: Border.all(),
                               color: Colors.amber,
                             ),
-                            child: Center(
-                                child: Text(
-                              snapshot.data[index],
-                              style: TextStyle(
-                                  color: Colors.blue,
-                                  fontSize: 20.0,
-                                  fontWeight: FontWeight.bold),
-                            )),
+                            child: ListTile(
+                              title: Text(snapshot.data[index].restaurantName),
+                              subtitle: Text(snapshot.data[index].restaurantUrl),
+                              onTap: () => launch(snapshot.data[index].restaurantUrl),
+                              onLongPress: (){
+                                // do something else
+                              },
+                            ),
                           );
                         },
                       );
@@ -96,22 +97,22 @@ class _HungerListScreenState extends State<HungerListScreen> {
     );
   }
 
-  Future<List<String>> downloadData(SessionLunch sessionLunch) async {
+  Future<List<Restaurant>> downloadData(SessionLunch sessionLunch) async {
     // prepare JSON for request
-    String reqJson = json.encode(TeamUsersRequest(
-        request: 'user.list', session: sessionLunch.sessionId));
+    String reqJson = json.encode(RestaurantListRequest(
+        request: 'restaurant.list', session: sessionLunch.sessionId));
     // make POST request
     Response response = await post(urlApi, headers: headers, body: reqJson);
     var result = jsonDecode(response.body);
     var resp = result['response'];
-    var u = resp['users'];
+    var u = resp['restaurants'];
     //print(u.toString());
-    var users = u.map((i) => User.fromJson(i)).toList();
-    List<String> userList = new List<String>();
-    for (User user in users) {
+    var restaurants = u.map((i) => Restaurant.fromJson(i)).toList();
+    List<Restaurant> restaurantList = new List<Restaurant>();
+    for (Restaurant restaurant in restaurants) {
       //print(user.username);
-      userList.add(user.username);
+      restaurantList.add(restaurant);
     }
-    return userList;
+    return restaurantList;
   }
 }
