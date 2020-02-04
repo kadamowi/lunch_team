@@ -34,7 +34,7 @@ class _RestaurantListScreenState extends State<RestaurantListScreen> {
         child: Column(
           children: <Widget>[
             Text(
-              "List of restaurant where eat is prepared",
+              "List of restaurant where they make food",
               style: TextStyle(
                   color: Colors.white70,
                   fontSize: 20.0,
