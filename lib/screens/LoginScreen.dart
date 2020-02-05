@@ -205,7 +205,7 @@ class _LoginScreenState extends State<LoginScreen> {
       print(loginUser.username + ' entered');
       String sessionId = res['session'];
       if (sessionId != null && sessionId != 'null') {
-        print('Session id:' + sessionId.substring(1, 10));
+        //print('Session id:' + sessionId.substring(1, 10));
         final SessionLunch sessionLunch =
             new SessionLunch(loginUser.username, sessionId);
         Navigator.pushReplacement(

@@ -16,7 +16,7 @@ class _RestaurantListScreenState extends State<RestaurantListScreen> {
   @override
   Widget build(BuildContext context) {
     final SessionLunch sessionLunch =
-    ModalRoute.of(context).settings.arguments as SessionLunch;
+        ModalRoute.of(context).settings.arguments as SessionLunch;
 
     return Scaffold(
       appBar: AppBar(
@@ -28,9 +28,9 @@ class _RestaurantListScreenState extends State<RestaurantListScreen> {
         width: double.infinity,
         decoration: BoxDecoration(
             gradient: LinearGradient(colors: [
-              Theme.of(context).primaryColorLight,
-              Theme.of(context).primaryColorDark,
-            ])),
+          Theme.of(context).primaryColorLight,
+          Theme.of(context).primaryColorDark,
+        ])),
         child: Column(
           children: <Widget>[
             Text(
@@ -40,43 +40,49 @@ class _RestaurantListScreenState extends State<RestaurantListScreen> {
                   fontSize: 20.0,
                   fontWeight: FontWeight.bold),
             ),
+            Expanded(
+              child: FutureBuilder<List<Restaurant>>(
+                  future: downloadData(sessionLunch),
+                  builder: (BuildContext context,
+                      AsyncSnapshot<List<Restaurant>> snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return Center(child: Text('Please wait its loading...'));
+                    } else {
+                      if (snapshot.hasError)
+                        return Center(child: Text('Error: ${snapshot.error}'));
+                      else
+                        return ListView.builder(
+                          scrollDirection: Axis.vertical,
+                          shrinkWrap: true,
+                          itemCount: snapshot.data.length,
+                          itemBuilder: (context, index) {
+                            return Container(
+                              height: 80,
+                              padding: const EdgeInsets.all(5),
+                              decoration: BoxDecoration(
+                                border: Border.all(),
+                                color: Colors.amber,
+                              ),
+                              child: ListTile(
+                                title:
+                                    Text(snapshot.data[index].restaurantName),
+                                subtitle:
+                                    Text(snapshot.data[index].restaurantUrl),
+                                onTap: () =>
+                                    launch(snapshot.data[index].restaurantUrl),
+                                onLongPress: () {
+                                  // do something else
+                                },
+                              ),
+                            );
+                          },
+                        );
+                    }
+                  }),
+            ),
+
+            //Spacer(),
             SizedBox(height: 20.0),
-            FutureBuilder<List<Restaurant>>(
-                future: downloadData(sessionLunch),
-                builder: (BuildContext context,
-                    AsyncSnapshot<List<Restaurant>> snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Center(child: Text('Please wait its loading...'));
-                  } else {
-                    if (snapshot.hasError)
-                      return Center(child: Text('Error: ${snapshot.error}'));
-                    else
-                      return ListView.builder(
-                        scrollDirection: Axis.vertical,
-                        shrinkWrap: true,
-                        itemCount: snapshot.data.length,
-                        itemBuilder: (context, index) {
-                          return Container(
-                            height: 80,
-                            padding: const EdgeInsets.all(5),
-                            decoration: BoxDecoration(
-                              border: Border.all(),
-                              color: Colors.amber,
-                            ),
-                            child: ListTile(
-                              title: Text(snapshot.data[index].restaurantName),
-                              subtitle: Text(snapshot.data[index].restaurantUrl),
-                              onTap: () => launch(snapshot.data[index].restaurantUrl),
-                              onLongPress: (){
-                                // do something else
-                              },
-                            ),
-                          );
-                        },
-                      );
-                  }
-                }),
-            Spacer(),
             SizedBox(
               width: MediaQuery.of(context).size.width * 0.5,
               child: RaisedButton(
