@@ -64,6 +64,8 @@ class _RestaurantListScreenState extends State<RestaurantListScreen> {
                                 color: Colors.amber,
                               ),
                               child: ListTile(
+                                leading: Image(image: AssetImage('images/LunchTeam.png'),),
+                                trailing: Icon(Icons.fastfood, color: Colors.blue,),
                                 title:
                                     Text(snapshot.data[index].restaurantName),
                                 subtitle:
@@ -80,7 +82,6 @@ class _RestaurantListScreenState extends State<RestaurantListScreen> {
                     }
                   }),
             ),
-
             //Spacer(),
             SizedBox(height: 20.0),
             SizedBox(
