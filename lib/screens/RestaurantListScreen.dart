@@ -57,19 +57,22 @@ class _RestaurantListScreenState extends State<RestaurantListScreen> {
                           itemCount: snapshot.data.length,
                           itemBuilder: (context, index) {
                             return Container(
-                              height: 80,
+                              height: 100,
                               padding: const EdgeInsets.all(5),
                               decoration: BoxDecoration(
                                 border: Border.all(),
                                 color: Colors.amber,
                               ),
                               child: ListTile(
-                                leading: Image(image: AssetImage('images/LunchTeam.png'),),
+                                leading: Image(
+                                  image: NetworkImage(snapshot.data[index].restaurantUrlLogo),
+                                  // AssetImage('images/LunchTeam.png'),
+                                ),
                                 trailing: Icon(Icons.fastfood, color: Colors.blue,),
                                 title:
                                     Text(snapshot.data[index].restaurantName),
                                 subtitle:
-                                    Text(snapshot.data[index].restaurantUrl),
+                                    Text(snapshot.data[index].restaurantDescription),
                                 onTap: () =>
                                     launch(snapshot.data[index].restaurantUrl),
                                 onLongPress: () {
