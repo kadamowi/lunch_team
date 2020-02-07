@@ -16,21 +16,7 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final GlobalKey<FormState> _formStateKey = GlobalKey<FormState>();
   String message = "";
-  LoginUser loginUser = new LoginUser(username: 'ewa', password: '');
-
-  @override
-  void initState() {
-    super.initState();
-    print('initState loginUser = '+loginUser.username);
-    _loadUser();
-  }
-
-  _loadUser() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    setState(() {
-      loginUser.username = (prefs.getInt('username') ?? 'spike');
-    });
-  }
+  LoginUser loginUser = new LoginUser(username: '', password: '');
 
   @override
   Widget build(BuildContext context) {
@@ -62,116 +48,125 @@ class _LoginScreenState extends State<LoginScreen> {
                     fontWeight: FontWeight.bold),
               ),
               SizedBox(height: 20.0),
-              Form(
-                  key: _formStateKey,
-                  autovalidate: true,
-                  child: Column(children: <Widget>[
-                    TextFormField(
-                      decoration: InputDecoration(
-                        contentPadding: const EdgeInsets.all(16.0),
-                        prefixIcon: Container(
-                            padding:
-                            const EdgeInsets.only(top: 16.0, bottom: 16.0),
-                            margin: const EdgeInsets.only(right: 8.0),
-                            decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(30.0),
-                                    bottomLeft: Radius.circular(30.0),
-                                    topRight: Radius.circular(30.0),
-                                    bottomRight: Radius.circular(10.0))),
-                            child: Icon(
-                              Icons.person,
-                              color: Colors.lightGreen,
-                            )),
-                        hintText: "enter your name",
-                        hintStyle: TextStyle(color: Colors.white54),
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(30.0),
-                            borderSide: BorderSide.none),
-                        filled: true,
-                        fillColor: Colors.white.withOpacity(0.1),
-                      ),
-                      initialValue: loginUser.username,
-                      onSaved: (value) => loginUser.username = value,
-                    ),
-                    SizedBox(height: 10.0),
-                    TextFormField(
-                      decoration: InputDecoration(
-                        contentPadding: const EdgeInsets.all(16.0),
-                        prefixIcon: Container(
-                            padding:
-                            const EdgeInsets.only(top: 16.0, bottom: 16.0),
-                            margin: const EdgeInsets.only(right: 8.0),
-                            decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(30.0),
-                                    bottomLeft: Radius.circular(30.0),
-                                    topRight: Radius.circular(30.0),
-                                    bottomRight: Radius.circular(10.0))),
-                            child: Icon(
-                              Icons.lock,
-                              color: Colors.lightGreen,
-                            )),
-                        hintText: "enter your password",
-                        hintStyle: TextStyle(color: Colors.white54),
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(30.0),
-                            borderSide: BorderSide.none),
-                        filled: true,
-                        fillColor: Colors.white.withOpacity(0.1),
-                      ),
-                      onSaved: (value) => loginUser.password = value,
-                      obscureText: true,
-                    ),
-                    SizedBox(height: 30.0),
-                    SizedBox(
-                      width: double.infinity,
-                      child: RaisedButton(
-                        color: Colors.white,
-                        textColor: Colors.lightGreen,
-                        padding: const EdgeInsets.all(20.0),
-                        child: Text("Login".toUpperCase()),
-                        onPressed: () {
-                          _loginButton(context);
-                        },
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30.0)),
-                      ),
-                    ),
-                    Text(
-                      message,
-                      style: TextStyle(
-                          color: Colors.yellowAccent,
-                          fontSize: 16.0,
-                          fontWeight: FontWeight.bold),
-                    ),
-                    //Spacer(),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        FlatButton(
-                          textColor: Colors.white70,
-                          child: Text("Create Account".toUpperCase()),
-                          onPressed: () {
-                            _createAccount();
-                          },
-                        ),
-                        Container(
-                          color: Colors.white54,
-                          width: 2.0,
-                          height: 20.0,
-                        ),
-                        FlatButton(
-                          textColor: Colors.white70,
-                          child: Text("Forgot Password".toUpperCase()),
-                          onPressed: () {},
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 10.0),
-                  ])),
+              FutureBuilder<String> (
+                future: getSavedUser(),
+                builder: (BuildContext context, AsyncSnapshot snapshot) {
+                  if (snapshot.data == null)
+                  return Text('loading');
+                  else
+                    return Form(
+                        key: _formStateKey,
+                        autovalidate: true,
+                        child: Column(children: <Widget>[
+                          TextFormField(
+                            decoration: InputDecoration(
+                              contentPadding: const EdgeInsets.all(16.0),
+                              prefixIcon: Container(
+                                  padding:
+                                  const EdgeInsets.only(top: 16.0, bottom: 16.0),
+                                  margin: const EdgeInsets.only(right: 8.0),
+                                  decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.only(
+                                          topLeft: Radius.circular(30.0),
+                                          bottomLeft: Radius.circular(30.0),
+                                          topRight: Radius.circular(30.0),
+                                          bottomRight: Radius.circular(10.0))),
+                                  child: Icon(
+                                    Icons.person,
+                                    color: Colors.lightGreen,
+                                  )),
+                              hintText: "enter your name",
+                              hintStyle: TextStyle(color: Colors.white54),
+                              border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(30.0),
+                                  borderSide: BorderSide.none),
+                              filled: true,
+                              fillColor: Colors.white.withOpacity(0.1),
+                            ),
+                            initialValue: snapshot.data,
+                            onSaved: (value) => loginUser.username = value,
+                          ),
+                          SizedBox(height: 10.0),
+                          TextFormField(
+                            decoration: InputDecoration(
+                              contentPadding: const EdgeInsets.all(16.0),
+                              prefixIcon: Container(
+                                  padding:
+                                  const EdgeInsets.only(top: 16.0, bottom: 16.0),
+                                  margin: const EdgeInsets.only(right: 8.0),
+                                  decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.only(
+                                          topLeft: Radius.circular(30.0),
+                                          bottomLeft: Radius.circular(30.0),
+                                          topRight: Radius.circular(30.0),
+                                          bottomRight: Radius.circular(10.0))),
+                                  child: Icon(
+                                    Icons.lock,
+                                    color: Colors.lightGreen,
+                                  )),
+                              hintText: "enter your password",
+                              hintStyle: TextStyle(color: Colors.white54),
+                              border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(30.0),
+                                  borderSide: BorderSide.none),
+                              filled: true,
+                              fillColor: Colors.white.withOpacity(0.1),
+                            ),
+                            onSaved: (value) => loginUser.password = value,
+                            obscureText: true,
+                          ),
+                          SizedBox(height: 30.0),
+                          SizedBox(
+                            width: double.infinity,
+                            child: RaisedButton(
+                              color: Colors.white,
+                              textColor: Colors.lightGreen,
+                              padding: const EdgeInsets.all(20.0),
+                              child: Text("Login".toUpperCase()),
+                              onPressed: () {
+                                _loginButton(context);
+                              },
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(30.0)),
+                            ),
+                          ),
+                          Text(
+                            message,
+                            style: TextStyle(
+                                color: Colors.yellowAccent,
+                                fontSize: 16.0,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          //Spacer(),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              FlatButton(
+                                textColor: Colors.white70,
+                                child: Text("Create Account".toUpperCase()),
+                                onPressed: () {
+                                  _createAccount();
+                                },
+                              ),
+                              Container(
+                                color: Colors.white54,
+                                width: 2.0,
+                                height: 20.0,
+                              ),
+                              FlatButton(
+                                textColor: Colors.white70,
+                                child: Text("Forgot Password".toUpperCase()),
+                                onPressed: () {},
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 10.0),
+                        ]));
+                },
+              ),
+
             ],
           ),
         ),
@@ -224,6 +219,7 @@ class _LoginScreenState extends State<LoginScreen> {
       if (sessionId != null && sessionId != 'null') {
         SharedPreferences prefs = await SharedPreferences.getInstance();
         prefs.setString('username', loginUser.username);
+        print('loginUser loginUser = '+loginUser.username);
 
         //print('Session id:' + sessionId.substring(1, 10));
         final SessionLunch sessionLunch =
@@ -247,5 +243,10 @@ class _LoginScreenState extends State<LoginScreen> {
         message = 'Incorrect login';
       });
     }
+  }
+
+  Future <String> getSavedUser() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+      return (prefs.getString('username') ?? 'spike');
   }
 }
