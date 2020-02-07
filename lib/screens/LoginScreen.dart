@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'dart:convert';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:lunch_team/model/globals.dart' as globals;
 import 'package:lunch_team/model/LunchTeamCommon.dart';
@@ -15,7 +16,21 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final GlobalKey<FormState> _formStateKey = GlobalKey<FormState>();
   String message = "";
-  LoginUser loginUser = new LoginUser(username: '*', password: '*');
+  LoginUser loginUser = new LoginUser(username: 'ewa', password: '');
+
+  @override
+  void initState() {
+    super.initState();
+    print('initState loginUser = '+loginUser.username);
+    _loadUser();
+  }
+
+  _loadUser() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      loginUser.username = (prefs.getInt('username') ?? 'spike');
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -77,6 +92,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         filled: true,
                         fillColor: Colors.white.withOpacity(0.1),
                       ),
+                      initialValue: loginUser.username,
                       onSaved: (value) => loginUser.username = value,
                     ),
                     SizedBox(height: 10.0),
@@ -206,6 +222,9 @@ class _LoginScreenState extends State<LoginScreen> {
       print(loginUser.username + ' entered');
       String sessionId = res['session'];
       if (sessionId != null && sessionId != 'null') {
+        //SharedPreferences prefs = await SharedPreferences.getInstance();
+        //prefs.setString('username', loginUser.username);
+
         //print('Session id:' + sessionId.substring(1, 10));
         final SessionLunch sessionLunch =
             new SessionLunch(loginUser.username, sessionId);
