@@ -25,8 +25,8 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final SessionLunch sessionLunch =
-        ModalRoute.of(context).settings.arguments as SessionLunch;
+    //final SessionLunch sessionLunch =
+    //    ModalRoute.of(context).settings.arguments as SessionLunch;
 
     if (globals.restaurantSelected.restaurantId != '0') {
       restaurant = globals.restaurantSelected;
@@ -153,34 +153,40 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
       _formStateKey.currentState.save();
     }
     globals.restaurantSelected = restaurant;
-    // prepare JSON for request
-    String reqJson = json.encode(RestaurantCreateRequest(
-        request: 'restaurant.create',
-        session: globals.sessionLunch.sessionId,
-        arguments: RestaurantCreateArguments(
-            restaurantName: globals.restaurantSelected.restaurantName,
-            restaurantDescription:
-                globals.restaurantSelected.restaurantDescription,
-            restaurantUrl: globals.restaurantSelected.restaurantUrl,
-            restaurantUrlLogo: globals.restaurantSelected.restaurantUrlLogo)));
-    // make POST request
-    print(reqJson);
-    Response response = await post(urlApi, headers: headers, body: reqJson);
-    if (response.statusCode == 200){
-      Navigator.pop(context);
-    } else {
-      print('statusCode:' + response.statusCode.toString());
-      var result = jsonDecode(response.body);
-      var res = result['response'];
-      if (res != null) {
-        setState(() {
-          message = res.toString();
-        });
+    if (restaurant.restaurantId == '0') {
+      // prepare JSON for request
+      String reqJson = json.encode(RestaurantCreateRequest(
+          request: 'restaurant.create',
+          session: globals.sessionLunch.sessionId,
+          arguments: RestaurantCreateArguments(
+              restaurantName: globals.restaurantSelected.restaurantName,
+              restaurantDescription:
+              globals.restaurantSelected.restaurantDescription,
+              restaurantUrl: globals.restaurantSelected.restaurantUrl,
+              restaurantUrlLogo: globals.restaurantSelected
+                  .restaurantUrlLogo)));
+      // make POST request
+      print(reqJson);
+      Response response = await post(urlApi, headers: headers, body: reqJson);
+      if (response.statusCode == 200) {
+        Navigator.pop(context);
       } else {
-        setState(() {
-          message = 'Bad request';
-        });
+        print('statusCode:' + response.statusCode.toString());
+        var result = jsonDecode(response.body);
+        var res = result['error'];
+        if (res != null) {
+          setState(() {
+            message = res.toString();
+          });
+        } else {
+          setState(() {
+            message = 'Bad request';
+          });
+        }
       }
+    } else {
+      Navigator.pop(context);
+
     }
   }
 }
