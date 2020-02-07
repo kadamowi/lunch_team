@@ -222,8 +222,8 @@ class _LoginScreenState extends State<LoginScreen> {
       print(loginUser.username + ' entered');
       String sessionId = res['session'];
       if (sessionId != null && sessionId != 'null') {
-        //SharedPreferences prefs = await SharedPreferences.getInstance();
-        //prefs.setString('username', loginUser.username);
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        prefs.setString('username', loginUser.username);
 
         //print('Session id:' + sessionId.substring(1, 10));
         final SessionLunch sessionLunch =

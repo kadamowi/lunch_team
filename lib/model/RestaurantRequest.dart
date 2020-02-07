@@ -35,3 +35,31 @@ class RestaurantCreateRequest {
     };
   }
 }
+
+class RestaurantDeleteArguments {
+  String restaurantId;
+
+  RestaurantDeleteArguments({this.restaurantId});
+
+  toJson() {
+    return {
+      'restaurantId': restaurantId,
+    };
+  }
+}
+
+class RestaurantDeleteRequest {
+  String request;
+  String session;
+  RestaurantDeleteArguments arguments;
+
+  RestaurantDeleteRequest({this.request, this.session, this.arguments});
+
+  toJson() {
+    return {
+      'request': request,
+      'session': session,
+      'arguments': arguments,
+    };
+  }
+}

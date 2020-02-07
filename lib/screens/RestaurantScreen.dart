@@ -118,19 +118,38 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                       onSaved: (value) => restaurant.restaurantUrlLogo = value,
                     ),
                     SizedBox(height: 30.0),
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.5,
-                      child: RaisedButton(
-                        color: Colors.white,
-                        textColor: Colors.lightGreen,
-                        padding: const EdgeInsets.all(20.0),
-                        child: Text("Save".toUpperCase()),
-                        onPressed: () {
-                          saveRestaurant(context);
-                        },
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30.0)),
-                      ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: <Widget>[
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width * 0.3,
+                          child: RaisedButton(
+                            color: Colors.white,
+                            textColor: Colors.lightGreen,
+                            padding: const EdgeInsets.all(20.0),
+                            child: Text("Save".toUpperCase()),
+                            onPressed: () {
+                              saveRestaurant(context);
+                            },
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(30.0)),
+                          ),
+                        ),
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width * 0.3,
+                          child: RaisedButton(
+                            color: Colors.white,
+                            textColor: Colors.lightGreen,
+                            padding: const EdgeInsets.all(20.0),
+                            child: Text("Delete".toUpperCase()),
+                            onPressed: () {
+                              saveRestaurant(context);
+                            },
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(30.0)),
+                          ),
+                        ),
+                      ],
                     ),
                     Text(
                       message,
@@ -189,4 +208,44 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
 
     }
   }
+
+  Future deleteRestaurant(BuildContext context) async {
+    if (_formStateKey.currentState.validate()) {
+      _formStateKey.currentState.save();
+    }
+    globals.restaurantSelected = restaurant;
+    if (restaurant.restaurantId != '0') {
+      // prepare JSON for request
+      String reqJson = json.encode(RestaurantDeleteRequest(
+          request: 'restaurant.delete',
+          session: globals.sessionLunch.sessionId,
+          arguments: RestaurantDeleteArguments(
+              restaurantId: globals.restaurantSelected.restaurantId,
+          )));
+      // make POST request
+      print(reqJson);
+      Response response = await post(urlApi, headers: headers, body: reqJson);
+      if (response.statusCode == 200) {
+        Navigator.pop(context);
+      } else {
+        print('statusCode:' + response.statusCode.toString());
+        var result = jsonDecode(response.body);
+        var res = result['error'];
+        if (res != null) {
+          setState(() {
+            message = res.toString();
+          });
+        } else {
+          setState(() {
+            message = 'Bad request';
+          });
+        }
+      }
+    } else {
+      Navigator.pop(context);
+
+    }
+  }
+
+
 }
