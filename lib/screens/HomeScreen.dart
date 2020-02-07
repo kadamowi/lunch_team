@@ -43,6 +43,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   fontSize: 24.0,
                   fontWeight: FontWeight.bold),
             ),
+            /*
             Text(
               "Logged: " +
                   sessionLunch.username +
@@ -54,6 +55,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   fontSize: 16.0,
                   fontWeight: FontWeight.bold),
             ),
+            */
             SizedBox(height: 20.0),
             Column(
               //mainAxisSize: MainAxisSize.min,
@@ -74,17 +76,6 @@ class _HomeScreenState extends State<HomeScreen> {
                             )),
                       );
                     },
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30.0)),
-                  ),
-                ),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.5,
-                  child: RaisedButton(
-                    color: Colors.white,
-                    textColor: Colors.lightGreen,
-                    child: Text("Organize lunch"),
-                    onPressed: () {},
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30.0)),
                   ),

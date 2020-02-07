@@ -3,9 +3,11 @@ import 'package:http/http.dart';
 import 'dart:convert';
 import 'package:url_launcher/url_launcher.dart';
 
+import 'package:lunch_team/model/globals.dart' as globals;
 import 'package:lunch_team/model/LunchTeamCommon.dart';
 import 'package:lunch_team/model/Restaurant.dart';
 import 'package:lunch_team/model/RestaurantListRequest.dart';
+import 'package:lunch_team/screens/RestaurantScreen.dart';
 
 class RestaurantListScreen extends StatefulWidget {
   @override
@@ -65,18 +67,32 @@ class _RestaurantListScreenState extends State<RestaurantListScreen> {
                               ),
                               child: ListTile(
                                 leading: Image(
-                                  image: NetworkImage(snapshot.data[index].restaurantUrlLogo),
+                                  image: NetworkImage(
+                                      snapshot.data[index].restaurantUrlLogo),
                                   // AssetImage('images/LunchTeam.png'),
                                 ),
-                                trailing: Icon(Icons.fastfood, color: Colors.blue,),
+                                trailing: Icon(
+                                  Icons.fastfood,
+                                  color: Colors.blue,
+                                ),
                                 title:
                                     Text(snapshot.data[index].restaurantName),
-                                subtitle:
-                                    Text(snapshot.data[index].restaurantDescription),
+                                subtitle: Text(
+                                    snapshot.data[index].restaurantDescription),
                                 onTap: () =>
                                     launch(snapshot.data[index].restaurantUrl),
                                 onLongPress: () {
-                                  // do something else
+                                  globals.restaurantSelected =
+                                      snapshot.data[index];
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            RestaurantScreen(),
+                                        settings: RouteSettings(
+                                          arguments: sessionLunch,
+                                        )),
+                                  );
                                 },
                               ),
                             );
@@ -103,6 +119,27 @@ class _RestaurantListScreenState extends State<RestaurantListScreen> {
             SizedBox(height: 20.0),
           ],
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          globals.restaurantSelected = Restaurant(
+            restaurantId: '0',
+            restaurantName: '',
+            restaurantDescription: '',
+            restaurantUrl: '',
+            restaurantUrlLogo: '',
+          );
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => RestaurantScreen(),
+                settings: RouteSettings(
+                  arguments: sessionLunch,
+                )),
+          );
+        },
+        tooltip: 'Add restaurant',
+        child: Icon(Icons.add),
       ),
     );
   }

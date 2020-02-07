@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'dart:convert';
 
+import 'package:lunch_team/model/globals.dart' as globals;
 import 'package:lunch_team/model/LunchTeamCommon.dart';
 import 'package:lunch_team/model/LoginRequest.dart';
 import 'package:lunch_team/screens/HomeScreen.dart';
@@ -208,6 +209,7 @@ class _LoginScreenState extends State<LoginScreen> {
         //print('Session id:' + sessionId.substring(1, 10));
         final SessionLunch sessionLunch =
             new SessionLunch(loginUser.username, sessionId);
+        globals.sessionLunch = sessionLunch;
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
