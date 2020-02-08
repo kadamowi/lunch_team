@@ -20,7 +20,8 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
     restaurantName: '',
     restaurantDescription: '',
     restaurantUrl: '',
-    restaurantUrlLogo: 'https://image.freepik.com/free-vector/chef-restaurant-logo-template-design_4549-1.jpg',
+    restaurantUrlLogo:
+        'https://image.freepik.com/free-vector/chef-restaurant-logo-template-design_4549-1.jpg',
   );
 
   @override
@@ -116,11 +117,6 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                       ),
                       initialValue: restaurant.restaurantUrlLogo,
                       onSaved: (value) => restaurant.restaurantUrlLogo = value,
-                      validator: (value) {
-                        if (value.isNotEmpty) {
-                        }
-                        return null;
-                      },
                     ),
                     SizedBox(height: 30.0),
                     Row(
@@ -135,7 +131,6 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                             child: Text("Save".toUpperCase()),
                             onPressed: () {
                               saveRestaurant(context);
-
                             },
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(30.0)),
@@ -191,6 +186,7 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
               restaurantUrlLogo:
                   globals.restaurantSelected.restaurantUrlLogo)));
       // make POST request
+      print(reqJson);
       Response response = await post(urlApi, headers: headers, body: reqJson);
       print('statusCode:' + response.statusCode.toString());
       var result = jsonDecode(response.body);
@@ -260,7 +256,7 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
             message = 'Bad request';
           });
         }
-     } else {
+      } else {
         var res = result['error'];
         if (res != null) {
           setState(() {

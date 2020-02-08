@@ -25,7 +25,7 @@ class _RestaurantListScreenState extends State<RestaurantListScreen> {
         title: Text('Restaurant list'),
       ),
       body: Container(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(10.0),
         height: double.infinity,
         width: double.infinity,
         decoration: BoxDecoration(
@@ -35,13 +35,6 @@ class _RestaurantListScreenState extends State<RestaurantListScreen> {
         ])),
         child: Column(
           children: <Widget>[
-            Text(
-              "List of restaurant where they make food",
-              style: TextStyle(
-                  color: Colors.white70,
-                  fontSize: 20.0,
-                  fontWeight: FontWeight.bold),
-            ),
             Expanded(
               child: FutureBuilder<List<Restaurant>>(
                   future: downloadData(sessionLunch),
@@ -69,21 +62,29 @@ class _RestaurantListScreenState extends State<RestaurantListScreen> {
                                 leading: Image(
                                   image: NetworkImage(
                                       snapshot.data[index].restaurantUrlLogo),
-                                  // AssetImage('images/LunchTeam.png'),
                                 ),
                                 trailing: Icon(
                                   Icons.fastfood,
                                   color: Colors.blue,
                                 ),
                                 title:
-                                    Text(snapshot.data[index].restaurantName),
-                                subtitle: Text(
-                                    snapshot.data[index].restaurantDescription),
-                                onTap: () =>
-                                    launch(snapshot.data[index].restaurantUrl),
-                                onLongPress: () {
+                                    Text(
+                                        snapshot.data[index].restaurantName,
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold
+                                      ),
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                subtitle: Container(
+                                  height: 50,
+                                  child: Text(
+                                    snapshot.data[index].restaurantDescription,
+                                    overflow: TextOverflow.clip,
+                                  ),
+                                ),
+                                onTap: () {
                                   globals.restaurantSelected =
-                                      snapshot.data[index];
+                                  snapshot.data[index];
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
@@ -91,14 +92,13 @@ class _RestaurantListScreenState extends State<RestaurantListScreen> {
                                             RestaurantScreen(),
                                         settings: RouteSettings(
                                           arguments: sessionLunch,
-                                        )
-                                    ),
+                                        )),
                                   ).then((value) {
-                                    setState(() {
-
-                                    });
+                                    setState(() {});
                                   });
                                 },
+                                onLongPress: () =>
+                                    launch(snapshot.data[index].restaurantUrl),
                               ),
                             );
                           },

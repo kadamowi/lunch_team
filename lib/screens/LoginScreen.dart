@@ -145,7 +145,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             children: <Widget>[
                               FlatButton(
                                 textColor: Colors.white70,
-                                child: Text("Create Account".toUpperCase()),
+                                child: Text("Create Account"),
                                 onPressed: () {
                                   _createAccount();
                                 },
@@ -157,7 +157,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               ),
                               FlatButton(
                                 textColor: Colors.white70,
-                                child: Text("Forgot Password".toUpperCase()),
+                                child: Text("Forgot Password"),
                                 onPressed: () {},
                               ),
                             ],
