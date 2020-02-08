@@ -26,11 +26,10 @@ class _LoginScreenState extends State<LoginScreen> {
           padding: const EdgeInsets.all(16.0),
           height: MediaQuery.of(context).size.height,
           decoration: BoxDecoration(
-              gradient:
-              LinearGradient(colors: [
-                Theme.of(context).primaryColorLight,
-                Theme.of(context).primaryColorDark,
-              ])),
+              gradient: LinearGradient(colors: [
+            Theme.of(context).primaryColorLight,
+            Theme.of(context).primaryColorDark,
+          ])),
           child: Column(
             children: <Widget>[
               Container(
@@ -48,11 +47,11 @@ class _LoginScreenState extends State<LoginScreen> {
                     fontWeight: FontWeight.bold),
               ),
               SizedBox(height: 20.0),
-              FutureBuilder<String> (
+              FutureBuilder<LoginUser>(
                 future: getSavedUser(),
                 builder: (BuildContext context, AsyncSnapshot snapshot) {
                   if (snapshot.data == null)
-                  return Text('loading');
+                    return Text('loading');
                   else
                     return Form(
                         key: _formStateKey,
@@ -62,8 +61,8 @@ class _LoginScreenState extends State<LoginScreen> {
                             decoration: InputDecoration(
                               contentPadding: const EdgeInsets.all(16.0),
                               prefixIcon: Container(
-                                  padding:
-                                  const EdgeInsets.only(top: 16.0, bottom: 16.0),
+                                  padding: const EdgeInsets.only(
+                                      top: 16.0, bottom: 16.0),
                                   margin: const EdgeInsets.only(right: 8.0),
                                   decoration: BoxDecoration(
                                       color: Colors.white,
@@ -84,7 +83,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               filled: true,
                               fillColor: Colors.white.withOpacity(0.1),
                             ),
-                            initialValue: snapshot.data,
+                            initialValue: snapshot.data.username,
                             onSaved: (value) => loginUser.username = value,
                           ),
                           SizedBox(height: 10.0),
@@ -92,8 +91,8 @@ class _LoginScreenState extends State<LoginScreen> {
                             decoration: InputDecoration(
                               contentPadding: const EdgeInsets.all(16.0),
                               prefixIcon: Container(
-                                  padding:
-                                  const EdgeInsets.only(top: 16.0, bottom: 16.0),
+                                  padding: const EdgeInsets.only(
+                                      top: 16.0, bottom: 16.0),
                                   margin: const EdgeInsets.only(right: 8.0),
                                   decoration: BoxDecoration(
                                       color: Colors.white,
@@ -114,6 +113,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               filled: true,
                               fillColor: Colors.white.withOpacity(0.1),
                             ),
+                            initialValue: snapshot.data.password,
                             onSaved: (value) => loginUser.password = value,
                             obscureText: true,
                           ),
@@ -166,7 +166,6 @@ class _LoginScreenState extends State<LoginScreen> {
                         ]));
                 },
               ),
-
             ],
           ),
         ),
@@ -219,7 +218,8 @@ class _LoginScreenState extends State<LoginScreen> {
       if (sessionId != null && sessionId != 'null') {
         SharedPreferences prefs = await SharedPreferences.getInstance();
         prefs.setString('username', loginUser.username);
-        print('loginUser loginUser = '+loginUser.username);
+        prefs.setString('password', loginUser.password);
+        print('loginUser loginUser = ' + loginUser.username);
 
         //print('Session id:' + sessionId.substring(1, 10));
         final SessionLunch sessionLunch =
@@ -245,8 +245,10 @@ class _LoginScreenState extends State<LoginScreen> {
     }
   }
 
-  Future <String> getSavedUser() async {
+  Future<LoginUser> getSavedUser() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-      return (prefs.getString('username') ?? '');
+    return new LoginUser(
+        username: (prefs.getString('username') ?? ''),
+        password: (prefs.getString('password') ?? ''));
   }
 }
