@@ -95,7 +95,7 @@ class _RestaurantListScreenState extends State<RestaurantListScreen> {
                                     ),
                                   ).then((value) {
                                     setState(() {
-                                      
+
                                     });
                                   });
                                 },

@@ -247,6 +247,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Future <String> getSavedUser() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-      return (prefs.getString('username') ?? 'spike');
+      return (prefs.getString('username') ?? '');
   }
 }

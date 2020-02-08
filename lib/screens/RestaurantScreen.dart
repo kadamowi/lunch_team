@@ -20,7 +20,7 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
     restaurantName: '',
     restaurantDescription: '',
     restaurantUrl: '',
-    restaurantUrlLogo: '',
+    restaurantUrlLogo: 'https://image.freepik.com/free-vector/chef-restaurant-logo-template-design_4549-1.jpg',
   );
 
   @override
@@ -51,7 +51,7 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                   margin: const EdgeInsets.only(top: 20.0, bottom: 20.0),
                   height: 128,
                   child: Image(
-                    image: NetworkImage('https://logodix.com/logo/307015.png'),
+                    image: NetworkImage(restaurant.restaurantUrlLogo),
                   )),
               Form(
                   key: _formStateKey,
@@ -116,6 +116,11 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                       ),
                       initialValue: restaurant.restaurantUrlLogo,
                       onSaved: (value) => restaurant.restaurantUrlLogo = value,
+                      validator: (value) {
+                        if (value.isNotEmpty) {
+                        }
+                        return null;
+                      },
                     ),
                     SizedBox(height: 30.0),
                     Row(
