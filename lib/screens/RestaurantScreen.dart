@@ -16,7 +16,7 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
   final GlobalKey<FormState> _formStateKey = GlobalKey<FormState>();
   String message = "";
   Restaurant restaurant = new Restaurant(
-    restaurantId: '0',
+    restaurantId: 0,
     restaurantName: '',
     restaurantDescription: '',
     restaurantUrl: '',
@@ -28,7 +28,7 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
     //final SessionLunch sessionLunch =
     //    ModalRoute.of(context).settings.arguments as SessionLunch;
 
-    if (globals.restaurantSelected.restaurantId != '0') {
+    if (globals.restaurantSelected.restaurantId != 0) {
       restaurant = globals.restaurantSelected;
     }
     return Scaffold(
@@ -130,6 +130,7 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                             child: Text("Save".toUpperCase()),
                             onPressed: () {
                               saveRestaurant(context);
+
                             },
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(30.0)),
@@ -143,7 +144,7 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                             padding: const EdgeInsets.all(20.0),
                             child: Text("Delete".toUpperCase()),
                             onPressed: () {
-                              saveRestaurant(context);
+                              deleteRestaurant(context);
                             },
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(30.0)),
@@ -172,7 +173,7 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
       _formStateKey.currentState.save();
     }
     globals.restaurantSelected = restaurant;
-    if (restaurant.restaurantId == '0') {
+    if (restaurant.restaurantId == 0) {
       // prepare JSON for request
       String reqJson = json.encode(RestaurantCreateRequest(
           request: 'restaurant.create',
@@ -180,18 +181,31 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
           arguments: RestaurantCreateArguments(
               restaurantName: globals.restaurantSelected.restaurantName,
               restaurantDescription:
-              globals.restaurantSelected.restaurantDescription,
+                  globals.restaurantSelected.restaurantDescription,
               restaurantUrl: globals.restaurantSelected.restaurantUrl,
-              restaurantUrlLogo: globals.restaurantSelected
-                  .restaurantUrlLogo)));
+              restaurantUrlLogo:
+                  globals.restaurantSelected.restaurantUrlLogo)));
       // make POST request
-      print(reqJson);
       Response response = await post(urlApi, headers: headers, body: reqJson);
+      print('statusCode:' + response.statusCode.toString());
+      var result = jsonDecode(response.body);
       if (response.statusCode == 200) {
-        Navigator.pop(context);
+        var res = result['response'];
+        if (res != null) {
+          bool createRestaurant = res['createRestaurant'];
+          if (createRestaurant) {
+            Navigator.pop(context);
+          } else {
+            setState(() {
+              message = res.toString();
+            });
+          }
+        } else {
+          setState(() {
+            message = 'Bad request';
+          });
+        }
       } else {
-        print('statusCode:' + response.statusCode.toString());
-        var result = jsonDecode(response.body);
         var res = result['error'];
         if (res != null) {
           setState(() {
@@ -205,7 +219,6 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
       }
     } else {
       Navigator.pop(context);
-
     }
   }
 
@@ -214,22 +227,35 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
       _formStateKey.currentState.save();
     }
     globals.restaurantSelected = restaurant;
-    if (restaurant.restaurantId != '0') {
+    if (restaurant.restaurantId != 0) {
       // prepare JSON for request
       String reqJson = json.encode(RestaurantDeleteRequest(
           request: 'restaurant.delete',
           session: globals.sessionLunch.sessionId,
           arguments: RestaurantDeleteArguments(
-              restaurantId: globals.restaurantSelected.restaurantId,
+            restaurantId: globals.restaurantSelected.restaurantId,
           )));
       // make POST request
-      print(reqJson);
       Response response = await post(urlApi, headers: headers, body: reqJson);
+      print('statusCode:' + response.statusCode.toString());
+      var result = jsonDecode(response.body);
       if (response.statusCode == 200) {
-        Navigator.pop(context);
-      } else {
-        print('statusCode:' + response.statusCode.toString());
-        var result = jsonDecode(response.body);
+        var res = result['response'];
+        if (res != null) {
+          bool deleteRestaurant = res['deleteRestaurant'];
+          if (deleteRestaurant) {
+            Navigator.pop(context);
+          } else {
+            setState(() {
+              message = res.toString();
+            });
+          }
+        } else {
+          setState(() {
+            message = 'Bad request';
+          });
+        }
+     } else {
         var res = result['error'];
         if (res != null) {
           setState(() {
@@ -241,11 +267,6 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
           });
         }
       }
-    } else {
-      Navigator.pop(context);
-
     }
   }
-
-
 }

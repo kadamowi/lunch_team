@@ -91,8 +91,13 @@ class _RestaurantListScreenState extends State<RestaurantListScreen> {
                                             RestaurantScreen(),
                                         settings: RouteSettings(
                                           arguments: sessionLunch,
-                                        )),
-                                  );
+                                        )
+                                    ),
+                                  ).then((value) {
+                                    setState(() {
+                                      
+                                    });
+                                  });
                                 },
                               ),
                             );
@@ -123,7 +128,7 @@ class _RestaurantListScreenState extends State<RestaurantListScreen> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           globals.restaurantSelected = Restaurant(
-            restaurantId: '0',
+            restaurantId: 0,
             restaurantName: '',
             restaurantDescription: '',
             restaurantUrl: '',

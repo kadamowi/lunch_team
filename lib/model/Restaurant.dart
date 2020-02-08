@@ -1,5 +1,5 @@
 class Restaurant {
-  String restaurantId;
+  int restaurantId;
   String restaurantName;
   String restaurantDescription;
   String restaurantUrl;

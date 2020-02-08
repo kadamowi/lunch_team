@@ -37,7 +37,7 @@ class RestaurantCreateRequest {
 }
 
 class RestaurantDeleteArguments {
-  String restaurantId;
+  int restaurantId;
 
   RestaurantDeleteArguments({this.restaurantId});
 
