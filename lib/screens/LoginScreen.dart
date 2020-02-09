@@ -189,7 +189,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               Spacer(),
               Text(
-                  'Version '+_packageInfo.version,
+                  'Version '+_packageInfo.version+'.'+_packageInfo.buildNumber,
               ),
             ],
           ),

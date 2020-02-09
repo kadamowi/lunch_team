@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'dart:convert';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 
 import 'package:lunch_team/model/globals.dart' as globals;
-import 'package:lunch_team/model/LunchTeamCommon.dart';
 import 'package:lunch_team/model/Lunch.dart';
 
 class LunchScreen extends StatefulWidget {
@@ -19,7 +19,7 @@ class _LunchScreenState extends State<LunchScreen> {
     restaurantId: globals.restaurantSelected.restaurantId,
     username: globals.sessionLunch.username,
     lunchType: true,
-    lunchDescription: 'i am hungry',
+    lunchDescription: '',
     transportCost: 0,
     orderTime: DateTime.now(),
     lunchTime: DateTime.now(),
@@ -43,18 +43,41 @@ class _LunchScreenState extends State<LunchScreen> {
           height: MediaQuery.of(context).size.height,
           decoration: BoxDecoration(
               gradient: LinearGradient(colors: [
-                Theme.of(context).primaryColorLight,
-                Theme.of(context).primaryColorDark,
-              ])),
+            Theme.of(context).primaryColorLight,
+            Theme.of(context).primaryColorDark,
+          ])),
           child: Column(
             children: <Widget>[
-              SizedBox(height: 40.0),
+              //SizedBox(height: 40.0),
               Container(
                   margin: const EdgeInsets.only(top: 20.0, bottom: 20.0),
                   height: 128,
                   child: Image(
-                    image: NetworkImage(globals.restaurantSelected.restaurantUrlLogo),
+                    image: NetworkImage(
+                        globals.restaurantSelected.restaurantUrlLogo),
                   )),
+              Text(
+                "Lunch organizer: " + globals.sessionLunch.username,
+                style: TextStyle(
+                    color: Colors.white70,
+                    fontSize: 24.0,
+                    fontWeight: FontWeight.bold),
+              ),
+              SizedBox(height: 20.0),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text("Company kitchen"),
+                  Checkbox(
+                    value: lunch.lunchType,
+                    onChanged: (bool value) {
+                      setState(() {
+                        lunch.lunchType = value;
+                      });
+                    },
+                  ),
+                ],
+              ),
               Form(
                   key: _formStateKey,
                   autovalidate: true,
@@ -74,6 +97,58 @@ class _LunchScreenState extends State<LunchScreen> {
                       onSaved: (value) => lunch.lunchDescription = value,
                     ),
                     SizedBox(height: 10.0),
+                    RaisedButton(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5.0)),
+                      elevation: 4.0,
+                      onPressed: () {
+                        DatePicker.showTimePicker(
+                          context,
+                          theme: DatePickerTheme(
+                            containerHeight: 210.0,
+                          ),
+                          showTitleActions: true,
+                          onConfirm: (time) {
+                            print('confirm $time');
+                            lunch.orderTime = time;
+                            setState(() {});
+                          },
+                          currentTime: DateTime.now(),
+                          locale: LocaleType.pl
+                        );
+                      },
+                      child: Container(
+                        alignment: Alignment.center,
+                        height: 50.0,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Container(
+                              child: Row(
+                                children: <Widget>[
+                                  Icon(
+                                    Icons.access_time,
+                                    size: 18.0,
+                                    color: Colors.teal,
+                                  ),
+                                  Text(
+                                    ' we accept order until ${lunch.orderTime.hour} : ${lunch.orderTime.minute}',
+                                    style: TextStyle(
+                                      color: Colors.teal,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18.0
+                                    ),
+                                  )
+                                ],
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 20.0,
+                    ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: <Widget>[
