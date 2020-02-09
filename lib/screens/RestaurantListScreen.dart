@@ -6,7 +6,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:lunch_team/model/globals.dart' as globals;
 import 'package:lunch_team/model/LunchTeamCommon.dart';
 import 'package:lunch_team/model/Restaurant.dart';
-import 'package:lunch_team/model/RestaurantListRequest.dart';
+import 'package:lunch_team/model/RestaurantRequest.dart';
 import 'package:lunch_team/screens/RestaurantScreen.dart';
 
 class RestaurantListScreen extends StatefulWidget {

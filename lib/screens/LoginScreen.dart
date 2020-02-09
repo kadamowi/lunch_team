@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:package_info/package_info.dart';
 
 import 'package:lunch_team/model/globals.dart' as globals;
 import 'package:lunch_team/model/LunchTeamCommon.dart';
 import 'package:lunch_team/model/LoginRequest.dart';
 import 'package:lunch_team/screens/HomeScreen.dart';
+
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -17,6 +19,25 @@ class _LoginScreenState extends State<LoginScreen> {
   final GlobalKey<FormState> _formStateKey = GlobalKey<FormState>();
   String message = "";
   LoginUser loginUser = new LoginUser(username: '', password: '');
+  PackageInfo _packageInfo = PackageInfo(
+    appName: 'Unknown',
+    packageName: 'Unknown',
+    version: 'Unknown',
+    buildNumber: 'Unknown',
+  );
+
+  @override
+  void initState() {
+    super.initState();
+    _initPackageInfo();
+  }
+
+  Future<void> _initPackageInfo() async {
+    final PackageInfo info = await PackageInfo.fromPlatform();
+    setState(() {
+      _packageInfo = info;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -165,6 +186,10 @@ class _LoginScreenState extends State<LoginScreen> {
                           SizedBox(height: 10.0),
                         ]));
                 },
+              ),
+              Spacer(),
+              Text(
+                  'Version '+_packageInfo.version,
               ),
             ],
           ),
