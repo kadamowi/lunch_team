@@ -2,7 +2,7 @@ class Lunch {
   int lunchId;
   int restaurantId;
   String username;
-  String lunchType;
+  bool lunchType;
   String lunchDescription;
   double transportCost;
   DateTime orderTime;

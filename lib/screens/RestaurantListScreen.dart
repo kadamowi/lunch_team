@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
+import 'package:lunch_team/model/Lunch.dart';
 import 'dart:convert';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -8,6 +9,7 @@ import 'package:lunch_team/model/LunchTeamCommon.dart';
 import 'package:lunch_team/model/Restaurant.dart';
 import 'package:lunch_team/model/RestaurantRequest.dart';
 import 'package:lunch_team/screens/RestaurantScreen.dart';
+import 'package:lunch_team/screens/LunchScreen.dart';
 
 class RestaurantListScreen extends StatefulWidget {
   @override
@@ -89,7 +91,7 @@ class _RestaurantListScreenState extends State<RestaurantListScreen> {
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) =>
-                                            RestaurantScreen(),
+                                            LunchScreen(),
                                         settings: RouteSettings(
                                           arguments: sessionLunch,
                                         )),
@@ -97,8 +99,32 @@ class _RestaurantListScreenState extends State<RestaurantListScreen> {
                                     setState(() {});
                                   });
                                 },
-                                onLongPress: () =>
-                                    launch(snapshot.data[index].restaurantUrl),
+                                onLongPress: () {
+                                  globals.restaurantSelected =
+                                  snapshot.data[index];
+                                  globals.lunchSelected = Lunch(
+                                    lunchId: 0,
+                                    restaurantId: globals.restaurantSelected.restaurantId,
+                                    username: globals.sessionLunch.username,
+                                    lunchType: true,
+                                    lunchDescription: 'i am hungry',
+                                    transportCost: 0,
+                                    orderTime: DateTime.now(),
+                                    lunchTime: DateTime.now(),
+                                  );
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            RestaurantScreen(),
+                                        settings: RouteSettings(
+                                          arguments: sessionLunch,
+                                        )),
+                                  ).then((value) {
+                                    setState(() {});
+                                  });
+
+                                }
                               ),
                             );
                           },

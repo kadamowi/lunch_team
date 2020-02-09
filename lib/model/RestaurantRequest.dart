@@ -1,3 +1,5 @@
+import 'package:lunch_team/model/Restaurant.dart';
+
 class RestaurantCreateArguments {
   String restaurantName;
   String restaurantDescription;
@@ -26,6 +28,22 @@ class RestaurantCreateRequest {
   RestaurantCreateArguments arguments;
 
   RestaurantCreateRequest({this.request, this.session, this.arguments});
+
+  toJson() {
+    return {
+      'request': request,
+      'session': session,
+      'arguments': arguments,
+    };
+  }
+}
+
+class RestaurantEditRequest {
+  String request;
+  String session;
+  Restaurant arguments;
+
+  RestaurantEditRequest({this.request,this.session,this.arguments});
 
   toJson() {
     return {

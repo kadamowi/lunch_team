@@ -13,6 +13,16 @@ class Restaurant {
     this.restaurantUrlLogo,
   });
 
+  toJson() {
+    return {
+      'restaurantId': restaurantId,
+      'restaurantName': restaurantName,
+      'restaurantDescription': restaurantDescription,
+      'restaurantUrl': restaurantUrl,
+      'restaurantUrlLogo': restaurantUrlLogo,
+    };
+  }
+
   factory Restaurant.fromJson(Map<String, dynamic> parsedJson) {
     return Restaurant(
       restaurantId: parsedJson['restaurantId'],
