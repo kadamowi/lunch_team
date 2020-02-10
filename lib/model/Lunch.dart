@@ -7,6 +7,9 @@ class Lunch {
   double transportCost;
   DateTime orderTime;
   DateTime lunchTime;
+  int totalMeal;
+  double totalMealCost;
+
 
   Lunch({
     this.lunchId,
@@ -17,6 +20,8 @@ class Lunch {
     this.transportCost,
     this.orderTime,
     this.lunchTime,
+    this.totalMeal,
+    this.totalMealCost,
   });
 
 }

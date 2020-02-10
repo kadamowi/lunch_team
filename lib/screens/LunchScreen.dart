@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'dart:convert';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 
 import 'package:lunch_team/model/globals.dart' as globals;
+import 'package:lunch_team/model/LunchTeamCommon.dart';
 import 'package:lunch_team/model/Lunch.dart';
+import 'package:lunch_team/model/LunchRequest.dart';
 
 class LunchScreen extends StatefulWidget {
   @override
@@ -21,18 +24,18 @@ class _LunchScreenState extends State<LunchScreen> {
     lunchType: true,
     lunchDescription: '',
     transportCost: 0,
-    orderTime: DateTime.now(),
-    lunchTime: DateTime.now(),
+    orderTime: DateTime.now().add(Duration(hours: 1)),
+    lunchTime: DateTime.now().add(Duration(hours: 2)),
+    totalMeal: 0,
+    totalMealCost: 0.0,
   );
 
   @override
   Widget build(BuildContext context) {
-    //final SessionLunch sessionLunch =
-    //    ModalRoute.of(context).settings.arguments as SessionLunch;
+    if (globals.lunchSelected != null && globals.lunchSelected.lunchId != 0) {
+      lunch = globals.lunchSelected;
+    }
 
-    //if (globals.lunchSelected.lunchId != 0) {
-    //  lunch = globals.lunchSelected;
-    //}
     return Scaffold(
       appBar: AppBar(
         title: Text('Lunch'),
@@ -50,17 +53,34 @@ class _LunchScreenState extends State<LunchScreen> {
             children: <Widget>[
               //SizedBox(height: 40.0),
               Container(
-                  margin: const EdgeInsets.only(top: 20.0, bottom: 20.0),
+                  margin: const EdgeInsets.all(5),
                   height: 128,
                   child: Image(
                     image: NetworkImage(
                         globals.restaurantSelected.restaurantUrlLogo),
                   )),
+              FlatButton(
+                padding: EdgeInsets.all(5),
+                child: Image(
+                  image: AssetImage('images/menu.png'),
+                  width: 150,
+                ),
+                onPressed: () {
+                  launch(globals.restaurantSelected.restaurantUrl);
+                },
+              ),
               Text(
-                "Lunch organizer: " + globals.sessionLunch.username,
+                "Lunch organizer",
                 style: TextStyle(
                     color: Colors.white70,
                     fontSize: 24.0,
+                    fontWeight: FontWeight.bold),
+              ),
+              Text(
+                globals.sessionLunch.username,
+                style: TextStyle(
+                    color: Colors.red,
+                    fontSize: 16.0,
                     fontWeight: FontWeight.bold),
               ),
               SizedBox(height: 20.0),
@@ -102,20 +122,15 @@ class _LunchScreenState extends State<LunchScreen> {
                           borderRadius: BorderRadius.circular(5.0)),
                       elevation: 4.0,
                       onPressed: () {
-                        DatePicker.showTimePicker(
-                          context,
-                          theme: DatePickerTheme(
-                            containerHeight: 210.0,
-                          ),
-                          showTitleActions: true,
-                          onConfirm: (time) {
-                            print('confirm $time');
-                            lunch.orderTime = time;
-                            setState(() {});
-                          },
-                          currentTime: DateTime.now(),
-                          locale: LocaleType.pl
-                        );
+                        DatePicker.showTimePicker(context,
+                            theme: DatePickerTheme(
+                              containerHeight: 210.0,
+                            ),
+                            showTitleActions: true, onConfirm: (time) {
+                          print('confirm $time');
+                          lunch.orderTime = time;
+                          setState(() {});
+                        }, currentTime: lunch.orderTime, locale: LocaleType.pl);
                       },
                       child: Container(
                         alignment: Alignment.center,
@@ -134,10 +149,55 @@ class _LunchScreenState extends State<LunchScreen> {
                                   Text(
                                     ' we accept order until ${lunch.orderTime.hour} : ${lunch.orderTime.minute}',
                                     style: TextStyle(
-                                      color: Colors.teal,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 18.0
-                                    ),
+                                        color: Colors.teal,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 18.0),
+                                  )
+                                ],
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 20.0,
+                    ),
+                    RaisedButton(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5.0)),
+                      elevation: 4.0,
+                      onPressed: () {
+                        DatePicker.showTimePicker(context,
+                            theme: DatePickerTheme(
+                              containerHeight: 210.0,
+                            ),
+                            showTitleActions: true, onConfirm: (time) {
+                          print('confirm $time');
+                          lunch.lunchTime = time;
+                          setState(() {});
+                        }, currentTime: lunch.lunchTime, locale: LocaleType.pl);
+                      },
+                      child: Container(
+                        alignment: Alignment.center,
+                        height: 50.0,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Container(
+                              child: Row(
+                                children: <Widget>[
+                                  Icon(
+                                    Icons.access_time,
+                                    size: 18.0,
+                                    color: Colors.teal,
+                                  ),
+                                  Text(
+                                    ' lunch will be on ${lunch.lunchTime.hour} : ${lunch.lunchTime.minute}',
+                                    style: TextStyle(
+                                        color: Colors.teal,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 18.0),
                                   )
                                 ],
                               ),
@@ -203,19 +263,26 @@ class _LunchScreenState extends State<LunchScreen> {
       _formStateKey.currentState.save();
     }
     globals.lunchSelected = lunch;
-    /*
     if (lunch.lunchId == 0) {
       // prepare JSON for request
-      String reqJson = json.encode(RestaurantCreateRequest(
-          request: 'restaurant.create',
+      print('prepare JSON');
+      var a = LunchCreateArguments(
+        restaurantId: globals.restaurantSelected.restaurantId,
+        username: globals.sessionLunch.username,
+        lunchType: lunch.lunchType,
+        lunchDescription: lunch.lunchDescription,
+        transportCost: lunch.transportCost,
+        orderTime: lunch.orderTime,
+        lunchTime: lunch.lunchTime,
+      );
+      print('arguments: '+a.toJson());
+      LunchCreateRequest r = LunchCreateRequest(
+          request: 'lunch.create',
           session: globals.sessionLunch.sessionId,
-          arguments: RestaurantCreateArguments(
-              restaurantName: globals.restaurantSelected.restaurantName,
-              restaurantDescription:
-              globals.restaurantSelected.restaurantDescription,
-              restaurantUrl: globals.restaurantSelected.restaurantUrl,
-              restaurantUrlLogo:
-              globals.restaurantSelected.restaurantUrlLogo)));
+          arguments: a
+      );
+      print('request: '+r.toJson());
+      String reqJson = json.encode(r);
       // make POST request
       print(reqJson);
       Response response = await post(urlApi, headers: headers, body: reqJson);
@@ -224,7 +291,7 @@ class _LunchScreenState extends State<LunchScreen> {
       if (response.statusCode == 200) {
         var res = result['response'];
         if (res != null) {
-          bool createRestaurant = res['createRestaurant'];
+          bool createRestaurant = res['createLunch'];
           if (createRestaurant) {
             Navigator.pop(context);
           } else {
@@ -252,8 +319,6 @@ class _LunchScreenState extends State<LunchScreen> {
     } else {
       Navigator.pop(context);
     }
-
-     */
   }
 
   Future deleteLunch(BuildContext context) async {
@@ -261,14 +326,13 @@ class _LunchScreenState extends State<LunchScreen> {
       _formStateKey.currentState.save();
     }
     globals.lunchSelected = lunch;
-    /*
-    if (restaurant.restaurantId != 0) {
+    if (lunch.lunchId != 0) {
       // prepare JSON for request
-      String reqJson = json.encode(RestaurantDeleteRequest(
-          request: 'restaurant.delete',
+      String reqJson = json.encode(LunchDeleteRequest(
+          request: 'lunch.delete',
           session: globals.sessionLunch.sessionId,
-          arguments: RestaurantDeleteArguments(
-            restaurantId: globals.restaurantSelected.restaurantId,
+          arguments: LunchDeleteArguments(
+            lunchId: globals.lunchSelected.lunchId,
           )));
       // make POST request
       Response response = await post(urlApi, headers: headers, body: reqJson);
@@ -277,8 +341,8 @@ class _LunchScreenState extends State<LunchScreen> {
       if (response.statusCode == 200) {
         var res = result['response'];
         if (res != null) {
-          bool deleteRestaurant = res['deleteRestaurant'];
-          if (deleteRestaurant) {
+          bool deleteLunch = res['deleteLunch'];
+          if (deleteLunch) {
             Navigator.pop(context);
           } else {
             setState(() {
@@ -303,7 +367,5 @@ class _LunchScreenState extends State<LunchScreen> {
         }
       }
     }
-
-     */
   }
 }

@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
-import 'package:lunch_team/model/Lunch.dart';
+//import 'package:lunch_team/model/Lunch.dart';
 import 'dart:convert';
-import 'package:url_launcher/url_launcher.dart';
 
 import 'package:lunch_team/model/globals.dart' as globals;
 import 'package:lunch_team/model/LunchTeamCommon.dart';
@@ -85,8 +84,19 @@ class _RestaurantListScreenState extends State<RestaurantListScreen> {
                                   ),
                                 ),
                                 onTap: () {
-                                  globals.restaurantSelected =
-                                  snapshot.data[index];
+                                  globals.restaurantSelected = snapshot.data[index];
+                                  /*
+                                  globals.lunchSelected = Lunch(
+                                    lunchId: 0,
+                                    restaurantId: globals.restaurantSelected.restaurantId,
+                                    username: globals.sessionLunch.username,
+                                    lunchType: true,
+                                    lunchDescription: 'i am hungry',
+                                    transportCost: 0,
+                                    orderTime: DateTime.now(),
+                                    lunchTime: DateTime.now(),
+                                  );
+                                  */
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
@@ -102,16 +112,6 @@ class _RestaurantListScreenState extends State<RestaurantListScreen> {
                                 onLongPress: () {
                                   globals.restaurantSelected =
                                   snapshot.data[index];
-                                  globals.lunchSelected = Lunch(
-                                    lunchId: 0,
-                                    restaurantId: globals.restaurantSelected.restaurantId,
-                                    username: globals.sessionLunch.username,
-                                    lunchType: true,
-                                    lunchDescription: 'i am hungry',
-                                    transportCost: 0,
-                                    orderTime: DateTime.now(),
-                                    lunchTime: DateTime.now(),
-                                  );
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(

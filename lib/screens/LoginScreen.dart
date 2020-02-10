@@ -67,7 +67,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     fontSize: 24.0,
                     fontWeight: FontWeight.bold),
               ),
-              SizedBox(height: 20.0),
+              SizedBox(height: 20.0,width: double.infinity,),
               FutureBuilder<LoginUser>(
                 future: getSavedUser(),
                 builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -189,7 +189,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               Spacer(),
               Text(
-                  'Version '+_packageInfo.version+'.'+_packageInfo.buildNumber,
+                  'Version '+_packageInfo.version,
               ),
             ],
           ),
