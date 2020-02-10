@@ -2,26 +2,24 @@ import 'package:lunch_team/model/Lunch.dart';
 
 class LunchCreateArguments {
   int restaurantId;
-  String username;
-  bool lunchType;
+  String lunchType;
   String lunchDescription;
-  double transportCost;
-  DateTime orderTime;
-  DateTime lunchTime;
+  String transportCost;
+  String orderTime;
+  String lunchTime;
 
-  LunchCreateArguments({
-    this.restaurantId,
-    this.username,
-    this.lunchType,
-    this.lunchDescription,
-    this.transportCost,
-    this.orderTime,
-    this.lunchTime});
+  LunchCreateArguments(
+      {
+        this.restaurantId,
+      this.lunchType,
+      this.lunchDescription,
+      this.transportCost,
+      this.orderTime,
+      this.lunchTime});
 
   toJson() {
     return {
       'restaurantId': restaurantId,
-      'username': username,
       'lunchType': lunchType,
       'lunchDescription': lunchDescription,
       'transportCost': transportCost,
@@ -31,7 +29,7 @@ class LunchCreateArguments {
   }
 }
 
-class LunchCreateRequest{
+class LunchCreateRequest {
   String request;
   String session;
   LunchCreateArguments arguments;
@@ -52,7 +50,7 @@ class LunchEditRequest {
   String session;
   Lunch arguments;
 
-  LunchEditRequest({this.request,this.session,this.arguments});
+  LunchEditRequest({this.request, this.session, this.arguments});
 
   toJson() {
     return {
@@ -95,7 +93,7 @@ class LunchListRequest {
   String request;
   String session;
 
-  LunchListRequest({this.request,this.session});
+  LunchListRequest({this.request, this.session});
 
   toJson() {
     return {

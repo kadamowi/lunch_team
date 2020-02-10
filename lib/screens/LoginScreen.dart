@@ -8,6 +8,7 @@ import 'package:lunch_team/model/globals.dart' as globals;
 import 'package:lunch_team/model/LunchTeamCommon.dart';
 import 'package:lunch_team/model/LoginRequest.dart';
 import 'package:lunch_team/screens/HomeScreen.dart';
+import 'package:lunch_team/screens/UserScreen.dart';
 
 
 class LoginScreen extends StatefulWidget {
@@ -168,7 +169,13 @@ class _LoginScreenState extends State<LoginScreen> {
                                 textColor: Colors.white70,
                                 child: Text("Create Account"),
                                 onPressed: () {
-                                  _createAccount();
+                                  //_createAccount();
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => UserScreen(),
+                                        ),
+                                  );
                                 },
                               ),
                               Container(

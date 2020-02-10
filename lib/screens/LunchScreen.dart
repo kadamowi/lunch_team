@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'dart:convert';
+import 'package:intl/intl.dart';
+
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 
@@ -266,22 +268,19 @@ class _LunchScreenState extends State<LunchScreen> {
     if (lunch.lunchId == 0) {
       // prepare JSON for request
       print('prepare JSON');
-      var a = LunchCreateArguments(
-        restaurantId: globals.restaurantSelected.restaurantId,
-        username: globals.sessionLunch.username,
-        lunchType: lunch.lunchType,
-        lunchDescription: lunch.lunchDescription,
-        transportCost: lunch.transportCost,
-        orderTime: lunch.orderTime,
-        lunchTime: lunch.lunchTime,
-      );
-      print('arguments: '+a.toJson());
       LunchCreateRequest r = LunchCreateRequest(
           request: 'lunch.create',
           session: globals.sessionLunch.sessionId,
-          arguments: a
+          arguments: LunchCreateArguments(
+            restaurantId: globals.restaurantSelected.restaurantId,
+            lunchType: lunch.lunchType.toString(),
+            lunchDescription: lunch.lunchDescription,
+            transportCost: lunch.transportCost.toString(),
+            orderTime: DateFormat('yyyy-MM-dd HH:mm:ss').format(lunch.orderTime),
+            lunchTime: DateFormat('yyyy-MM-dd HH:mm:ss').format(lunch.lunchTime),
+          )
       );
-      print('request: '+r.toJson());
+      print('request: '+r.toJson().toString());
       String reqJson = json.encode(r);
       // make POST request
       print(reqJson);
@@ -335,6 +334,7 @@ class _LunchScreenState extends State<LunchScreen> {
             lunchId: globals.lunchSelected.lunchId,
           )));
       // make POST request
+      print(reqJson);
       Response response = await post(urlApi, headers: headers, body: reqJson);
       print('statusCode:' + response.statusCode.toString());
       var result = jsonDecode(response.body);

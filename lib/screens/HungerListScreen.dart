@@ -4,7 +4,7 @@ import 'dart:convert';
 
 import 'package:lunch_team/model/LunchTeamCommon.dart';
 import 'package:lunch_team/model/TeamUsersRequest.dart';
-import 'package:lunch_team/model/TeamUserResponse.dart';
+import 'package:lunch_team/model/User.dart';
 
 class HungerListScreen extends StatefulWidget {
   @override
