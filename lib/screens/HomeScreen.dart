@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lunch_team/model/LunchTeamCommon.dart';
 import 'package:lunch_team/screens/RestaurantListScreen.dart';
+import 'package:lunch_team/screens/LunchListScreen.dart';
 import 'package:lunch_team/screens/HungerListScreen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -86,7 +87,16 @@ class _HomeScreenState extends State<HomeScreen> {
                     color: Colors.white,
                     textColor: Colors.lightGreen,
                     child: Text("Lunches"),
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => LunchListScreen(),
+                            settings: RouteSettings(
+                              arguments: sessionLunch,
+                            )),
+                      );
+                    },
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(30.0)),
                   ),

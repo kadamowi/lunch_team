@@ -10,7 +10,6 @@ class Lunch {
   int totalMeal;
   double totalMealCost;
 
-
   Lunch({
     this.lunchId,
     this.restaurantId,
@@ -24,4 +23,18 @@ class Lunch {
     this.totalMealCost,
   });
 
+  factory Lunch.fromJson(Map<String, dynamic> parsedJson) {
+    return Lunch(
+      lunchId: parsedJson['lunchId'],
+      restaurantId: parsedJson['restaurantId'],
+      username: parsedJson['username'],
+      lunchType: parsedJson['lunchType'],
+      lunchDescription: parsedJson['lunchDescription'],
+      transportCost: parsedJson['transportCost'],
+      orderTime: parsedJson['orderTime'],
+      lunchTime: parsedJson['lunchTime'],
+      totalMeal: parsedJson['totalMeal'],
+      totalMealCost: parsedJson['totalMealCost'],
+    );
+  }
 }
