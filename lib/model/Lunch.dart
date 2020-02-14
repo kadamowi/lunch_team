@@ -1,40 +1,46 @@
 class Lunch {
   int lunchId;
   int restaurantId;
+  String restaurantName;
+  int userId;
   String username;
   bool lunchType;
   String lunchDescription;
   double transportCost;
-  DateTime orderTime;
-  DateTime lunchTime;
-  int totalMeal;
-  double totalMealCost;
+  DateTime lunchOrderTime;
+  DateTime lunchLunchTime;
+  int mealCount;
+  //double totalMealCost;
 
   Lunch({
     this.lunchId,
     this.restaurantId,
+    this.restaurantName,
+    this.userId,
     this.username,
     this.lunchType,
     this.lunchDescription,
     this.transportCost,
-    this.orderTime,
-    this.lunchTime,
-    this.totalMeal,
-    this.totalMealCost,
+    this.lunchOrderTime,
+    this.lunchLunchTime,
+    this.mealCount,
+    //this.totalMealCost,
   });
 
   factory Lunch.fromJson(Map<String, dynamic> parsedJson) {
     return Lunch(
       lunchId: parsedJson['lunchId'],
       restaurantId: parsedJson['restaurantId'],
-      username: parsedJson['username'],
-      lunchType: parsedJson['lunchType'],
+      restaurantName: parsedJson['restaurantName'],
+      userId: parsedJson['userId'],
+      username: parsedJson['userName'],
+      //lunchType: parsedJson['lunchType'],
       lunchDescription: parsedJson['lunchDescription'],
-      transportCost: parsedJson['transportCost'],
-      orderTime: parsedJson['orderTime'],
-      lunchTime: parsedJson['lunchTime'],
-      totalMeal: parsedJson['totalMeal'],
-      totalMealCost: parsedJson['totalMealCost'],
+      //transportCost: parsedJson['transportCost'],
+      lunchOrderTime: DateTime.parse(parsedJson['lunchOrderTime']),
+      lunchLunchTime: DateTime.parse(parsedJson['lunchLunchTime']),
+      mealCount: parsedJson['mealCount'],
+      //totalMealCost: parsedJson['totalMealCost'],
     );
   }
 }

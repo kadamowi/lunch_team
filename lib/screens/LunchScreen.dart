@@ -26,10 +26,10 @@ class _LunchScreenState extends State<LunchScreen> {
     lunchType: true,
     lunchDescription: '',
     transportCost: 0,
-    orderTime: DateTime.now().add(Duration(hours: 1)),
-    lunchTime: DateTime.now().add(Duration(hours: 2)),
-    totalMeal: 0,
-    totalMealCost: 0.0,
+    lunchOrderTime: DateTime.now().add(Duration(hours: 1)),
+    lunchLunchTime: DateTime.now().add(Duration(hours: 2)),
+    //totalMeal: 0,
+    //totalMealCost: 0.0,
   );
 
   @override
@@ -130,9 +130,9 @@ class _LunchScreenState extends State<LunchScreen> {
                             ),
                             showTitleActions: true, onConfirm: (time) {
                           print('confirm $time');
-                          lunch.orderTime = time;
+                          lunch.lunchOrderTime = time;
                           setState(() {});
-                        }, currentTime: lunch.orderTime, locale: LocaleType.pl);
+                        }, currentTime: lunch.lunchOrderTime, locale: LocaleType.pl);
                       },
                       child: Container(
                         alignment: Alignment.center,
@@ -149,7 +149,7 @@ class _LunchScreenState extends State<LunchScreen> {
                                     color: Colors.teal,
                                   ),
                                   Text(
-                                    ' we accept order until ${lunch.orderTime.hour} : ${lunch.orderTime.minute}',
+                                    ' we accept order until ${lunch.lunchOrderTime.hour} : ${lunch.lunchOrderTime.minute}',
                                     style: TextStyle(
                                         color: Colors.teal,
                                         fontWeight: FontWeight.bold,
@@ -176,9 +176,9 @@ class _LunchScreenState extends State<LunchScreen> {
                             ),
                             showTitleActions: true, onConfirm: (time) {
                           print('confirm $time');
-                          lunch.lunchTime = time;
+                          lunch.lunchLunchTime = time;
                           setState(() {});
-                        }, currentTime: lunch.lunchTime, locale: LocaleType.pl);
+                        }, currentTime: lunch.lunchLunchTime, locale: LocaleType.pl);
                       },
                       child: Container(
                         alignment: Alignment.center,
@@ -195,7 +195,7 @@ class _LunchScreenState extends State<LunchScreen> {
                                     color: Colors.teal,
                                   ),
                                   Text(
-                                    ' lunch will be on ${lunch.lunchTime.hour} : ${lunch.lunchTime.minute}',
+                                    ' lunch will be on ${lunch.lunchLunchTime.hour} : ${lunch.lunchLunchTime.minute}',
                                     style: TextStyle(
                                         color: Colors.teal,
                                         fontWeight: FontWeight.bold,
@@ -276,8 +276,8 @@ class _LunchScreenState extends State<LunchScreen> {
             lunchType: lunch.lunchType.toString(),
             lunchDescription: lunch.lunchDescription,
             transportCost: lunch.transportCost.toString(),
-            orderTime: DateFormat('yyyy-MM-dd HH:mm:ss').format(lunch.orderTime),
-            lunchTime: DateFormat('yyyy-MM-dd HH:mm:ss').format(lunch.lunchTime),
+            orderTime: DateFormat('yyyy-MM-dd HH:mm:ss').format(lunch.lunchOrderTime),
+            lunchTime: DateFormat('yyyy-MM-dd HH:mm:ss').format(lunch.lunchLunchTime),
           )
       );
       print('request: '+r.toJson().toString());

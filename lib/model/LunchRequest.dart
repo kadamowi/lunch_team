@@ -2,17 +2,16 @@ import 'package:lunch_team/model/Lunch.dart';
 
 class LunchCreateArguments {
   int restaurantId;
-  String lunchType;
   String lunchDescription;
+  String lunchType;
   String transportCost;
   String orderTime;
   String lunchTime;
 
   LunchCreateArguments(
-      {
-        this.restaurantId,
-      this.lunchType,
+      {this.restaurantId,
       this.lunchDescription,
+      this.lunchType,
       this.transportCost,
       this.orderTime,
       this.lunchTime});
@@ -20,8 +19,8 @@ class LunchCreateArguments {
   toJson() {
     return {
       'restaurantId': restaurantId,
-      'lunchType': lunchType,
       'lunchDescription': lunchDescription,
+      'lunchType': lunchType,
       'transportCost': transportCost,
       'orderTime': orderTime,
       'lunchTime': lunchTime,

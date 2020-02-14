@@ -4,6 +4,7 @@ class Restaurant {
   String restaurantDescription;
   String restaurantUrl;
   String restaurantUrlLogo;
+  int lunchCount;
 
   Restaurant({
     this.restaurantId,
@@ -11,6 +12,7 @@ class Restaurant {
     this.restaurantDescription,
     this.restaurantUrl,
     this.restaurantUrlLogo,
+    this.lunchCount,
   });
 
   toJson() {
@@ -20,6 +22,7 @@ class Restaurant {
       'restaurantDescription': restaurantDescription,
       'restaurantUrl': restaurantUrl,
       'restaurantUrlLogo': restaurantUrlLogo,
+      'lunchCount': lunchCount,
     };
   }
 
@@ -29,7 +32,8 @@ class Restaurant {
       restaurantName: parsedJson['restaurantName'],
       restaurantDescription: parsedJson['restaurantDescription'],
       restaurantUrl: parsedJson['restaurantUrl'],
-      restaurantUrlLogo: parsedJson['restaurantUrlLogo']
+      restaurantUrlLogo: parsedJson['restaurantUrlLogo'],
+      lunchCount: parsedJson['lunchCount'],
     );
   }
 }

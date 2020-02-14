@@ -60,72 +60,61 @@ class _RestaurantListScreenState extends State<RestaurantListScreen> {
                                 color: Colors.amber,
                               ),
                               child: ListTile(
-                                leading: Image(
-                                  image: NetworkImage(
-                                      snapshot.data[index].restaurantUrlLogo),
-                                ),
-                                trailing: Icon(
-                                  Icons.fastfood,
-                                  color: Colors.blue,
-                                ),
-                                title:
-                                    Text(
-                                        snapshot.data[index].restaurantName,
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold
-                                      ),
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                subtitle: Container(
-                                  height: 50,
-                                  child: Text(
-                                    snapshot.data[index].restaurantDescription,
-                                    overflow: TextOverflow.clip,
+                                  leading: Image(
+                                    image: NetworkImage(
+                                        snapshot.data[index].restaurantUrlLogo),
                                   ),
-                                ),
-                                onTap: () {
-                                  globals.restaurantSelected = snapshot.data[index];
-                                  /*
-                                  globals.lunchSelected = Lunch(
-                                    lunchId: 0,
-                                    restaurantId: globals.restaurantSelected.restaurantId,
-                                    username: globals.sessionLunch.username,
-                                    lunchType: true,
-                                    lunchDescription: 'i am hungry',
-                                    transportCost: 0,
-                                    orderTime: DateTime.now(),
-                                    lunchTime: DateTime.now(),
-                                  );
-                                  */
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            LunchScreen(),
-                                        settings: RouteSettings(
-                                          arguments: sessionLunch,
-                                        )),
-                                  ).then((value) {
-                                    setState(() {});
-                                  });
-                                },
-                                onLongPress: () {
-                                  globals.restaurantSelected =
-                                  snapshot.data[index];
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            RestaurantScreen(),
-                                        settings: RouteSettings(
-                                          arguments: sessionLunch,
-                                        )),
-                                  ).then((value) {
-                                    setState(() {});
-                                  });
-
-                                }
-                              ),
+                                  trailing: Icon(
+                                    Icons.fastfood,
+                                    color: Colors.blue,
+                                  ),
+                                  title: Text(
+                                    snapshot.data[index].restaurantName +
+                                        ' (' +
+                                        snapshot.data[index].lunchCount
+                                            .toString() +
+                                        ')',
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold),
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                  subtitle: Container(
+                                    height: 50,
+                                    child: Text(
+                                      snapshot
+                                          .data[index].restaurantDescription,
+                                      overflow: TextOverflow.clip,
+                                    ),
+                                  ),
+                                  onTap: () {
+                                    globals.restaurantSelected =
+                                        snapshot.data[index];
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => LunchScreen(),
+                                          settings: RouteSettings(
+                                            arguments: sessionLunch,
+                                          )),
+                                    ).then((value) {
+                                      setState(() {});
+                                    });
+                                  },
+                                  onLongPress: () {
+                                    globals.restaurantSelected =
+                                        snapshot.data[index];
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              RestaurantScreen(),
+                                          settings: RouteSettings(
+                                            arguments: sessionLunch,
+                                          )),
+                                    ).then((value) {
+                                      setState(() {});
+                                    });
+                                  }),
                             );
                           },
                         );

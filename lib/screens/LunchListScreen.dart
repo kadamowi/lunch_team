@@ -63,7 +63,7 @@ class _LunchListScreenState extends State<LunchListScreen> {
                                   ),
                                   title:
                                   Text(
-                                    snapshot.data[index].lunchDescription,
+                                    snapshot.data[index].username,
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold
                                     ),
@@ -72,7 +72,7 @@ class _LunchListScreenState extends State<LunchListScreen> {
                                   subtitle: Container(
                                     height: 50,
                                     child: Text(
-                                      snapshot.data[index].username,
+                                      snapshot.data[index].lunchDescription,
                                       overflow: TextOverflow.clip,
                                     ),
                                   ),
@@ -117,9 +117,10 @@ class _LunchListScreenState extends State<LunchListScreen> {
     Response response = await post(urlApi, headers: headers, body: reqJson);
     var result = jsonDecode(response.body);
     var resp = result['response'];
-    var l = resp['lunches'];
-    //print(u.toString());
+    var l = resp['lunchs'];
+    print(l.toString());
     var lunches = l.map((i) => Lunch.fromJson(i)).toList();
+    print('Pobral');
     List<Lunch> lunchList = new List<Lunch>();
     for (Lunch lunch in lunches) {
       //print(user.username);
