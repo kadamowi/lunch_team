@@ -169,7 +169,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 textColor: Colors.white70,
                                 child: Text("Create Account"),
                                 onPressed: () {
-                                  //_createAccount();
+                                  _createAccount();
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
@@ -251,9 +251,6 @@ class _LoginScreenState extends State<LoginScreen> {
         SharedPreferences prefs = await SharedPreferences.getInstance();
         prefs.setString('username', loginUser.username);
         prefs.setString('password', loginUser.password);
-        print('loginUser loginUser = ' + loginUser.username);
-
-        //print('Session id:' + sessionId.substring(1, 10));
         final SessionLunch sessionLunch =
             new SessionLunch(loginUser.username, sessionId);
         globals.sessionLunch = sessionLunch;

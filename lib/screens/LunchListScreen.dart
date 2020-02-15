@@ -63,6 +63,7 @@ class _LunchListScreenState extends State<LunchListScreen> {
                                   ),
                                   title:
                                   Text(
+                                    snapshot.data[index].restaurantName + ' - '+
                                     snapshot.data[index].username,
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold
@@ -118,12 +119,10 @@ class _LunchListScreenState extends State<LunchListScreen> {
     var result = jsonDecode(response.body);
     var resp = result['response'];
     var l = resp['lunches'];
-    print(l.toString());
+    //print(l.toString());
     var lunches = l.map((i) => Lunch.fromJson(i)).toList();
-    print('Pobral');
     List<Lunch> lunchList = new List<Lunch>();
     for (Lunch lunch in lunches) {
-      //print(user.username);
       lunchList.add(lunch);
     }
     return lunchList;
