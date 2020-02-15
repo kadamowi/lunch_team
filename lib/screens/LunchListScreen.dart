@@ -117,7 +117,7 @@ class _LunchListScreenState extends State<LunchListScreen> {
     Response response = await post(urlApi, headers: headers, body: reqJson);
     var result = jsonDecode(response.body);
     var resp = result['response'];
-    var l = resp['lunchs'];
+    var l = resp['lunches'];
     print(l.toString());
     var lunches = l.map((i) => Lunch.fromJson(i)).toList();
     print('Pobral');

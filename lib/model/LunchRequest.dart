@@ -3,7 +3,7 @@ import 'package:lunch_team/model/Lunch.dart';
 class LunchCreateArguments {
   int restaurantId;
   String lunchDescription;
-  String lunchType;
+  int lunchType;
   String transportCost;
   String orderTime;
   String lunchTime;

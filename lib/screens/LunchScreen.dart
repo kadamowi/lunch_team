@@ -23,7 +23,7 @@ class _LunchScreenState extends State<LunchScreen> {
     lunchId: 0,
     restaurantId: globals.restaurantSelected.restaurantId,
     username: globals.sessionLunch.username,
-    lunchType: true,
+    lunchType: 0,
     lunchDescription: '',
     transportCost: 0,
     lunchOrderTime: DateTime.now().add(Duration(hours: 1)),
@@ -91,10 +91,10 @@ class _LunchScreenState extends State<LunchScreen> {
                 children: <Widget>[
                   Text("Company kitchen"),
                   Checkbox(
-                    value: lunch.lunchType,
+                    value: lunch.lunchType==0,
                     onChanged: (bool value) {
                       setState(() {
-                        lunch.lunchType = value;
+                        lunch.lunchType = value?0:1;
                       });
                     },
                   ),
@@ -273,7 +273,7 @@ class _LunchScreenState extends State<LunchScreen> {
           session: globals.sessionLunch.sessionId,
           arguments: LunchCreateArguments(
             restaurantId: globals.restaurantSelected.restaurantId,
-            lunchType: lunch.lunchType.toString(),
+            lunchType: lunch.lunchType,
             lunchDescription: lunch.lunchDescription,
             transportCost: lunch.transportCost.toString(),
             orderTime: DateFormat('yyyy-MM-dd HH:mm:ss').format(lunch.lunchOrderTime),
