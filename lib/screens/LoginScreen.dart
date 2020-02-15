@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:package_info/package_info.dart';
+//import 'package:package_info/package_info.dart';
 
 import 'package:lunch_team/model/globals.dart' as globals;
 import 'package:lunch_team/model/LunchTeamCommon.dart';
@@ -20,12 +20,12 @@ class _LoginScreenState extends State<LoginScreen> {
   final GlobalKey<FormState> _formStateKey = GlobalKey<FormState>();
   String message = "";
   LoginUser loginUser = new LoginUser(username: '', password: '');
-  PackageInfo _packageInfo = PackageInfo(
-    appName: 'Unknown',
-    packageName: 'Unknown',
-    version: 'Unknown',
-    buildNumber: 'Unknown',
-  );
+  //PackageInfo _packageInfo = PackageInfo(
+  //  appName: 'Unknown',
+  //  packageName: 'Unknown',
+  //  version: 'Unknown',
+  //  buildNumber: 'Unknown',
+  //);
 
   @override
   void initState() {
@@ -34,10 +34,10 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Future<void> _initPackageInfo() async {
-    final PackageInfo info = await PackageInfo.fromPlatform();
-    setState(() {
-      _packageInfo = info;
-    });
+    //final PackageInfo info = await PackageInfo.fromPlatform();
+    //setState(() {
+    //  _packageInfo = info;
+    //});
   }
 
   @override
@@ -194,10 +194,10 @@ class _LoginScreenState extends State<LoginScreen> {
                         ]));
                 },
               ),
-              Spacer(),
-              Text(
-                  'Version '+_packageInfo.version,
-              ),
+              //Spacer(),
+              //Text(
+              //    'Version '+_packageInfo.version,
+              //),
             ],
           ),
         ),
