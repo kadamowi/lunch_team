@@ -3,7 +3,7 @@ import 'package:http/http.dart';
 import 'dart:convert';
 import 'package:intl/intl.dart';
 
-import 'package:url_launcher/url_launcher.dart';
+//import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 
 import 'package:lunch_team/model/globals.dart' as globals;
@@ -68,7 +68,7 @@ class _LunchScreenState extends State<LunchScreen> {
                   width: 150,
                 ),
                 onPressed: () {
-                  launch(globals.restaurantSelected.restaurantUrl);
+                  //launch(globals.restaurantSelected.restaurantUrl);
                 },
               ),
               Text(
