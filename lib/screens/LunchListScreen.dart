@@ -13,6 +13,12 @@ class LunchListScreen extends StatefulWidget {
 }
 
 class _LunchListScreenState extends State<LunchListScreen> {
+  Future<Null> refreshList() {
+    setState(() {
+    });
+    return null;
+  }
+
   @override
   Widget build(BuildContext context) {
     //final SessionLunch sessionLunch =
@@ -44,46 +50,49 @@ class _LunchListScreenState extends State<LunchListScreen> {
                       if (snapshot.hasError)
                         return Center(child: Text('Error: ${snapshot.error}'));
                       else
-                        return ListView.builder(
-                          scrollDirection: Axis.vertical,
-                          shrinkWrap: true,
-                          itemCount: snapshot.data.length,
-                          itemBuilder: (context, index) {
-                            return Container(
-                              height: 100,
-                              padding: const EdgeInsets.all(5),
-                              decoration: BoxDecoration(
-                                border: Border.all(),
-                                color: Colors.amber,
-                              ),
-                              child: ListTile(
-                                  trailing: Icon(
-                                    Icons.fastfood,
-                                    color: Colors.blue,
-                                  ),
-                                  title:
-                                  Text(
-                                    snapshot.data[index].restaurantName + ' - '+
-                                    snapshot.data[index].username,
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold
+                        return RefreshIndicator(
+                          onRefresh: refreshList,
+                          child: ListView.builder(
+                            scrollDirection: Axis.vertical,
+                            shrinkWrap: true,
+                            itemCount: snapshot.data.length,
+                            itemBuilder: (context, index) {
+                              return Container(
+                                height: 100,
+                                padding: const EdgeInsets.all(5),
+                                decoration: BoxDecoration(
+                                  border: Border.all(),
+                                  color: Colors.amber,
+                                ),
+                                child: ListTile(
+                                    trailing: Icon(
+                                      Icons.fastfood,
+                                      color: Colors.blue,
                                     ),
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                  subtitle: Container(
-                                    height: 50,
-                                    child: Text(
-                                      snapshot.data[index].lunchDescription,
-                                      overflow: TextOverflow.clip,
+                                    title:
+                                    Text(
+                                      snapshot.data[index].restaurantName + ' - '+
+                                          snapshot.data[index].username,
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold
+                                      ),
+                                      overflow: TextOverflow.ellipsis,
                                     ),
-                                  ),
-                                  onTap: () {
-                                  },
-                                  onLongPress: () {
-                                  }
-                              ),
-                            );
-                          },
+                                    subtitle: Container(
+                                      height: 50,
+                                      child: Text(
+                                        snapshot.data[index].lunchDescription,
+                                        overflow: TextOverflow.clip,
+                                      ),
+                                    ),
+                                    onTap: () {
+                                    },
+                                    onLongPress: () {
+                                    }
+                                ),
+                              );
+                            },
+                          ),
                         );
                     }
                   }),
@@ -119,7 +128,7 @@ class _LunchListScreenState extends State<LunchListScreen> {
     var result = jsonDecode(response.body);
     var resp = result['response'];
     var l = resp['lunches'];
-    print(l.toString());
+    //print(l.toString());
     var lunches = l.map((i) => Lunch.fromJson(i)).toList();
     List<Lunch> lunchList = new List<Lunch>();
     for (Lunch lunch in lunches) {

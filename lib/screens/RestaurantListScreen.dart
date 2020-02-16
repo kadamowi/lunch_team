@@ -16,6 +16,12 @@ class RestaurantListScreen extends StatefulWidget {
 }
 
 class _RestaurantListScreenState extends State<RestaurantListScreen> {
+  Future<Null> refreshList() {
+    setState(() {
+    });
+    return null;
+  }
+
   @override
   Widget build(BuildContext context) {
     final SessionLunch sessionLunch =
@@ -47,76 +53,79 @@ class _RestaurantListScreenState extends State<RestaurantListScreen> {
                       if (snapshot.hasError)
                         return Center(child: Text('Error: ${snapshot.error}'));
                       else
-                        return ListView.builder(
-                          scrollDirection: Axis.vertical,
-                          shrinkWrap: true,
-                          itemCount: snapshot.data.length,
-                          itemBuilder: (context, index) {
-                            return Container(
-                              height: 100,
-                              padding: const EdgeInsets.all(5),
-                              decoration: BoxDecoration(
-                                border: Border.all(),
-                                color: Colors.amber,
-                              ),
-                              child: ListTile(
-                                  leading: Image(
-                                    image: NetworkImage(
-                                        snapshot.data[index].restaurantUrlLogo),
-                                  ),
-                                  trailing: Icon(
-                                    Icons.fastfood,
-                                    color: Colors.blue,
-                                  ),
-                                  title: Text(
-                                    snapshot.data[index].restaurantName +
-                                        ' (' +
-                                        snapshot.data[index].lunchCount
-                                            .toString() +
-                                        ')',
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.bold),
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                  subtitle: Container(
-                                    height: 50,
-                                    child: Text(
-                                      snapshot
-                                          .data[index].restaurantDescription,
-                                      overflow: TextOverflow.clip,
+                        return RefreshIndicator(
+                          onRefresh: refreshList,
+                          child: ListView.builder(
+                            scrollDirection: Axis.vertical,
+                            shrinkWrap: true,
+                            itemCount: snapshot.data.length,
+                            itemBuilder: (context, index) {
+                              return Container(
+                                height: 100,
+                                padding: const EdgeInsets.all(5),
+                                decoration: BoxDecoration(
+                                  border: Border.all(),
+                                  color: Colors.amber,
+                                ),
+                                child: ListTile(
+                                    leading: Image(
+                                      image: NetworkImage(
+                                          snapshot.data[index].restaurantUrlLogo),
                                     ),
-                                  ),
-                                  onTap: () {
-                                    globals.restaurantSelected =
-                                        snapshot.data[index];
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => LunchScreen(),
-                                          settings: RouteSettings(
-                                            arguments: sessionLunch,
-                                          )),
-                                    ).then((value) {
-                                      setState(() {});
-                                    });
-                                  },
-                                  onLongPress: () {
-                                    globals.restaurantSelected =
-                                        snapshot.data[index];
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              RestaurantScreen(),
-                                          settings: RouteSettings(
-                                            arguments: sessionLunch,
-                                          )),
-                                    ).then((value) {
-                                      setState(() {});
-                                    });
-                                  }),
-                            );
-                          },
+                                    trailing: Icon(
+                                      Icons.fastfood,
+                                      color: Colors.blue,
+                                    ),
+                                    title: Text(
+                                      snapshot.data[index].restaurantName +
+                                          ' (' +
+                                          snapshot.data[index].lunchCount
+                                              .toString() +
+                                          ')',
+                                      style:
+                                      TextStyle(fontWeight: FontWeight.bold),
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                    subtitle: Container(
+                                      height: 50,
+                                      child: Text(
+                                        snapshot
+                                            .data[index].restaurantDescription,
+                                        overflow: TextOverflow.clip,
+                                      ),
+                                    ),
+                                    onTap: () {
+                                      globals.restaurantSelected =
+                                      snapshot.data[index];
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => LunchScreen(),
+                                            settings: RouteSettings(
+                                              arguments: sessionLunch,
+                                            )),
+                                      ).then((value) {
+                                        setState(() {});
+                                      });
+                                    },
+                                    onLongPress: () {
+                                      globals.restaurantSelected =
+                                      snapshot.data[index];
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                RestaurantScreen(),
+                                            settings: RouteSettings(
+                                              arguments: sessionLunch,
+                                            )),
+                                      ).then((value) {
+                                        setState(() {});
+                                      });
+                                    }),
+                              );
+                            },
+                          ),
                         );
                     }
                   }),
