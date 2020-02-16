@@ -12,6 +12,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Lunch Team',
       theme: ThemeData(
+        scaffoldBackgroundColor: Colors.green,
         primarySwatch: Colors.blue,
         primaryColorLight: Colors.lightGreen,
         primaryColorDark: Colors.green,

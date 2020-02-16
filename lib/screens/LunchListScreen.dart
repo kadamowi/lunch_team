@@ -119,7 +119,7 @@ class _LunchListScreenState extends State<LunchListScreen> {
     var result = jsonDecode(response.body);
     var resp = result['response'];
     var l = resp['lunches'];
-    //print(l.toString());
+    print(l.toString());
     var lunches = l.map((i) => Lunch.fromJson(i)).toList();
     List<Lunch> lunchList = new List<Lunch>();
     for (Lunch lunch in lunches) {

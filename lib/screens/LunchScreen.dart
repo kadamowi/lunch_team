@@ -3,7 +3,7 @@ import 'package:http/http.dart';
 import 'dart:convert';
 import 'package:intl/intl.dart';
 
-//import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 
 import 'package:lunch_team/model/globals.dart' as globals;
@@ -68,7 +68,7 @@ class _LunchScreenState extends State<LunchScreen> {
                   width: 150,
                 ),
                 onPressed: () {
-                  //launch(globals.restaurantSelected.restaurantUrl);
+                  launch(globals.restaurantSelected.restaurantUrl);
                 },
               ),
               Text(
@@ -106,6 +106,12 @@ class _LunchScreenState extends State<LunchScreen> {
                   child: Column(children: <Widget>[
                     TextFormField(
                       decoration: InputDecoration(
+                        hintText: 'description',
+                        labelText: 'description',
+                        border: OutlineInputBorder(),
+                      ),
+                      /*
+                      decoration: InputDecoration(
                         contentPadding: const EdgeInsets.all(16.0),
                         hintText: "description",
                         hintStyle: TextStyle(color: Colors.white54),
@@ -115,6 +121,7 @@ class _LunchScreenState extends State<LunchScreen> {
                         filled: true,
                         fillColor: Colors.white.withOpacity(0.1),
                       ),
+                      */
                       initialValue: lunch.lunchDescription,
                       onSaved: (value) => lunch.lunchDescription = value,
                     ),
@@ -163,7 +170,7 @@ class _LunchScreenState extends State<LunchScreen> {
                       ),
                     ),
                     SizedBox(
-                      height: 20.0,
+                      height: 10.0,
                     ),
                     RaisedButton(
                       shape: RoundedRectangleBorder(
@@ -206,6 +213,21 @@ class _LunchScreenState extends State<LunchScreen> {
                             )
                           ],
                         ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 10.0,
+                    ),
+                    Visibility(
+                      visible: lunch.lunchType==0,
+                      child: TextFormField(
+                        decoration: InputDecoration(
+                          hintText: 'transport cost',
+                          labelText: 'transport',
+                          border: OutlineInputBorder(),
+                        ),
+                        onSaved: (value) => lunch.transportCost = double.tryParse(value),
+                        keyboardType: TextInputType.number,
                       ),
                     ),
                     SizedBox(
