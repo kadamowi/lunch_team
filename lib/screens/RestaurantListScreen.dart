@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 //import 'package:lunch_team/model/Lunch.dart';
 import 'dart:convert';
+import 'package:cached_network_image/cached_network_image.dart';
 
 import 'package:lunch_team/model/globals.dart' as globals;
 import 'package:lunch_team/model/LunchTeamCommon.dart';
@@ -68,10 +69,13 @@ class _RestaurantListScreenState extends State<RestaurantListScreen> {
                                   color: Colors.amber,
                                 ),
                                 child: ListTile(
-                                    leading: Image(
-                                      image: NetworkImage(
-                                          snapshot.data[index].restaurantUrlLogo),
+                                    leading: CachedNetworkImage(
+                                      placeholder: (context, url) => CircularProgressIndicator(),
+                                      imageUrl: snapshot.data[index].restaurantUrlLogo
                                     ),
+                                    //Image(
+                                    //  image: NetworkImage(snapshot.data[index].restaurantUrlLogo),
+                                    //),
                                     trailing: Icon(
                                       Icons.fastfood,
                                       color: Colors.blue,

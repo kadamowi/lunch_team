@@ -227,7 +227,9 @@ class _LunchScreenState extends State<LunchScreen> {
                           border: OutlineInputBorder(),
                         ),
                         onSaved: (value) => lunch.transportCost = double.tryParse(value),
-                        keyboardType: TextInputType.number,
+                        keyboardType: TextInputType.numberWithOptions(
+                          decimal: true
+                        ),
                       ),
                     ),
                     SizedBox(
