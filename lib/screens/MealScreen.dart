@@ -17,7 +17,7 @@ class _MealScreenState extends State<MealScreen> {
   String message = "";
   Meal meal = new Meal(
     mealId: 0,
-    mealDescription: '',
+    mealName: '',
     mealCost: 0,
   );
 
@@ -59,8 +59,8 @@ class _MealScreenState extends State<MealScreen> {
                         filled: true,
                         fillColor: Colors.white.withOpacity(0.1),
                       ),
-                      initialValue: meal.mealDescription,
-                      onSaved: (value) => meal.mealDescription = value,
+                      initialValue: meal.mealName,
+                      onSaved: (value) => meal.mealName = value,
                     ),
                     SizedBox(height: 10.0),
                     TextFormField(
@@ -136,7 +136,7 @@ class _MealScreenState extends State<MealScreen> {
           session: globals.sessionLunch.sessionId,
           arguments: MealCreateArguments(
             lunchId: globals.lunchSelected.lunchId,
-            mealDescription: globals.mealSelected.mealDescription,
+            mealDescription: globals.mealSelected.mealName,
             mealCost: globals.mealSelected.mealCost.toString(),
           )));
       // make POST request

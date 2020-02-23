@@ -9,6 +9,7 @@ import 'package:lunch_team/screens/MealScreen.dart';
 
 import 'package:lunch_team/model/globals.dart' as globals;
 import 'package:lunch_team/data/RestaurantApi.dart';
+import 'package:lunch_team/data/MealApi.dart';
 
 class LunchDetailsScreen extends StatefulWidget {
   @override
@@ -17,6 +18,11 @@ class LunchDetailsScreen extends StatefulWidget {
 
 class _LunchDetailsScreenState extends State<LunchDetailsScreen> {
   String message = "";
+
+  Future<Null> refreshList() {
+    setState(() {});
+    return null;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -84,6 +90,61 @@ class _LunchDetailsScreenState extends State<LunchDetailsScreen> {
                 shape: BoxShape.rectangle,
               ),
             ),
+            SizedBox(
+              height: 20,
+            ),
+            Expanded(
+              child: FutureBuilder<List<Meal>>(
+                  future: fetchMealList(),
+                  builder: (BuildContext context,
+                      AsyncSnapshot<List<Meal>> snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                    print('loading');
+                      return Center(child: Text('Please wait its loading...'));
+                    } else {
+                      if (snapshot.hasError) {
+                        print('error');
+                        return Center(child: Text('Error: ${snapshot.error}'));
+                      }
+                      else
+                        return RefreshIndicator(
+                          onRefresh: refreshList,
+                          child: ListView.builder(
+                            scrollDirection: Axis.vertical,
+                            shrinkWrap: true,
+                            itemCount: snapshot.data.length,
+                            itemBuilder: (context, index) {
+                              return Container(
+                                padding: const EdgeInsets.all(10),
+                                margin: EdgeInsets.all(1),
+                                decoration: BoxDecoration(
+                                  border: Border.all(),
+                                  color: Colors.limeAccent,
+                                ),
+                                child: Container(
+                                  child: Row(
+                                    children: <Widget>[
+                                      Expanded(
+                                        child: Container(
+                                          child: Text(snapshot.data[index].mealName),
+                                        ),
+                                      ),
+                                      Container(
+                                        child: Align(
+                                          alignment: Alignment.centerRight,
+                                          child: Text(snapshot.data[index].mealCost.toString())
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                )
+                              );
+                            },
+                          ),
+                        );
+                    }
+                  }),
+            ),
             Text(
               message,
               style: TextStyle(
@@ -99,7 +160,7 @@ class _LunchDetailsScreenState extends State<LunchDetailsScreen> {
           globals.mealSelected = Meal(
             mealId: 0,
             lunchId: globals.lunchSelected.lunchId,
-            mealDescription: '',
+            mealName: '',
             mealCost: 0,
           );
           Navigator.push(

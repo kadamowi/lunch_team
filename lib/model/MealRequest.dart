@@ -10,7 +10,7 @@ class MealCreateArguments {
   toJson() {
     return {
       'lunchId': lunchId,
-      'mealDescription': mealDescription,
+      'mealName': mealDescription,
       'mealCost': mealCost,
     };
   }
@@ -76,16 +76,30 @@ class MealDeleteRequest {
   }
 }
 
+class MealListArguments {
+  int lunchId;
+
+  MealListArguments({this.lunchId});
+
+  toJson() {
+    return {
+      'lunchId': lunchId,
+    };
+  }
+}
+
 class MealListRequest {
   String request;
   String session;
+  MealListArguments arguments;
 
-  MealListRequest({this.request, this.session});
+  MealListRequest({this.request, this.session, this.arguments});
 
   toJson() {
     return {
       'request': request,
       'session': session,
+      'arguments': arguments,
     };
   }
 }
