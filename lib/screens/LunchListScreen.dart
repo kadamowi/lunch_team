@@ -6,6 +6,7 @@ import 'package:lunch_team/model/globals.dart' as globals;
 import 'package:lunch_team/model/LunchTeamCommon.dart';
 import 'package:lunch_team/model/Lunch.dart';
 import 'package:lunch_team/model/LunchRequest.dart';
+import 'package:lunch_team/screens/LunchDetailsScreen.dart';
 
 class LunchListScreen extends StatefulWidget {
   @override
@@ -14,8 +15,7 @@ class LunchListScreen extends StatefulWidget {
 
 class _LunchListScreenState extends State<LunchListScreen> {
   Future<Null> refreshList() {
-    setState(() {
-    });
+    setState(() {});
     return null;
   }
 
@@ -34,9 +34,9 @@ class _LunchListScreenState extends State<LunchListScreen> {
         width: double.infinity,
         decoration: BoxDecoration(
             gradient: LinearGradient(colors: [
-              Theme.of(context).primaryColorLight,
-              Theme.of(context).primaryColorDark,
-            ])),
+          Theme.of(context).primaryColorLight,
+          Theme.of(context).primaryColorDark,
+        ])),
         child: Column(
           children: <Widget>[
             Expanded(
@@ -69,13 +69,12 @@ class _LunchListScreenState extends State<LunchListScreen> {
                                       Icons.fastfood,
                                       color: Colors.blue,
                                     ),
-                                    title:
-                                    Text(
-                                      snapshot.data[index].restaurantName + ' - '+
+                                    title: Text(
+                                      snapshot.data[index].restaurantName +
+                                          ' - ' +
                                           snapshot.data[index].username,
                                       style: TextStyle(
-                                          fontWeight: FontWeight.bold
-                                      ),
+                                          fontWeight: FontWeight.bold),
                                       overflow: TextOverflow.ellipsis,
                                     ),
                                     subtitle: Container(
@@ -86,10 +85,17 @@ class _LunchListScreenState extends State<LunchListScreen> {
                                       ),
                                     ),
                                     onTap: () {
+                                      globals.lunchSelected =
+                                          snapshot.data[index];
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              LunchDetailsScreen(),
+                                        ),
+                                      );
                                     },
-                                    onLongPress: () {
-                                    }
-                                ),
+                                    onLongPress: () {}),
                               );
                             },
                           ),

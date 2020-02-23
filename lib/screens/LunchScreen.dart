@@ -5,6 +5,8 @@ import 'package:intl/intl.dart';
 
 //import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+
 
 import 'package:lunch_team/model/globals.dart' as globals;
 import 'package:lunch_team/model/LunchTeamCommon.dart';
@@ -57,10 +59,15 @@ class _LunchScreenState extends State<LunchScreen> {
               Container(
                   margin: const EdgeInsets.all(5),
                   height: 128,
-                  child: Image(
-                    image: NetworkImage(
-                        globals.restaurantSelected.restaurantUrlLogo),
-                  )),
+                  child: CachedNetworkImage(
+                      placeholder: (context, url) => CircularProgressIndicator(),
+                      imageUrl: globals.restaurantSelected.restaurantUrlLogo
+                  ),
+                  //Image(
+                  //  image: NetworkImage(
+                  //      globals.restaurantSelected.restaurantUrlLogo),
+                  //)
+              ),
               FlatButton(
                 padding: EdgeInsets.all(5),
                 child: Image(

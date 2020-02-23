@@ -95,3 +95,31 @@ class RestaurantListRequest {
     };
   }
 }
+
+class RestaurantDetailsArguments {
+  int restaurantId;
+
+  RestaurantDetailsArguments({this.restaurantId});
+
+  toJson() {
+    return {
+      'restaurantId': restaurantId,
+    };
+  }
+}
+
+class RestaurantDetailsRequest {
+  String request;
+  String session;
+  RestaurantDetailsArguments arguments;
+
+  RestaurantDetailsRequest({this.request, this.session, this.arguments});
+
+  toJson() {
+    return {
+      'request': request,
+      'session': session,
+      'arguments': arguments,
+    };
+  }
+}
