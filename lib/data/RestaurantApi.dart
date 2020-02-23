@@ -16,7 +16,6 @@ Future<Restaurant> detailsRestaurant(restaurantId) async {
       )));
   // make POST request
   Response response = await post(urlApi, headers: headers, body: reqJson);
-  print('statusCode:' + response.statusCode.toString());
   var result = jsonDecode(response.body);
   if (response.statusCode == 200) {
     var res = result['response'];
@@ -27,6 +26,7 @@ Future<Restaurant> detailsRestaurant(restaurantId) async {
       print('No response');
     }
   } else {
+    print('statusCode:' + response.statusCode.toString());
     var res = result['error'];
     if (res != null) {
       print('error:' + res.toString());

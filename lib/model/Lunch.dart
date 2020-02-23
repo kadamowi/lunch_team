@@ -10,6 +10,7 @@ class Lunch {
   DateTime lunchOrderTime;
   DateTime lunchLunchTime;
   int mealCount;
+  String status;
   //double totalMealCost;
 
   Lunch({
@@ -24,6 +25,7 @@ class Lunch {
     this.lunchOrderTime,
     this.lunchLunchTime,
     this.mealCount,
+    this.status
     //this.totalMealCost,
   });
 
@@ -40,6 +42,7 @@ class Lunch {
       lunchOrderTime: DateTime.parse(parsedJson['lunchOrderTime']),
       lunchLunchTime: DateTime.parse(parsedJson['lunchLunchTime']),
       mealCount: parsedJson['mealCount'],
+      status: parsedJson['status'],
       //totalMealCost: parsedJson['totalMealCost'],
     );
   }
