@@ -126,7 +126,9 @@ class _LunchDetailsScreenState extends State<LunchDetailsScreen> {
                                     children: <Widget>[
                                       Expanded(
                                         child: Container(
-                                          child: Text(snapshot.data[index].mealName),
+                                          child: Text(
+                                            snapshot.data[index].username+' - '+
+                                              snapshot.data[index].mealName),
                                         ),
                                       ),
                                       Container(

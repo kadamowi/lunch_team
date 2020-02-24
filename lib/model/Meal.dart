@@ -22,7 +22,7 @@ class Meal {
       mealId: parsedJson['mealId'],
       //lunchId: parsedJson['lunchId'],
       userId: parsedJson['userId'],
-      username: parsedJson['username'],
+      username: parsedJson['userName'],
       mealName: parsedJson['mealName'],
       mealCost: double.parse(parsedJson['expectedCost']),
       //finalCost: double.parse(parsedJson['finalCost']),

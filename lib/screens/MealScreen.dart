@@ -21,6 +21,15 @@ class _MealScreenState extends State<MealScreen> {
     mealCost: 0,
   );
 
+  String _validateDescription(String value) {
+    return value.trim().length == 0 ? 'Description is empty' : null;
+  }
+
+  String _validateCost(String value) {
+    double _value = value.isEmpty ? 0 : double.tryParse(value);
+    return _value <= 0 ? 'Cost must be greater from 0' : null;
+  }
+
   @override
   Widget build(BuildContext context) {
     //final SessionLunch sessionLunch =
@@ -46,7 +55,7 @@ class _MealScreenState extends State<MealScreen> {
             children: <Widget>[
               Form(
                   key: _formStateKey,
-                  autovalidate: true,
+                  autovalidate: false,
                   child: Column(children: <Widget>[
                     TextFormField(
                       decoration: InputDecoration(
@@ -60,15 +69,23 @@ class _MealScreenState extends State<MealScreen> {
                         fillColor: Colors.white.withOpacity(0.1),
                       ),
                       initialValue: meal.mealName,
-                      onSaved: (value) => meal.mealName = value,
+                      validator: (value) => _validateDescription(value),
+                      onSaved: (value) => meal.mealName = value.trim(),
                     ),
                     SizedBox(height: 10.0),
                     TextFormField(
                       decoration: InputDecoration(
+                        contentPadding: const EdgeInsets.all(16.0),
                         hintText: 'meal cost',
-                        labelText: 'cost',
-                        border: OutlineInputBorder(),
+                        hintStyle: TextStyle(color: Colors.white54),
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(30.0),
+                            borderSide: BorderSide.none),
+                        filled: true,
+                        fillColor: Colors.white.withOpacity(0.1),
                       ),
+                      initialValue: (meal.mealCost > 0)?meal.mealCost.toString():'',
+                      validator: (value) => _validateCost(value),
                       onSaved: (value) =>
                           meal.mealCost = double.tryParse(value),
                       keyboardType:
@@ -127,7 +144,7 @@ class _MealScreenState extends State<MealScreen> {
   Future saveMeal(BuildContext context) async {
     if (_formStateKey.currentState.validate()) {
       _formStateKey.currentState.save();
-    }
+    } else return;
     globals.mealSelected = meal;
     if (meal.mealId == 0) {
       // prepare JSON for request

@@ -22,7 +22,7 @@ Future<List<Meal>> fetchMealList() async {
   var result = jsonDecode(response.body);
   var resp = result['response'];
   var m = resp['meals'];
-  print(m.toString());
+  //print(m.toString());
   var meals = m.map((i) => Meal.fromJson(i)).toList();
   List<Meal> mealList = new List<Meal>();
   for (Meal meal in meals) {
