@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
-//import 'package:lunch_team/model/Lunch.dart';
 import 'dart:convert';
 import 'package:cached_network_image/cached_network_image.dart';
 
@@ -25,9 +24,6 @@ class _RestaurantListScreenState extends State<RestaurantListScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final SessionLunch sessionLunch =
-        ModalRoute.of(context).settings.arguments as SessionLunch;
-
     return Scaffold(
       appBar: AppBar(
         title: Text('Restaurant list'),
@@ -36,16 +32,17 @@ class _RestaurantListScreenState extends State<RestaurantListScreen> {
         padding: const EdgeInsets.all(10.0),
         height: double.infinity,
         width: double.infinity,
-        decoration: BoxDecoration(
-            gradient: LinearGradient(colors: [
-          Theme.of(context).primaryColorLight,
-          Theme.of(context).primaryColorDark,
-        ])),
+        //decoration: BoxDecoration(
+        //    gradient: LinearGradient(colors: [
+        //  Theme.of(context).primaryColorLight,
+        //  Theme.of(context).primaryColorDark,
+        //])
+        //),
         child: Column(
           children: <Widget>[
             Expanded(
               child: FutureBuilder<List<Restaurant>>(
-                  future: downloadData(sessionLunch),
+                  future: downloadData(globals.sessionLunch),
                   builder: (BuildContext context,
                       AsyncSnapshot<List<Restaurant>> snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
@@ -63,19 +60,22 @@ class _RestaurantListScreenState extends State<RestaurantListScreen> {
                             itemBuilder: (context, index) {
                               return Container(
                                 height: 100,
+                                margin: const EdgeInsets.all(5),
                                 padding: const EdgeInsets.all(5),
                                 decoration: BoxDecoration(
                                   border: Border.all(),
+                                  borderRadius: BorderRadius.circular(30.0),
                                   color: Colors.amber,
                                 ),
                                 child: ListTile(
-                                    leading: CachedNetworkImage(
-                                      placeholder: (context, url) => CircularProgressIndicator(),
-                                      imageUrl: snapshot.data[index].restaurantUrlLogo
+                                    leading: Container(
+                                      width: 60,
+                                      height: 60,
+                                      child:CachedNetworkImage(
+                                          placeholder: (context, url) => CircularProgressIndicator(),
+                                          imageUrl: snapshot.data[index].restaurantUrlLogo
+                                      ),
                                     ),
-                                    //Image(
-                                    //  image: NetworkImage(snapshot.data[index].restaurantUrlLogo),
-                                    //),
                                     trailing: Icon(
                                       Icons.fastfood,
                                       color: Colors.blue,
@@ -105,9 +105,7 @@ class _RestaurantListScreenState extends State<RestaurantListScreen> {
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) => LunchScreen(),
-                                            settings: RouteSettings(
-                                              arguments: sessionLunch,
-                                            )),
+                                            ),
                                       ).then((value) {
                                         setState(() {});
                                       });
@@ -120,9 +118,7 @@ class _RestaurantListScreenState extends State<RestaurantListScreen> {
                                         MaterialPageRoute(
                                             builder: (context) =>
                                                 RestaurantScreen(),
-                                            settings: RouteSettings(
-                                              arguments: sessionLunch,
-                                            )),
+                                            ),
                                       ).then((value) {
                                         setState(() {});
                                       });
@@ -135,6 +131,7 @@ class _RestaurantListScreenState extends State<RestaurantListScreen> {
                   }),
             ),
             //Spacer(),
+            /*
             SizedBox(height: 20.0),
             SizedBox(
               width: MediaQuery.of(context).size.width * 0.5,
@@ -149,7 +146,9 @@ class _RestaurantListScreenState extends State<RestaurantListScreen> {
                     borderRadius: BorderRadius.circular(30.0)),
               ),
             ),
-            SizedBox(height: 20.0),
+             */
+            SizedBox(height: 80.0),
+
           ],
         ),
       ),
@@ -166,9 +165,7 @@ class _RestaurantListScreenState extends State<RestaurantListScreen> {
             context,
             MaterialPageRoute(
                 builder: (context) => RestaurantScreen(),
-                settings: RouteSettings(
-                  arguments: sessionLunch,
-                )),
+                ),
           );
         },
         tooltip: 'Add restaurant',

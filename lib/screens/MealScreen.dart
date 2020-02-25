@@ -27,14 +27,13 @@ class _MealScreenState extends State<MealScreen> {
 
   String _validateCost(String value) {
     double _value = value.isEmpty ? 0 : double.tryParse(value);
-    return _value <= 0 ? 'Cost must be greater from 0' : null;
+    if (_value <= 0) return 'Cost must be greater from 0';
+    if (_value > 100) return 'Cost must be less then 100';
+    return null;
   }
 
   @override
   Widget build(BuildContext context) {
-    //final SessionLunch sessionLunch =
-    //    ModalRoute.of(context).settings.arguments as SessionLunch;
-
     if (globals.mealSelected.mealId != 0) {
       meal = globals.mealSelected;
     }
@@ -246,6 +245,7 @@ class _MealScreenState extends State<MealScreen> {
             mealId: globals.mealSelected.mealId,
           )));
       // make POST request
+      print(reqJson);
       Response response = await post(urlApi, headers: headers, body: reqJson);
       print('statusCode:' + response.statusCode.toString());
       var result = jsonDecode(response.body);

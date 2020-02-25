@@ -4,7 +4,8 @@ import 'dart:convert';
 import 'package:intl/intl.dart';
 
 //import 'package:url_launcher/url_launcher.dart';
-import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+//import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
 
@@ -133,6 +134,40 @@ class _LunchScreenState extends State<LunchScreen> {
                       onSaved: (value) => lunch.lunchDescription = value,
                     ),
                     SizedBox(height: 10.0),
+                    DateTimeField(
+                      format: DateFormat("HH:mm"),
+                      onShowPicker: (context, currentValue) async {
+                        final time = await showTimePicker(
+                          context: context,
+                          initialTime: TimeOfDay.fromDateTime(currentValue ?? lunch.lunchOrderTime),
+                          builder: (context, child) => MediaQuery(
+                              data: MediaQuery.of(context)
+                                  .copyWith(alwaysUse24HourFormat: true),
+                              child: child),
+                        );
+                        lunch.lunchOrderTime = DateTimeField.combine(lunch.lunchOrderTime, time);
+                        return DateTimeField.convert(time);
+                      },
+                    ),
+                    SizedBox(
+                      height: 10.0,
+                    ),
+                    DateTimeField(
+                      format: DateFormat("HH:mm"),
+                      onShowPicker: (context, currentValue) async {
+                        final time = await showTimePicker(
+                          context: context,
+                          initialTime: TimeOfDay.fromDateTime(lunch.lunchLunchTime),
+                          builder: (context, child) => MediaQuery(
+                              data: MediaQuery.of(context)
+                                  .copyWith(alwaysUse24HourFormat: true),
+                              child: child),
+                        );
+                        lunch.lunchLunchTime = DateTimeField.combine(lunch.lunchLunchTime, time);
+                        return DateTimeField.convert(time);
+                      },
+                    ),
+                    /*
                     RaisedButton(
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(5.0)),
@@ -239,6 +274,8 @@ class _LunchScreenState extends State<LunchScreen> {
                         ),
                       ),
                     ),
+
+                     */
                     SizedBox(
                       height: 20.0,
                     ),

@@ -21,9 +21,6 @@ class _LunchListScreenState extends State<LunchListScreen> {
 
   @override
   Widget build(BuildContext context) {
-    //final SessionLunch sessionLunch =
-    //ModalRoute.of(context).settings.arguments as SessionLunch;
-
     return Scaffold(
       appBar: AppBar(
         title: Text('Lunch list'),
@@ -32,11 +29,11 @@ class _LunchListScreenState extends State<LunchListScreen> {
         padding: const EdgeInsets.all(10.0),
         height: double.infinity,
         width: double.infinity,
-        decoration: BoxDecoration(
-            gradient: LinearGradient(colors: [
-          Theme.of(context).primaryColorLight,
-          Theme.of(context).primaryColorDark,
-        ])),
+        //decoration: BoxDecoration(
+        //    gradient: LinearGradient(colors: [
+        //  Theme.of(context).primaryColorLight,
+        //  Theme.of(context).primaryColorDark,
+        //])),
         child: Column(
           children: <Widget>[
             Expanded(
@@ -58,10 +55,12 @@ class _LunchListScreenState extends State<LunchListScreen> {
                             itemCount: snapshot.data.length,
                             itemBuilder: (context, index) {
                               return Container(
-                                height: 100,
+                                //height: 100,
+                                margin: const EdgeInsets.all(5),
                                 padding: const EdgeInsets.all(5),
                                 decoration: BoxDecoration(
                                   border: Border.all(),
+                                  borderRadius: BorderRadius.circular(30.0),
                                   color: Colors.amber,
                                 ),
                                 child: ListTile(
@@ -104,6 +103,7 @@ class _LunchListScreenState extends State<LunchListScreen> {
                   }),
             ),
             //Spacer(),
+            /*
             SizedBox(height: 20.0),
             SizedBox(
               width: MediaQuery.of(context).size.width * 0.5,
@@ -119,6 +119,7 @@ class _LunchListScreenState extends State<LunchListScreen> {
               ),
             ),
             SizedBox(height: 20.0),
+             */
           ],
         ),
       ),

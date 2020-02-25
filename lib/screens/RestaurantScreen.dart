@@ -26,9 +26,6 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
 
   @override
   Widget build(BuildContext context) {
-    //final SessionLunch sessionLunch =
-    //    ModalRoute.of(context).settings.arguments as SessionLunch;
-
     if (globals.restaurantSelected.restaurantId != 0) {
       restaurant = globals.restaurantSelected;
     }

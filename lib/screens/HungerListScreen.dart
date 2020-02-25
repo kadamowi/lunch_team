@@ -5,6 +5,7 @@ import 'dart:convert';
 import 'package:lunch_team/model/LunchTeamCommon.dart';
 import 'package:lunch_team/model/TeamUsersRequest.dart';
 import 'package:lunch_team/model/User.dart';
+import 'package:lunch_team/model/globals.dart' as globals;
 
 class HungerListScreen extends StatefulWidget {
   @override
@@ -14,9 +15,6 @@ class HungerListScreen extends StatefulWidget {
 class _HungerListScreenState extends State<HungerListScreen> {
   @override
   Widget build(BuildContext context) {
-    final SessionLunch sessionLunch =
-        ModalRoute.of(context).settings.arguments as SessionLunch;
-
     return Scaffold(
       appBar: AppBar(
         title: Text('Hunger list'),
@@ -25,23 +23,23 @@ class _HungerListScreenState extends State<HungerListScreen> {
         padding: const EdgeInsets.all(16.0),
         height: double.infinity,
         width: double.infinity,
-        decoration: BoxDecoration(
-            gradient: LinearGradient(colors: [
-          Theme.of(context).primaryColorLight,
-          Theme.of(context).primaryColorDark,
-        ])),
+        //decoration: BoxDecoration(
+        //    gradient: LinearGradient(colors: [
+        //  Theme.of(context).primaryColorLight,
+        //  Theme.of(context).primaryColorDark,
+        //])),
         child: Column(
           children: <Widget>[
             Text(
               "List of people who like to eat in a band",
               style: TextStyle(
-                  color: Colors.white70,
+                  color: Colors.black,
                   fontSize: 20.0,
                   fontWeight: FontWeight.bold),
             ),
             SizedBox(height: 20.0),
             FutureBuilder<List<String>>(
-                future: downloadData(sessionLunch),
+                future: downloadData(globals.sessionLunch),
                 builder: (BuildContext context,
                     AsyncSnapshot<List<String>> snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
@@ -56,10 +54,12 @@ class _HungerListScreenState extends State<HungerListScreen> {
                         itemCount: snapshot.data.length,
                         itemBuilder: (context, index) {
                           return Container(
-                            height: 50,
+                            //height: 50,
+                            margin: const EdgeInsets.all(5),
                             padding: const EdgeInsets.all(5),
                             decoration: BoxDecoration(
                               border: Border.all(),
+                              borderRadius: BorderRadius.circular(30.0),
                               color: Colors.amber,
                             ),
                             child: Center(

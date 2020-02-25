@@ -84,9 +84,9 @@ class _LunchDetailsScreenState extends State<LunchDetailsScreen> {
               },
             ),
             Container(
-                child: Text(globals.lunchSelected.lunchDescription),
+              child: Text(globals.lunchSelected.lunchDescription),
               decoration: BoxDecoration(
-                  color: Colors.lightBlueAccent,
+                color: Colors.lightBlueAccent,
                 shape: BoxShape.rectangle,
               ),
             ),
@@ -99,14 +99,13 @@ class _LunchDetailsScreenState extends State<LunchDetailsScreen> {
                   builder: (BuildContext context,
                       AsyncSnapshot<List<Meal>> snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
-                    print('loading');
+                      print('loading');
                       return Center(child: Text('Please wait its loading...'));
                     } else {
                       if (snapshot.hasError) {
                         print('error');
                         return Center(child: Text('Error: ${snapshot.error}'));
-                      }
-                      else
+                      } else
                         return RefreshIndicator(
                           onRefresh: refreshList,
                           child: ListView.builder(
@@ -114,38 +113,50 @@ class _LunchDetailsScreenState extends State<LunchDetailsScreen> {
                             shrinkWrap: true,
                             itemCount: snapshot.data.length,
                             itemBuilder: (context, index) {
-                              return Container(
-                                padding: const EdgeInsets.all(10),
-                                margin: EdgeInsets.all(1),
-                                decoration: BoxDecoration(
-                                  border: Border.all(),
-                                  color: Colors.limeAccent,
-                                ),
+                              return RaisedButton(
+                                color: Colors.limeAccent,
+                                //textColor: Colors.white,
                                 child: Container(
                                   child: Row(
                                     children: <Widget>[
                                       Expanded(
                                         child: Container(
-                                          child: Text(
-                                            snapshot.data[index].username+' - '+
+                                          child: Text(snapshot
+                                                  .data[index].username +
+                                              ' - ' +
                                               snapshot.data[index].mealName),
                                         ),
                                       ),
                                       Container(
                                         child: Align(
-                                          alignment: Alignment.centerRight,
-                                          child: Text(snapshot.data[index].mealCost.toString())
-                                        ),
+                                            alignment: Alignment.centerRight,
+                                            child: Text(snapshot
+                                                .data[index].mealCost
+                                                .toStringAsFixed(2))),
                                       )
                                     ],
                                   ),
-                                )
+                                ),
+                                onPressed: () {
+                                  globals.mealSelected = snapshot.data[index];
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => MealScreen(),
+                                    ),
+                                  );
+                                },
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(30.0)),
                               );
                             },
                           ),
                         );
                     }
                   }),
+            ),
+            SizedBox(
+              height: 40,
             ),
             Text(
               message,
@@ -168,10 +179,8 @@ class _LunchDetailsScreenState extends State<LunchDetailsScreen> {
           Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => MealScreen(),
-                settings: RouteSettings(
-                  arguments: globals.sessionLunch.sessionId,
-                )),
+              builder: (context) => MealScreen(),
+            ),
           );
         },
         tooltip: 'Add lunch order',
