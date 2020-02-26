@@ -144,7 +144,9 @@ class _LunchDetailsScreenState extends State<LunchDetailsScreen> {
                                     MaterialPageRoute(
                                       builder: (context) => MealScreen(),
                                     ),
-                                  );
+                                  ).then((value) {
+                                    setState(() {});
+                                  });
                                 },
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(30.0)),

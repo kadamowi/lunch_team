@@ -45,11 +45,18 @@ class _SplashScreenState extends State<SplashScreen> {
                             if (snapshot2.data != null) {
                               globals.sessionLunch = SessionLunch(
                                   snapshot.data.username,
+                                  snapshot.data.password,
                                   snapshot2.data
                               );
                               return HomeScreen();
-                            } else
+                            } else {
+                              globals.sessionLunch = SessionLunch(
+                                  snapshot.data.username,
+                                  snapshot.data.password,
+                                  null
+                              );
                               return LoginScreen();
+                            }
                           }
                           /*
                           return Column(

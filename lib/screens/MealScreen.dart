@@ -45,11 +45,6 @@ class _MealScreenState extends State<MealScreen> {
         child: Container(
           padding: const EdgeInsets.all(16.0),
           height: MediaQuery.of(context).size.height,
-          decoration: BoxDecoration(
-              gradient: LinearGradient(colors: [
-            Theme.of(context).primaryColorLight,
-            Theme.of(context).primaryColorDark,
-          ])),
           child: Column(
             children: <Widget>[
               Form(
@@ -97,8 +92,8 @@ class _MealScreenState extends State<MealScreen> {
                         SizedBox(
                           width: MediaQuery.of(context).size.width * 0.3,
                           child: RaisedButton(
-                            color: Colors.white,
-                            textColor: Colors.lightGreen,
+                            color: Colors.orange[800],
+                            textColor: Colors.white,
                             padding: const EdgeInsets.all(20.0),
                             child: Text("Save".toUpperCase()),
                             onPressed: () {
@@ -111,8 +106,8 @@ class _MealScreenState extends State<MealScreen> {
                         SizedBox(
                           width: MediaQuery.of(context).size.width * 0.3,
                           child: RaisedButton(
-                            color: Colors.white,
-                            textColor: Colors.lightGreen,
+                            color: Colors.orange[800],
+                            textColor: Colors.white,
                             padding: const EdgeInsets.all(20.0),
                             child: Text("Delete".toUpperCase()),
                             onPressed: () {
@@ -232,9 +227,10 @@ class _MealScreenState extends State<MealScreen> {
   }
 
   Future deleteMeal(BuildContext context) async {
-    if (_formStateKey.currentState.validate()) {
-      _formStateKey.currentState.save();
-    }
+    //if (_formStateKey.currentState.validate()) {
+    //  _formStateKey.currentState.save();
+    //}
+    _formStateKey.currentState.save();
     globals.mealSelected = meal;
     if (meal.mealId != 0) {
       // prepare JSON for request

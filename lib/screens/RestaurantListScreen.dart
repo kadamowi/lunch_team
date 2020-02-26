@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'dart:convert';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:lunch_team/model/Lunch.dart';
 
 import 'package:lunch_team/model/globals.dart' as globals;
 import 'package:lunch_team/model/LunchTeamCommon.dart';
@@ -101,6 +102,13 @@ class _RestaurantListScreenState extends State<RestaurantListScreen> {
                                     onTap: () {
                                       globals.restaurantSelected =
                                       snapshot.data[index];
+                                      globals.lunchSelected = Lunch(
+                                        lunchId: 0,
+                                        lunchDescription: '',
+                                        lunchType: 0,
+                                        lunchOrderTime: DateTime.now().add(new Duration(hours: 1)),
+                                        lunchLunchTime: DateTime.now().add(new Duration(hours: 2)),
+                                      );
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(

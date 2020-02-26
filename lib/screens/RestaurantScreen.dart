@@ -37,11 +37,6 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
         child: Container(
           padding: const EdgeInsets.all(16.0),
           height: MediaQuery.of(context).size.height,
-          decoration: BoxDecoration(
-              gradient: LinearGradient(colors: [
-            Theme.of(context).primaryColorLight,
-            Theme.of(context).primaryColorDark,
-          ])),
           child: Column(
             children: <Widget>[
               SizedBox(height: 40.0),
@@ -122,8 +117,8 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                         SizedBox(
                           width: MediaQuery.of(context).size.width * 0.3,
                           child: RaisedButton(
-                            color: Colors.white,
-                            textColor: Colors.lightGreen,
+                            color: Colors.orange[800],
+                            textColor: Colors.white,
                             padding: const EdgeInsets.all(20.0),
                             child: Text("Save".toUpperCase()),
                             onPressed: () {
@@ -136,8 +131,8 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                         SizedBox(
                           width: MediaQuery.of(context).size.width * 0.3,
                           child: RaisedButton(
-                            color: Colors.white,
-                            textColor: Colors.lightGreen,
+                            color: Colors.orange[800],
+                            textColor: Colors.white,
                             padding: const EdgeInsets.all(20.0),
                             child: Text("Delete".toUpperCase()),
                             onPressed: () {

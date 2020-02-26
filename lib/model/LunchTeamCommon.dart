@@ -6,7 +6,8 @@ final Map<String, String> headers = {
 
 class SessionLunch {
   final String username;
+  final String password;
   final String sessionId;
 
-  SessionLunch(this.username,this.sessionId);
+  SessionLunch(this.username,this.password,this.sessionId);
 }

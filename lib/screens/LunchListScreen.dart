@@ -6,6 +6,7 @@ import 'package:lunch_team/model/globals.dart' as globals;
 import 'package:lunch_team/model/LunchTeamCommon.dart';
 import 'package:lunch_team/model/Lunch.dart';
 import 'package:lunch_team/model/LunchRequest.dart';
+import 'package:lunch_team/screens/LunchScreen.dart';
 import 'package:lunch_team/screens/LunchDetailsScreen.dart';
 
 class LunchListScreen extends StatefulWidget {
@@ -84,8 +85,7 @@ class _LunchListScreenState extends State<LunchListScreen> {
                                       ),
                                     ),
                                     onTap: () {
-                                      globals.lunchSelected =
-                                          snapshot.data[index];
+                                      globals.lunchSelected = snapshot.data[index];
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
@@ -94,7 +94,18 @@ class _LunchListScreenState extends State<LunchListScreen> {
                                         ),
                                       );
                                     },
-                                    onLongPress: () {}),
+                                    onLongPress: () {
+                                      globals.lunchSelected = snapshot.data[index];
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              LunchScreen(),
+                                        ),
+                                      ).then((value) {
+                                        setState(() {});
+                                      });
+                                    }),
                               );
                             },
                           ),

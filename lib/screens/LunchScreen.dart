@@ -11,6 +11,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 
 import 'package:lunch_team/model/globals.dart' as globals;
 import 'package:lunch_team/model/LunchTeamCommon.dart';
+import 'package:lunch_team/model/Restaurant.dart';
+import 'package:lunch_team/data/RestaurantApi.dart';
 import 'package:lunch_team/model/Lunch.dart';
 import 'package:lunch_team/model/LunchRequest.dart';
 
@@ -49,25 +51,32 @@ class _LunchScreenState extends State<LunchScreen> {
         child: Container(
           padding: const EdgeInsets.all(16.0),
           height: MediaQuery.of(context).size.height,
-          decoration: BoxDecoration(
-              gradient: LinearGradient(colors: [
-            Theme.of(context).primaryColorLight,
-            Theme.of(context).primaryColorDark,
-          ])),
           child: Column(
             children: <Widget>[
-              //SizedBox(height: 40.0),
-              Container(
-                  margin: const EdgeInsets.all(5),
-                  height: 128,
-                  child: CachedNetworkImage(
-                      placeholder: (context, url) => CircularProgressIndicator(),
-                      imageUrl: globals.restaurantSelected.restaurantUrlLogo
-                  ),
-                  //Image(
-                  //  image: NetworkImage(
-                  //      globals.restaurantSelected.restaurantUrlLogo),
-                  //)
+              FutureBuilder<Restaurant>(
+                future: detailsRestaurant(lunch.restaurantId),
+                builder:
+                    (BuildContext context, AsyncSnapshot<Restaurant> snapshot) {
+                  if (snapshot.hasData) {
+                    return Container(
+                      margin: const EdgeInsets.all(5),
+                      height: 100,
+                      child: Column(
+                        children: <Widget>[
+                          Container(
+                            height: 100,
+                            child: CachedNetworkImage(
+                                placeholder: (context, url) => CircularProgressIndicator(),
+                                imageUrl: snapshot.data.restaurantUrlLogo
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  } else {
+                    return Text('No restauraunt information');
+                  }
+                },
               ),
               FlatButton(
                 padding: EdgeInsets.all(5),
@@ -82,7 +91,7 @@ class _LunchScreenState extends State<LunchScreen> {
               Text(
                 "Lunch organizer",
                 style: TextStyle(
-                    color: Colors.white70,
+                    color: Colors.black,
                     fontSize: 24.0,
                     fontWeight: FontWeight.bold),
               ),
@@ -94,52 +103,51 @@ class _LunchScreenState extends State<LunchScreen> {
                     fontWeight: FontWeight.bold),
               ),
               SizedBox(height: 20.0),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Text("Company kitchen"),
-                  Checkbox(
-                    value: lunch.lunchType==0,
-                    onChanged: (bool value) {
-                      setState(() {
-                        lunch.lunchType = value?0:1;
-                      });
-                    },
-                  ),
-                ],
-              ),
               Form(
                   key: _formStateKey,
                   autovalidate: true,
                   child: Column(children: <Widget>[
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Text("Company kitchen"),
+                        Checkbox(
+                          value: lunch.lunchType==0,
+                          onChanged: (bool value) {
+                            setState(() {
+                              lunch.lunchType = value?0:1;
+                            });
+                          },
+                        ),
+                      ],
+                    ),
                     TextFormField(
                       decoration: InputDecoration(
                         hintText: 'description',
                         labelText: 'description',
                         border: OutlineInputBorder(),
                       ),
-                      /*
-                      decoration: InputDecoration(
-                        contentPadding: const EdgeInsets.all(16.0),
-                        hintText: "description",
-                        hintStyle: TextStyle(color: Colors.white54),
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(30.0),
-                            borderSide: BorderSide.none),
-                        filled: true,
-                        fillColor: Colors.white.withOpacity(0.1),
-                      ),
-                      */
                       initialValue: lunch.lunchDescription,
                       onSaved: (value) => lunch.lunchDescription = value,
+                      keyboardType: TextInputType.multiline,
                     ),
                     SizedBox(height: 10.0),
+                    Row(
+                      children: <Widget>[
+                      ],
+                    ),
                     DateTimeField(
+                      decoration: InputDecoration(
+                        hintText: 'lunch order to',
+                        labelText: 'lunch order to',
+                        border: OutlineInputBorder(),
+                      ),
                       format: DateFormat("HH:mm"),
+                      initialValue: lunch.lunchOrderTime,
                       onShowPicker: (context, currentValue) async {
                         final time = await showTimePicker(
                           context: context,
-                          initialTime: TimeOfDay.fromDateTime(currentValue ?? lunch.lunchOrderTime),
+                          initialTime: TimeOfDay.fromDateTime(lunch.lunchOrderTime),
                           builder: (context, child) => MediaQuery(
                               data: MediaQuery.of(context)
                                   .copyWith(alwaysUse24HourFormat: true),
@@ -153,7 +161,13 @@ class _LunchScreenState extends State<LunchScreen> {
                       height: 10.0,
                     ),
                     DateTimeField(
+                      decoration: InputDecoration(
+                        hintText: 'lunch time',
+                        labelText: 'lunch time',
+                        border: OutlineInputBorder(),
+                      ),
                       format: DateFormat("HH:mm"),
+                      initialValue: lunch.lunchLunchTime,
                       onShowPicker: (context, currentValue) async {
                         final time = await showTimePicker(
                           context: context,
@@ -285,8 +299,8 @@ class _LunchScreenState extends State<LunchScreen> {
                         SizedBox(
                           width: MediaQuery.of(context).size.width * 0.3,
                           child: RaisedButton(
-                            color: Colors.white,
-                            textColor: Colors.lightGreen,
+                            color: Colors.orange[800],
+                            textColor: Colors.white,
                             padding: const EdgeInsets.all(20.0),
                             child: Text("Save".toUpperCase()),
                             onPressed: () {
@@ -299,8 +313,8 @@ class _LunchScreenState extends State<LunchScreen> {
                         SizedBox(
                           width: MediaQuery.of(context).size.width * 0.3,
                           child: RaisedButton(
-                            color: Colors.white,
-                            textColor: Colors.lightGreen,
+                            color: Colors.orange[800],
+                            textColor: Colors.white,
                             padding: const EdgeInsets.all(20.0),
                             child: Text("Delete".toUpperCase()),
                             onPressed: () {
