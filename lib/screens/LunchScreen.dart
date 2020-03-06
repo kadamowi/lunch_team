@@ -124,6 +124,7 @@ class _LunchScreenState extends State<LunchScreen> {
                     TextFormField(
                       decoration: InputDecoration(
                         hintText: 'description',
+                        hintStyle: TextStyle(color: Colors.grey),
                         labelText: 'description',
                         border: OutlineInputBorder(),
                       ),
@@ -306,8 +307,6 @@ class _LunchScreenState extends State<LunchScreen> {
                             onPressed: () {
                               saveLunch(context);
                             },
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(30.0)),
                           ),
                         ),
                         SizedBox(
@@ -320,8 +319,6 @@ class _LunchScreenState extends State<LunchScreen> {
                             onPressed: () {
                               deleteLunch(context);
                             },
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(30.0)),
                           ),
                         ),
                       ],

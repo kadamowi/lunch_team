@@ -14,6 +14,8 @@ class MyApp extends StatelessWidget {
       title: 'Lunch Team',
       theme: ThemeData(
         scaffoldBackgroundColor:Colors.grey[200],
+        primaryColor: Colors.orange[800],
+        accentColor: Colors.orange[800],
       ),
       //theme: ThemeData(
       //  scaffoldBackgroundColor: Colors.green,

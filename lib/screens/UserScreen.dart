@@ -46,16 +46,10 @@ class _UserScreenState extends State<UserScreen> {
                             padding: const EdgeInsets.only(
                                 top: 16.0, bottom: 16.0),
                             margin: const EdgeInsets.only(right: 8.0),
-                            decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(30.0),
-                                    bottomLeft: Radius.circular(30.0),
-                                    topRight: Radius.circular(30.0),
-                                    bottomRight: Radius.circular(10.0))),
+                            decoration: BoxDecoration(color: Colors.white),
                             child: Icon(
                               Icons.person,
-                              color: Colors.lightGreen,
+                              color: Colors.orange[800],
                             )),
                         hintText: "login",
                         hintStyle: TextStyle(color: Colors.white54),

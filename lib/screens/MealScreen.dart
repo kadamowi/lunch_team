@@ -55,7 +55,7 @@ class _MealScreenState extends State<MealScreen> {
                       decoration: InputDecoration(
                         contentPadding: const EdgeInsets.all(16.0),
                         hintText: "description",
-                        hintStyle: TextStyle(color: Colors.white54),
+                        hintStyle: TextStyle(color: Colors.grey),
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(30.0),
                             borderSide: BorderSide.none),
@@ -71,7 +71,7 @@ class _MealScreenState extends State<MealScreen> {
                       decoration: InputDecoration(
                         contentPadding: const EdgeInsets.all(16.0),
                         hintText: 'meal cost',
-                        hintStyle: TextStyle(color: Colors.white54),
+                        hintStyle: TextStyle(color: Colors.grey),
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(30.0),
                             borderSide: BorderSide.none),

@@ -53,7 +53,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 margin: const EdgeInsets.only(top: 80.0, bottom: 20.0),
                 height: 200,
                 child: Image(
-                  image: AssetImage('images/LunchTeam.png'),
+                  image: AssetImage('images/logo.png'),
                 ),
               ),
               SizedBox(height: 20.0,width: double.infinity),
@@ -112,7 +112,6 @@ class _LoginScreenState extends State<LoginScreen> {
                                 hintText: "enter your password",
                                 hintStyle: TextStyle(color: Colors.grey[800]),
                                 border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(30.0),
                                     borderSide: BorderSide.none),
                                 filled: true,
                                 fillColor: Colors.grey[200],
@@ -135,8 +134,6 @@ class _LoginScreenState extends State<LoginScreen> {
                         onPressed: () {
                           _loginButton(context);
                         },
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30.0)),
                       ),
                     ),
                     SizedBox(height: 10,),
