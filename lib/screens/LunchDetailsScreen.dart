@@ -86,7 +86,7 @@ class _LunchDetailsScreenState extends State<LunchDetailsScreen> {
             Container(
               child: Text(globals.lunchSelected.lunchDescription),
               decoration: BoxDecoration(
-                color: Colors.lightBlueAccent,
+                color: Colors.orange[800],
                 shape: BoxShape.rectangle,
               ),
             ),

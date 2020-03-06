@@ -53,7 +53,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 margin: const EdgeInsets.only(top: 80.0, bottom: 20.0),
                 height: 200,
                 child: Image(
-                  image: AssetImage('images/LunchTeam.png'),
+                  image: AssetImage('images/logo.png'),
                 ),
               ),
               SizedBox(height: 20.0,width: double.infinity),
@@ -73,8 +73,10 @@ class _LoginScreenState extends State<LoginScreen> {
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontSize: 16,
-                                ),),
+                                ),
+                              ),
                             ),
+                            SizedBox(height: 5.0),
                             TextFormField(
                               decoration: InputDecoration(
                                 contentPadding: const EdgeInsets.all(16.0),
@@ -82,22 +84,14 @@ class _LoginScreenState extends State<LoginScreen> {
                                     padding: const EdgeInsets.only(
                                         top: 16.0, bottom: 16.0),
                                     margin: const EdgeInsets.only(right: 8.0),
-                                    decoration: BoxDecoration(
-                                        color: Colors.grey[200],
-                                        borderRadius: BorderRadius.only(
-                                            topLeft: Radius.circular(30.0),
-                                            bottomLeft: Radius.circular(30.0),
-                                            topRight: Radius.circular(30.0),
-                                            bottomRight: Radius.circular(10.0))),
+                                    decoration: BoxDecoration(color: Colors.grey[200]),
                                     child: Icon(
                                       Icons.person,
-                                      color: Colors.lightGreen,
+                                      color: Colors.orange[800],
                                     )),
                                 hintText: "enter your name",
                                 hintStyle: TextStyle(color: Colors.grey[800]),
-                                border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(30.0),
-                                    borderSide: BorderSide.none),
+                                border: OutlineInputBorder(borderSide: BorderSide.none),
                                 filled: true,
                                 fillColor: Colors.grey[200],
                               ),
@@ -112,21 +106,14 @@ class _LoginScreenState extends State<LoginScreen> {
                                     padding: const EdgeInsets.only(
                                         top: 16.0, bottom: 16.0),
                                     margin: const EdgeInsets.only(right: 8.0),
-                                    decoration: BoxDecoration(
-                                        color: Colors.grey[200],
-                                        borderRadius: BorderRadius.only(
-                                            topLeft: Radius.circular(30.0),
-                                            bottomLeft: Radius.circular(30.0),
-                                            topRight: Radius.circular(30.0),
-                                            bottomRight: Radius.circular(10.0))),
+                                    decoration: BoxDecoration(color: Colors.grey[200]),
                                     child: Icon(
                                       Icons.lock,
-                                      color: Colors.lightGreen,
+                                      color: Colors.orange[800],
                                     )),
                                 hintText: "enter your password",
                                 hintStyle: TextStyle(color: Colors.grey[800]),
                                 border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(30.0),
                                     borderSide: BorderSide.none),
                                 filled: true,
                                 fillColor: Colors.grey[200],
@@ -138,7 +125,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           ],
                         )
                     ),
-                    SizedBox(height: 30.0),
+                    SizedBox(height: 25.0),
                     SizedBox(
                       width: double.infinity,
                       child: RaisedButton(
@@ -149,8 +136,6 @@ class _LoginScreenState extends State<LoginScreen> {
                         onPressed: () {
                           _loginButton(context);
                         },
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30.0)),
                       ),
                     ),
                     SizedBox(height: 10,),
@@ -171,8 +156,6 @@ class _LoginScreenState extends State<LoginScreen> {
                                 ),
                               );
                             },
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(30.0)),
                           ),
                         ),
                         SizedBox(width: 10,),
@@ -184,8 +167,6 @@ class _LoginScreenState extends State<LoginScreen> {
                             child: Text("Forgot password".toUpperCase()),
                             onPressed: () {
                             },
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(30.0)),
                           ),
                         ),
                       ],
