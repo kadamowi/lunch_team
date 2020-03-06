@@ -75,6 +75,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     fontSize: 16,
                                 ),),
                             ),
+                            SizedBox(height: 5.0),
                             TextFormField(
                               decoration: InputDecoration(
                                 contentPadding: const EdgeInsets.all(16.0),
@@ -96,7 +97,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 hintText: "enter your name",
                                 hintStyle: TextStyle(color: Colors.grey[800]),
                                 border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(30.0),
+                                    borderRadius: BorderRadius.circular(20.0),
                                     borderSide: BorderSide.none),
                                 filled: true,
                                 fillColor: Colors.grey[200],
@@ -118,7 +119,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                             topLeft: Radius.circular(30.0),
                                             bottomLeft: Radius.circular(30.0),
                                             topRight: Radius.circular(30.0),
-                                            bottomRight: Radius.circular(10.0))),
+                                            bottomRight: Radius.circular(20.0))),
                                     child: Icon(
                                       Icons.lock,
                                       color: Colors.lightGreen,
@@ -147,6 +148,9 @@ class _LoginScreenState extends State<LoginScreen> {
                         padding: const EdgeInsets.all(20.0),
                         child: Text("Login".toUpperCase()),
                         onPressed: () {
+                          if (_formStateKey.currentState.validate()) {
+                            _formStateKey.currentState.save();
+                          }
                           _loginButton(context);
                         },
                         shape: RoundedRectangleBorder(
@@ -163,7 +167,9 @@ class _LoginScreenState extends State<LoginScreen> {
                             padding: const EdgeInsets.all(20.0),
                             child: Text("Sign up".toUpperCase()),
                             onPressed: () {
-                              _createAccount();
+                              if (_formStateKey.currentState.validate()) {
+                                _formStateKey.currentState.save();
+                              }
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
@@ -209,38 +215,7 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  void _createAccount() async {
-    if (_formStateKey.currentState.validate()) {
-      _formStateKey.currentState.save();
-    }
-    // prepare JSON for request
-    String reqJson = json
-        .encode(LoginRequest(request: 'user.register', arguments: loginUser));
-    // make POST request
-    Response response = await post(urlApi, headers: headers, body: reqJson);
-    print('response:' + response.toString());
-    var result = jsonDecode(response.body);
-    var resp = result['response'];
-    if (resp != null) {
-      bool registerUser = resp['registerUser'];
-      if (registerUser) {
-        setState(() {
-          message = 'User "' + loginUser.username + '" registered';
-        });
-      } else {
-        setState(() {
-          message = 'User "' + loginUser.username + '" not registered';
-        });
-      }
-    } else {
-      message = 'Register error ' + result.toString();
-    }
-  }
-
   void _loginButton(BuildContext context) async {
-    if (_formStateKey.currentState.validate()) {
-      _formStateKey.currentState.save();
-    }
     // prepare JSON for request
     String reqJson =
         json.encode(LoginRequest(request: 'user.login', arguments: loginUser));

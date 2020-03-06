@@ -140,6 +140,7 @@ class _MealScreenState extends State<MealScreen> {
       _formStateKey.currentState.save();
     } else return;
     globals.mealSelected = meal;
+    print('Save meal:'+globals.mealSelected.mealId.toString());
     if (meal.mealId == 0) {
       // prepare JSON for request
       String reqJson = json.encode(MealCreateRequest(
@@ -186,9 +187,13 @@ class _MealScreenState extends State<MealScreen> {
     } else {
       // prepare JSON for request
       String reqJson = json.encode(MealEditRequest(
-          request: 'restaurant.edit',
+          request: 'meal.edit',
           session: globals.sessionLunch.sessionId,
-          arguments: Meal()));
+          arguments: MealEditArguments(
+            mealId: globals.mealSelected.mealId,
+            mealDescription: globals.mealSelected.mealName,
+            mealCost: globals.mealSelected.mealCost.toString(),
+          )));
       // make POST request
       print(reqJson);
       Response response = await post(urlApi, headers: headers, body: reqJson);
@@ -198,8 +203,8 @@ class _MealScreenState extends State<MealScreen> {
         print(result);
         var res = result['response'];
         if (res != null) {
-          bool editRestaurant = res['editMeal'];
-          if (editRestaurant) {
+          bool editMeal = res['editMeal'];
+          if (editMeal) {
             Navigator.pop(context);
           } else {
             setState(() {
