@@ -73,8 +73,10 @@ class _LoginScreenState extends State<LoginScreen> {
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontSize: 16,
-                                ),),
+                                ),
+                              ),
                             ),
+                            SizedBox(height: 5.0),
                             TextFormField(
                               decoration: InputDecoration(
                                 contentPadding: const EdgeInsets.all(16.0),
@@ -123,7 +125,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           ],
                         )
                     ),
-                    SizedBox(height: 30.0),
+                    SizedBox(height: 25.0),
                     SizedBox(
                       width: double.infinity,
                       child: RaisedButton(
