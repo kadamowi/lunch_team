@@ -61,7 +61,7 @@ class _LunchListScreenState extends State<LunchListScreen> {
                                 padding: const EdgeInsets.all(5),
                                 decoration: BoxDecoration(
                                   border: Border.all(),
-                                  borderRadius: BorderRadius.circular(30.0),
+                                  borderRadius: BorderRadius.circular(10.0),
                                   color: Colors.amber,
                                 ),
                                 child: ListTile(

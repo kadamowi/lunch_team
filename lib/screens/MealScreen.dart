@@ -55,9 +55,10 @@ class _MealScreenState extends State<MealScreen> {
                       decoration: InputDecoration(
                         contentPadding: const EdgeInsets.all(16.0),
                         hintText: "description",
-                        hintStyle: TextStyle(color: Colors.white54),
+                        labelText: 'description',
+                        hintStyle: TextStyle(color: Colors.grey),
                         border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(30.0),
+                            borderRadius: BorderRadius.circular(10.0),
                             borderSide: BorderSide.none),
                         filled: true,
                         fillColor: Colors.white.withOpacity(0.1),
@@ -71,9 +72,10 @@ class _MealScreenState extends State<MealScreen> {
                       decoration: InputDecoration(
                         contentPadding: const EdgeInsets.all(16.0),
                         hintText: 'meal cost',
-                        hintStyle: TextStyle(color: Colors.white54),
+                        labelText: 'meal cost',
+                        hintStyle: TextStyle(color: Colors.grey),
                         border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(30.0),
+                            borderRadius: BorderRadius.circular(10.0),
                             borderSide: BorderSide.none),
                         filled: true,
                         fillColor: Colors.white.withOpacity(0.1),
@@ -100,7 +102,7 @@ class _MealScreenState extends State<MealScreen> {
                               saveMeal(context);
                             },
                             shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(30.0)),
+                                borderRadius: BorderRadius.circular(10.0)),
                           ),
                         ),
                         SizedBox(
@@ -114,7 +116,7 @@ class _MealScreenState extends State<MealScreen> {
                               deleteMeal(context);
                             },
                             shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(30.0)),
+                                borderRadius: BorderRadius.circular(10.0)),
                           ),
                         ),
                       ],

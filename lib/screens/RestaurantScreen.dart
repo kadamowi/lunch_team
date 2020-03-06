@@ -56,7 +56,7 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                         hintText: "name",
                         hintStyle: TextStyle(color: Colors.white54),
                         border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(30.0),
+                            borderRadius: BorderRadius.circular(10.0),
                             borderSide: BorderSide.none),
                         filled: true,
                         fillColor: Colors.white.withOpacity(0.1),
@@ -71,7 +71,7 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                         hintText: "description",
                         hintStyle: TextStyle(color: Colors.white54),
                         border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(30.0),
+                            borderRadius: BorderRadius.circular(10.0),
                             borderSide: BorderSide.none),
                         filled: true,
                         fillColor: Colors.white.withOpacity(0.1),
@@ -87,7 +87,7 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                         hintText: "URL",
                         hintStyle: TextStyle(color: Colors.white54),
                         border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(30.0),
+                            borderRadius: BorderRadius.circular(10.0),
                             borderSide: BorderSide.none),
                         filled: true,
                         fillColor: Colors.white.withOpacity(0.1),
@@ -102,7 +102,7 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                         hintText: "logo URL",
                         hintStyle: TextStyle(color: Colors.white54),
                         border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(30.0),
+                            borderRadius: BorderRadius.circular(10.0),
                             borderSide: BorderSide.none),
                         filled: true,
                         fillColor: Colors.white.withOpacity(0.1),
@@ -124,8 +124,6 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                             onPressed: () {
                               saveRestaurant(context);
                             },
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(30.0)),
                           ),
                         ),
                         SizedBox(
@@ -138,8 +136,6 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                             onPressed: () {
                               deleteRestaurant(context);
                             },
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(30.0)),
                           ),
                         ),
                       ],

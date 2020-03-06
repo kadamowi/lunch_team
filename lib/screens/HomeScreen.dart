@@ -25,18 +25,18 @@ class _HomeScreenState extends State<HomeScreen> {
           children: <Widget>[
             Container(
               margin: const EdgeInsets.only(top: 20.0, bottom: 20.0),
-              height: 100,
+              height: 200,
               child: Image(
-                image: AssetImage('images/LunchTeam.png'),
+                image: AssetImage('images/logo.png'),
               ),
             ),
-            Text(
+/*            Text(
               "Lunch Team",
               style: TextStyle(
                   color: Colors.black,
                   fontSize: 24.0,
                   fontWeight: FontWeight.bold),
-            ),
+            ),*/
             SizedBox(height: 20.0),
             SizedBox(
               width: MediaQuery.of(context).size.width * 0.5,
@@ -52,8 +52,6 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   );
                 },
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30.0)),
               ),
             ),
             SizedBox(
@@ -70,8 +68,6 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   );
                 },
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30.0)),
               ),
             ),
             SizedBox(
@@ -88,8 +84,6 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   );
                 },
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30.0)),
               ),
             ),
             SizedBox(height: 20),
@@ -107,8 +101,6 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   );
                 },
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30.0)),
               ),
             ),
             Spacer(),
