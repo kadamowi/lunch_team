@@ -1,5 +1,3 @@
-import 'package:lunch_team/model/Meal.dart';
-
 class MealCreateArguments {
   int lunchId;
   String mealDescription;
@@ -32,10 +30,27 @@ class MealCreateRequest {
   }
 }
 
+class MealEditArguments {
+  int mealId;
+  String mealDescription;
+  String mealCost;
+
+  MealEditArguments({this.mealId, this.mealDescription, this.mealCost});
+
+  toJson() {
+    return {
+      'mealId': mealId,
+      'mealName': mealDescription,
+      'mealCost': mealCost,
+    };
+  }
+}
+
+
 class MealEditRequest {
   String request;
   String session;
-  Meal arguments;
+  MealEditArguments arguments;
 
   MealEditRequest({this.request, this.session, this.arguments});
 
