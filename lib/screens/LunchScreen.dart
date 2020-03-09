@@ -2,13 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'dart:convert';
 import 'package:intl/intl.dart';
-
-//import 'package:url_launcher/url_launcher.dart';
-//import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-
-
 import 'package:lunch_team/model/globals.dart' as globals;
 import 'package:lunch_team/model/LunchTeamCommon.dart';
 import 'package:lunch_team/model/Restaurant.dart';
@@ -26,7 +21,7 @@ class _LunchScreenState extends State<LunchScreen> {
   String message = "";
   Lunch lunch = new Lunch(
     lunchId: 0,
-    restaurantId: globals.restaurantSelected.restaurantId,
+    restaurantId: (globals.restaurantSelected!=null)?globals.restaurantSelected.restaurantId:0,
     username: globals.sessionLunch.username,
     lunchType: 0,
     lunchDescription: '',
