@@ -31,9 +31,9 @@ class _UserScreenState extends State<UserScreen> {
             children: <Widget>[
               Container(
                 margin: const EdgeInsets.only(top: 40.0, bottom: 20.0),
-                height: 100,
+                height: 200,
                 child: Image(
-                  image: AssetImage('images/LunchTeam.png'),
+                  image: AssetImage('images/logo.png'),
                 ),
               ),
               SizedBox(height: 20.0,width: double.infinity),
@@ -63,21 +63,14 @@ class _UserScreenState extends State<UserScreen> {
                                     padding: const EdgeInsets.only(
                                         top: 16.0, bottom: 16.0),
                                     margin: const EdgeInsets.only(right: 8.0),
-                                    decoration: BoxDecoration(
-                                        color: Colors.grey[200],
-                                        borderRadius: BorderRadius.only(
-                                            topLeft: Radius.circular(30.0),
-                                            bottomLeft: Radius.circular(30.0),
-                                            topRight: Radius.circular(30.0),
-                                            bottomRight: Radius.circular(10.0))),
+                                    decoration: BoxDecoration(color: Colors.grey[200]),
                                     child: Icon(
                                       Icons.person,
-                                      color: Colors.lightGreen,
+                                      color: Colors.orange[800],
                                     )),
                                 hintText: "enter your name",
                                 hintStyle: TextStyle(color: Colors.grey[800]),
                                 border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(20.0),
                                     borderSide: BorderSide.none),
                                 filled: true,
                                 fillColor: Colors.grey[200],
@@ -97,21 +90,14 @@ class _UserScreenState extends State<UserScreen> {
                                     padding: const EdgeInsets.only(
                                         top: 16.0, bottom: 16.0),
                                     margin: const EdgeInsets.only(right: 8.0),
-                                    decoration: BoxDecoration(
-                                        color: Colors.grey[200],
-                                        borderRadius: BorderRadius.only(
-                                            topLeft: Radius.circular(30.0),
-                                            bottomLeft: Radius.circular(30.0),
-                                            topRight: Radius.circular(30.0),
-                                            bottomRight: Radius.circular(20.0))),
+                                    decoration: BoxDecoration(color: Colors.grey[200]),
                                     child: Icon(
                                       Icons.lock,
-                                      color: Colors.lightGreen,
+                                      color: Colors.orange[800],
                                     )),
                                 hintText: "enter your password",
                                 hintStyle: TextStyle(color: Colors.grey[800]),
                                 border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(30.0),
                                     borderSide: BorderSide.none),
                                 filled: true,
                                 fillColor: Colors.grey[200],
@@ -132,21 +118,14 @@ class _UserScreenState extends State<UserScreen> {
                                     padding: const EdgeInsets.only(
                                         top: 16.0, bottom: 16.0),
                                     margin: const EdgeInsets.only(right: 8.0),
-                                    decoration: BoxDecoration(
-                                        color: Colors.grey[200],
-                                        borderRadius: BorderRadius.only(
-                                            topLeft: Radius.circular(30.0),
-                                            bottomLeft: Radius.circular(30.0),
-                                            topRight: Radius.circular(30.0),
-                                            bottomRight: Radius.circular(20.0))),
+                                    decoration: BoxDecoration(color: Colors.grey[200]),
                                     child: Icon(
                                       Icons.lock,
-                                      color: Colors.lightGreen,
+                                      color: Colors.orange[800],
                                     )),
                                 hintText: "retype your password",
                                 hintStyle: TextStyle(color: Colors.grey[800]),
                                 border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(30.0),
                                     borderSide: BorderSide.none),
                                 filled: true,
                                 fillColor: Colors.grey[200],
@@ -180,8 +159,7 @@ class _UserScreenState extends State<UserScreen> {
                             }
                           }
                         },
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30.0)),
+                        shape: RoundedRectangleBorder(),
                       ),
                     ),
                     /*
