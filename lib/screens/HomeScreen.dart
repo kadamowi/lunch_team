@@ -90,7 +90,7 @@ class _HomeScreenState extends State<HomeScreen> {
             SizedBox(
               width: MediaQuery.of(context).size.width * 0.5,
               child: RaisedButton(
-                color: Colors.black,
+                color: Colors.grey[800],
                 textColor: Colors.white,
                 child: Text("Logout"),
                 onPressed: () {

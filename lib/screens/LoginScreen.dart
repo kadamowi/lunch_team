@@ -86,7 +86,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     decoration: BoxDecoration(color: Colors.grey[200]),
                                     child: Icon(
                                       Icons.person,
-                                      color: Colors.lightGreen,
+                                      color: Colors.orange[800],
                                     )),
                                 hintText: "enter your name",
                                 hintStyle: TextStyle(color: Colors.grey[800]),
@@ -145,7 +145,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       children: <Widget>[
                         Expanded(
                           child: RaisedButton(
-                            color: Colors.black,
+                            color: Colors.grey[800],
                             textColor: Colors.white,
                             padding: const EdgeInsets.all(20.0),
                             child: Text("Sign up".toUpperCase()),
@@ -165,7 +165,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         SizedBox(width: 10,),
                         Expanded(
                           child: RaisedButton(
-                            color: Colors.black,
+                            color: Colors.grey[800],
                             textColor: Colors.white,
                             padding: const EdgeInsets.all(20.0),
                             child: Text("Forgot password".toUpperCase()),
