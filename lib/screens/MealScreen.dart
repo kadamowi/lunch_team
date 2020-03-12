@@ -51,43 +51,55 @@ class _MealScreenState extends State<MealScreen> {
                   key: _formStateKey,
                   autovalidate: false,
                   child: Column(children: <Widget>[
-                    TextFormField(
-                      decoration: InputDecoration(
-                        contentPadding: const EdgeInsets.all(16.0),
-                        hintText: "description",
-                        labelText: 'description',
-                        hintStyle: TextStyle(color: Colors.grey),
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                            borderSide: BorderSide.none),
-                        filled: true,
-                        fillColor: Colors.white.withOpacity(0.1),
+                    Container(
+                      color: Colors.white,
+                      margin: EdgeInsets.all(10),
+                      padding: EdgeInsets.all(10),
+                      child: Column(
+                        children: <Widget>[
+                          Align(
+                            alignment: Alignment.topLeft,
+                            child: Text('Meal order',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
+                              ),),
+                          ),
+                          SizedBox(height: 5.0),
+                          TextFormField(
+                            decoration: InputDecoration(
+                              contentPadding: const EdgeInsets.all(16.0),
+                              hintText: "description",
+                              hintStyle: TextStyle(color: Colors.grey[800]),
+                              border: OutlineInputBorder(borderSide: BorderSide.none),
+                              filled: true,
+                              fillColor: Colors.grey[200],
+                            ),
+                            initialValue: meal.mealName,
+                            validator: (value) => _validateDescription(value),
+                            onSaved: (value) => meal.mealName = value.trim(),
+                          ),
+                          SizedBox(height: 10.0),
+                          TextFormField(
+                            decoration: InputDecoration(
+                              contentPadding: const EdgeInsets.all(16.0),
+                              hintText: 'meal cost',
+                              hintStyle: TextStyle(color: Colors.grey[800]),
+                              border: OutlineInputBorder(borderSide: BorderSide.none),
+                              filled: true,
+                              fillColor: Colors.grey[200],
+                            ),
+                            initialValue: (meal.mealCost > 0)?meal.mealCost.toString():'',
+                            validator: (value) => _validateCost(value),
+                            onSaved: (value) =>
+                            meal.mealCost = double.tryParse(value),
+                            keyboardType:
+                            TextInputType.numberWithOptions(decimal: true),
+                          ),
+                        ],
                       ),
-                      initialValue: meal.mealName,
-                      validator: (value) => _validateDescription(value),
-                      onSaved: (value) => meal.mealName = value.trim(),
                     ),
                     SizedBox(height: 10.0),
-                    TextFormField(
-                      decoration: InputDecoration(
-                        contentPadding: const EdgeInsets.all(16.0),
-                        hintText: 'meal cost',
-                        labelText: 'meal cost',
-                        hintStyle: TextStyle(color: Colors.grey),
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                            borderSide: BorderSide.none),
-                        filled: true,
-                        fillColor: Colors.white.withOpacity(0.1),
-                      ),
-                      initialValue: (meal.mealCost > 0)?meal.mealCost.toString():'',
-                      validator: (value) => _validateCost(value),
-                      onSaved: (value) =>
-                          meal.mealCost = double.tryParse(value),
-                      keyboardType:
-                          TextInputType.numberWithOptions(decimal: true),
-                    ),
-                    SizedBox(height: 30.0),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: <Widget>[

@@ -30,11 +30,6 @@ class _LunchListScreenState extends State<LunchListScreen> {
         padding: const EdgeInsets.all(10.0),
         height: double.infinity,
         width: double.infinity,
-        //decoration: BoxDecoration(
-        //    gradient: LinearGradient(colors: [
-        //  Theme.of(context).primaryColorLight,
-        //  Theme.of(context).primaryColorDark,
-        //])),
         child: Column(
           children: <Widget>[
             Expanded(
@@ -43,7 +38,7 @@ class _LunchListScreenState extends State<LunchListScreen> {
                   builder: (BuildContext context,
                       AsyncSnapshot<List<Lunch>> snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
-                      return Center(child: Text('Please wait its loading...'));
+                      return CircularProgressIndicator();
                     } else {
                       if (snapshot.hasError)
                         return Center(child: Text('Error: ${snapshot.error}'));
@@ -114,24 +109,6 @@ class _LunchListScreenState extends State<LunchListScreen> {
                     }
                   }),
             ),
-            //Spacer(),
-            /*
-            SizedBox(height: 20.0),
-            SizedBox(
-              width: MediaQuery.of(context).size.width * 0.5,
-              child: RaisedButton(
-                color: Colors.white,
-                textColor: Colors.lightGreen,
-                child: Text("Refresh"),
-                onPressed: () {
-                  setState(() {});
-                },
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30.0)),
-              ),
-            ),
-            SizedBox(height: 20.0),
-             */
           ],
         ),
       ),
