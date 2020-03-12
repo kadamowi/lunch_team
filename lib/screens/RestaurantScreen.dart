@@ -39,7 +39,7 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
           height: MediaQuery.of(context).size.height,
           child: Column(
             children: <Widget>[
-              SizedBox(height: 40.0),
+              //SizedBox(height: 40.0),
               Container(
                   margin: const EdgeInsets.only(top: 20.0, bottom: 20.0),
                   height: 128,
@@ -50,67 +50,77 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                   key: _formStateKey,
                   autovalidate: true,
                   child: Column(children: <Widget>[
-                    TextFormField(
-                      decoration: InputDecoration(
-                        contentPadding: const EdgeInsets.all(16.0),
-                        hintText: "name",
-                        hintStyle: TextStyle(color: Colors.white54),
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                            borderSide: BorderSide.none),
-                        filled: true,
-                        fillColor: Colors.white.withOpacity(0.1),
+                    Container(
+                      color: Colors.white,
+                      margin: EdgeInsets.all(10),
+                      padding: EdgeInsets.all(10),
+                      child: Column(
+                        children: <Widget>[
+                          Align(
+                            alignment: Alignment.topLeft,
+                            child: Text('Restaurant details',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
+                              ),),
+                          ),
+                          SizedBox(height: 5.0),
+                          TextFormField(
+                            decoration: InputDecoration(
+                              contentPadding: const EdgeInsets.all(16.0),
+                              hintText: "name",
+                              hintStyle: TextStyle(color: Colors.grey[800]),
+                              border: OutlineInputBorder(borderSide: BorderSide.none),
+                              filled: true,
+                              fillColor: Colors.grey[200],
+                            ),
+                            initialValue: restaurant.restaurantName,
+                            onSaved: (value) => restaurant.restaurantName = value,
+                          ),
+                          SizedBox(height: 10.0),
+                          TextFormField(
+                            decoration: InputDecoration(
+                              contentPadding: const EdgeInsets.all(16.0),
+                              hintText: "description",
+                              hintStyle: TextStyle(color: Colors.grey[800]),
+                              border: OutlineInputBorder(borderSide: BorderSide.none),
+                              filled: true,
+                              fillColor: Colors.grey[200],
+                            ),
+                            initialValue: restaurant.restaurantDescription,
+                            onSaved: (value) =>
+                            restaurant.restaurantDescription = value,
+                          ),
+                          SizedBox(height: 10.0),
+                          TextFormField(
+                            decoration: InputDecoration(
+                              contentPadding: const EdgeInsets.all(16.0),
+                              hintText: "URL",
+                              hintStyle: TextStyle(color: Colors.grey[800]),
+                              border: OutlineInputBorder(borderSide: BorderSide.none),
+                              filled: true,
+                              fillColor: Colors.grey[200],
+                            ),
+                            initialValue: restaurant.restaurantUrl,
+                            onSaved: (value) => restaurant.restaurantUrl = value,
+                          ),
+                          SizedBox(height: 10.0),
+                          TextFormField(
+                            decoration: InputDecoration(
+                              contentPadding: const EdgeInsets.all(16.0),
+                              hintText: "logo URL",
+                              hintStyle: TextStyle(color: Colors.grey[800]),
+                              border: OutlineInputBorder(borderSide: BorderSide.none),
+                              filled: true,
+                              fillColor: Colors.grey[200],
+                            ),
+                            initialValue: restaurant.restaurantUrlLogo,
+                            onSaved: (value) => restaurant.restaurantUrlLogo = value,
+                          ),
+                        ],
                       ),
-                      initialValue: restaurant.restaurantName,
-                      onSaved: (value) => restaurant.restaurantName = value,
                     ),
                     SizedBox(height: 10.0),
-                    TextFormField(
-                      decoration: InputDecoration(
-                        contentPadding: const EdgeInsets.all(16.0),
-                        hintText: "description",
-                        hintStyle: TextStyle(color: Colors.white54),
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                            borderSide: BorderSide.none),
-                        filled: true,
-                        fillColor: Colors.white.withOpacity(0.1),
-                      ),
-                      initialValue: restaurant.restaurantDescription,
-                      onSaved: (value) =>
-                          restaurant.restaurantDescription = value,
-                    ),
-                    SizedBox(height: 10.0),
-                    TextFormField(
-                      decoration: InputDecoration(
-                        contentPadding: const EdgeInsets.all(16.0),
-                        hintText: "URL",
-                        hintStyle: TextStyle(color: Colors.white54),
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                            borderSide: BorderSide.none),
-                        filled: true,
-                        fillColor: Colors.white.withOpacity(0.1),
-                      ),
-                      initialValue: restaurant.restaurantUrl,
-                      onSaved: (value) => restaurant.restaurantUrl = value,
-                    ),
-                    SizedBox(height: 10.0),
-                    TextFormField(
-                      decoration: InputDecoration(
-                        contentPadding: const EdgeInsets.all(16.0),
-                        hintText: "logo URL",
-                        hintStyle: TextStyle(color: Colors.white54),
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                            borderSide: BorderSide.none),
-                        filled: true,
-                        fillColor: Colors.white.withOpacity(0.1),
-                      ),
-                      initialValue: restaurant.restaurantUrlLogo,
-                      onSaved: (value) => restaurant.restaurantUrlLogo = value,
-                    ),
-                    SizedBox(height: 30.0),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: <Widget>[

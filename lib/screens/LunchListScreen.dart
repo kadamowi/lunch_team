@@ -38,7 +38,7 @@ class _LunchListScreenState extends State<LunchListScreen> {
                   builder: (BuildContext context,
                       AsyncSnapshot<List<Lunch>> snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
-                      return Center(child: Text('Please wait its loading...'));
+                      return CircularProgressIndicator();
                     } else {
                       if (snapshot.hasError)
                         return Center(child: Text('Error: ${snapshot.error}'));

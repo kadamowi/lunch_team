@@ -31,7 +31,7 @@ class _LunchDetailsScreenState extends State<LunchDetailsScreen> {
         title: Text('Lunch Details'),
       ),
       body: Container(
-        padding: const EdgeInsets.all(16.0),
+        padding: EdgeInsets.all(16.0),
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,
         child: Column(
@@ -47,33 +47,47 @@ class _LunchDetailsScreenState extends State<LunchDetailsScreen> {
                     alignment: Alignment.topLeft,
                     child: Row(
                       children: <Widget>[
-                        CachedNetworkImage(
-                            placeholder: (context, url) =>
-                                CircularProgressIndicator(),
-                            imageUrl: snapshot.data.restaurantUrlLogo),
-                        Column(
-                          children: <Widget>[
-                            Text(snapshot.data.restaurantName,
-                                style: TextStyle(
-                                    fontSize: 24.0,
-                                    fontWeight: FontWeight.bold)),
-                            Align(
-                              alignment: Alignment.topLeft,
-                              child: Text(
-                                  'Host: ' + globals.lunchSelected.username,
-                                  style: TextStyle(
-                                      fontSize: 16.0,
-                                      fontWeight: FontWeight.bold)),
-                            ),
-                            Text(
-                                'Order time: ' +
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: CachedNetworkImage(
+                              placeholder: (context, url) =>
+                                  CircularProgressIndicator(),
+                              imageUrl: snapshot.data.restaurantUrlLogo),
+                        ),
+                        Expanded(
+                          child: Column(
+                            children: <Widget>[
+                              Align(
+                                alignment: Alignment.centerRight,
+                                child: Text(snapshot.data.restaurantName,
+                                    style: TextStyle(
+                                        fontSize: 24.0,
+                                        fontWeight: FontWeight.bold)),
+                              ),
+                              Align(
+                                alignment: Alignment.centerRight,
+                                child: Text(
+                                    'Host: ' + globals.lunchSelected.username,
+                                    style: TextStyle(
+                                        fontSize: 16.0,
+                                        fontWeight: FontWeight.bold)),
+                              ),
+                              Align(
+                                alignment: Alignment.centerRight,
+                                child: Text(
+                                    'Order time: ' +
+                                        DateFormat('HH:mm').format(globals
+                                            .lunchSelected.lunchOrderTime),
+                                    style: TextStyle(color: Colors.red)),
+                              ),
+                              Align(
+                                alignment: Alignment.centerRight,
+                                child: Text('Lunch time: ' +
                                     DateFormat('HH:mm').format(
-                                        globals.lunchSelected.lunchOrderTime),
-                                style: TextStyle(color: Colors.red)),
-                            Text('Lunch time: ' +
-                                DateFormat('HH:mm').format(
-                                    globals.lunchSelected.lunchLunchTime)),
-                          ],
+                                        globals.lunchSelected.lunchLunchTime)),
+                              ),
+                            ],
+                          ),
                         ),
                       ],
                     ),
@@ -84,14 +98,27 @@ class _LunchDetailsScreenState extends State<LunchDetailsScreen> {
               },
             ),
             Container(
+              margin: EdgeInsets.all(5.0),
+              padding: EdgeInsets.all(10.0),
+              width: MediaQuery.of(context).size.width,
               child: Text(globals.lunchSelected.lunchDescription),
               decoration: BoxDecoration(
-                color: Colors.orange[800],
+                color: Colors.white,
                 shape: BoxShape.rectangle,
               ),
             ),
-            SizedBox(
-              height: 20,
+            Container(
+              margin: EdgeInsets.all(5.0),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  'Orders:',
+                  style: TextStyle(
+                      //color: Colors.yellowAccent,
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.bold),
+                ),
+              ),
             ),
             Expanded(
               child: FutureBuilder<List<Meal>>(
@@ -99,11 +126,9 @@ class _LunchDetailsScreenState extends State<LunchDetailsScreen> {
                   builder: (BuildContext context,
                       AsyncSnapshot<List<Meal>> snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
-                      print('loading');
-                      return Center(child: Text('Please wait its loading...'));
+                      return CircularProgressIndicator();
                     } else {
                       if (snapshot.hasError) {
-                        print('error');
                         return Center(child: Text('Error: ${snapshot.error}'));
                       } else
                         return RefreshIndicator(
@@ -113,18 +138,22 @@ class _LunchDetailsScreenState extends State<LunchDetailsScreen> {
                             shrinkWrap: true,
                             itemCount: snapshot.data.length,
                             itemBuilder: (context, index) {
-                              return RaisedButton(
-                                color: Colors.limeAccent,
-                                //textColor: Colors.white,
-                                child: Container(
-                                  child: Row(
+                              return Container(
+                                margin: const EdgeInsets.all(5),
+                                //padding: const EdgeInsets.all(5),
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                ),
+                                child: ListTile(
+                                  title: Row(
                                     children: <Widget>[
                                       Expanded(
-                                        child: Container(
-                                          child: Text(snapshot
-                                                  .data[index].username +
-                                              ' - ' +
-                                              snapshot.data[index].mealName),
+                                        child: Text(
+                                          snapshot.data[index].mealName,
+                                          style: TextStyle(
+                                              color: Colors.orange[800],
+                                              fontWeight: FontWeight.bold),
+                                          overflow: TextOverflow.ellipsis,
                                         ),
                                       ),
                                       Container(
@@ -136,20 +165,19 @@ class _LunchDetailsScreenState extends State<LunchDetailsScreen> {
                                       )
                                     ],
                                   ),
+                                  subtitle: Text(snapshot.data[index].username),
+                                  onTap: () {
+                                    globals.mealSelected = snapshot.data[index];
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => MealScreen(),
+                                      ),
+                                    ).then((value) {
+                                      setState(() {});
+                                    });
+                                  },
                                 ),
-                                onPressed: () {
-                                  globals.mealSelected = snapshot.data[index];
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => MealScreen(),
-                                    ),
-                                  ).then((value) {
-                                    setState(() {});
-                                  });
-                                },
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(30.0)),
                               );
                             },
                           ),
