@@ -55,20 +55,20 @@ class _LunchListScreenState extends State<LunchListScreen> {
                                 margin: const EdgeInsets.all(5),
                                 padding: const EdgeInsets.all(5),
                                 decoration: BoxDecoration(
-                                  border: Border.all(),
-                                  borderRadius: BorderRadius.circular(10.0),
-                                  color: Colors.amber,
+/*                                  border: Border.all(),*/
+                                  color: Colors.white,
                                 ),
                                 child: ListTile(
                                     trailing: Icon(
                                       Icons.fastfood,
-                                      color: Colors.blue,
+                                      color: Colors.orange[800],
                                     ),
                                     title: Text(
                                       snapshot.data[index].restaurantName +
                                           ' - ' +
                                           snapshot.data[index].username,
                                       style: TextStyle(
+                                          color: Colors.orange[800],
                                           fontWeight: FontWeight.bold),
                                       overflow: TextOverflow.ellipsis,
                                     ),
@@ -77,6 +77,7 @@ class _LunchListScreenState extends State<LunchListScreen> {
                                       child: Text(
                                         snapshot.data[index].lunchDescription,
                                         overflow: TextOverflow.clip,
+                                        style: TextStyle(color: Colors.grey[800]),
                                       ),
                                     ),
                                     onTap: () {
