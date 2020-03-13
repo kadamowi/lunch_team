@@ -64,9 +64,8 @@ class _RestaurantListScreenState extends State<RestaurantListScreen> {
                                 margin: const EdgeInsets.all(5),
                                 padding: const EdgeInsets.all(5),
                                 decoration: BoxDecoration(
-                                  border: Border.all(),
-                                  borderRadius: BorderRadius.circular(30.0),
-                                  color: Colors.amber,
+                                  /*border: Border.all(),*/
+                                  color: Colors.white,
                                 ),
                                 child: ListTile(
                                     leading: Container(
@@ -79,7 +78,7 @@ class _RestaurantListScreenState extends State<RestaurantListScreen> {
                                     ),
                                     trailing: Icon(
                                       Icons.fastfood,
-                                      color: Colors.blue,
+                                      color: Colors.orange[800],
                                     ),
                                     title: Text(
                                       snapshot.data[index].restaurantName +
@@ -88,20 +87,21 @@ class _RestaurantListScreenState extends State<RestaurantListScreen> {
                                               .toString() +
                                           ')',
                                       style:
-                                      TextStyle(fontWeight: FontWeight.bold),
+                                      TextStyle(
+                                          color: Colors.orange[800],
+                                          fontWeight: FontWeight.bold),
                                       overflow: TextOverflow.ellipsis,
                                     ),
                                     subtitle: Container(
                                       height: 50,
                                       child: Text(
-                                        snapshot
-                                            .data[index].restaurantDescription,
+                                        snapshot.data[index].restaurantDescription,
                                         overflow: TextOverflow.clip,
+                                        style: TextStyle(color: Colors.grey[800])
                                       ),
                                     ),
                                     onTap: () {
-                                      globals.restaurantSelected =
-                                      snapshot.data[index];
+                                      globals.restaurantSelected = snapshot.data[index];
                                       globals.lunchSelected = Lunch(
                                         lunchId: 0,
                                         lunchDescription: '',
