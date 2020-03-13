@@ -33,7 +33,7 @@ class _HungerListScreenState extends State<HungerListScreen> {
             Text(
               "List of people who like to eat in a band",
               style: TextStyle(
-                  color: Colors.black,
+                  color: Colors.grey[800],
                   fontSize: 20.0,
                   fontWeight: FontWeight.bold),
             ),
@@ -59,15 +59,14 @@ class _HungerListScreenState extends State<HungerListScreen> {
                               margin: const EdgeInsets.all(5),
                               padding: const EdgeInsets.all(5),
                               decoration: BoxDecoration(
-                                border: Border.all(),
-                                borderRadius: BorderRadius.circular(30.0),
-                                color: Colors.amber,
+                                /*border: Border.all(),*/
+                                color: Colors.white,
                               ),
                               child: Center(
                                   child: Text(
                                     snapshot.data[index],
                                     style: TextStyle(
-                                        color: Colors.blue,
+                                        color: Colors.grey[800],
                                         fontSize: 20.0,
                                         fontWeight: FontWeight.bold),
                                   )),
@@ -80,14 +79,12 @@ class _HungerListScreenState extends State<HungerListScreen> {
             SizedBox(
               width: MediaQuery.of(context).size.width * 0.5,
               child: RaisedButton(
-                color: Colors.white,
-                textColor: Colors.lightGreen,
+                color: Colors.orange[800],
+                textColor: Colors.white,
                 child: Text("Refresh"),
                 onPressed: () {
                   setState(() {});
                 },
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30.0)),
               ),
             ),
             SizedBox(height: 20.0),
