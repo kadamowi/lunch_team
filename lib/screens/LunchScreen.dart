@@ -6,6 +6,7 @@ import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:lunch_team/model/globals.dart' as globals;
 import 'package:lunch_team/model/LunchTeamCommon.dart';
+import 'package:lunch_team/widgets/LunchTeamWidget.dart';
 import 'package:lunch_team/model/Restaurant.dart';
 import 'package:lunch_team/data/RestaurantApi.dart';
 import 'package:lunch_team/model/Lunch.dart';
@@ -21,7 +22,9 @@ class _LunchScreenState extends State<LunchScreen> {
   String message = "";
   Lunch lunch = new Lunch(
     lunchId: 0,
-    restaurantId: (globals.restaurantSelected!=null)?globals.restaurantSelected.restaurantId:0,
+    restaurantId: (globals.restaurantSelected != null)
+        ? globals.restaurantSelected.restaurantId
+        : 0,
     username: globals.sessionLunch.username,
     lunchType: 0,
     lunchDescription: '',
@@ -36,6 +39,7 @@ class _LunchScreenState extends State<LunchScreen> {
   Widget build(BuildContext context) {
     if (globals.lunchSelected != null && globals.lunchSelected.lunchId != 0) {
       lunch = globals.lunchSelected;
+      print('bulid Lunch Screen - lunchId: '+lunch.lunchId.toString());
     }
 
     return Scaffold(
@@ -52,24 +56,27 @@ class _LunchScreenState extends State<LunchScreen> {
                 future: detailsRestaurant(lunch.restaurantId),
                 builder:
                     (BuildContext context, AsyncSnapshot<Restaurant> snapshot) {
-                  if (snapshot.hasData) {
-                    return Container(
-                      margin: const EdgeInsets.all(5),
-                      height: 100,
-                      child: Column(
-                        children: <Widget>[
-                          Container(
-                            height: 100,
-                            child: CachedNetworkImage(
-                                placeholder: (context, url) => CircularProgressIndicator(),
-                                imageUrl: snapshot.data.restaurantUrlLogo
-                            ),
-                          ),
-                        ],
-                      ),
-                    );
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return ProgressBar();
                   } else {
-                    return Text('No restauraunt information');
+                    if (snapshot.hasError)
+                      return Center(child: Text('Error: ${snapshot.error}'));
+                    else
+                      return Container(
+                        margin: const EdgeInsets.all(5),
+                        height: 100,
+                        child: Column(
+                          children: <Widget>[
+                            Container(
+                              height: 100,
+                              child: CachedNetworkImage(
+                                  placeholder: (context, url) =>
+                                      CircularProgressIndicator(),
+                                  imageUrl: snapshot.data.restaurantUrlLogo),
+                            ),
+                          ],
+                        ),
+                      );
                   }
                 },
               ),
@@ -83,211 +90,118 @@ class _LunchScreenState extends State<LunchScreen> {
                   //launch(globals.restaurantSelected.restaurantUrl);
                 },
               ),
-              Text(
-                "Lunch organizer",
-                style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 24.0,
-                    fontWeight: FontWeight.bold),
-              ),
-              Text(
-                globals.sessionLunch.username,
-                style: TextStyle(
-                    color: Colors.red,
-                    fontSize: 16.0,
-                    fontWeight: FontWeight.bold),
-              ),
-              SizedBox(height: 20.0),
               Form(
                   key: _formStateKey,
                   autovalidate: true,
                   child: Column(children: <Widget>[
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Text("Company kitchen"),
-                        Checkbox(
-                          value: lunch.lunchType==0,
-                          onChanged: (bool value) {
-                            setState(() {
-                              lunch.lunchType = value?0:1;
-                            });
-                          },
-                        ),
-                      ],
-                    ),
-                    TextFormField(
-                      decoration: InputDecoration(
-                        hintText: 'description',
-                        hintStyle: TextStyle(color: Colors.grey),
-                        labelText: 'description',
-                        border: OutlineInputBorder(),
-                      ),
-                      initialValue: lunch.lunchDescription,
-                      onSaved: (value) => lunch.lunchDescription = value,
-                      keyboardType: TextInputType.multiline,
-                    ),
-                    SizedBox(height: 10.0),
-                    Row(
-                      children: <Widget>[
-                      ],
-                    ),
-                    DateTimeField(
-                      decoration: InputDecoration(
-                        hintText: 'lunch order to',
-                        labelText: 'lunch order to',
-                        border: OutlineInputBorder(),
-                      ),
-                      format: DateFormat("HH:mm"),
-                      initialValue: lunch.lunchOrderTime,
-                      onShowPicker: (context, currentValue) async {
-                        final time = await showTimePicker(
-                          context: context,
-                          initialTime: TimeOfDay.fromDateTime(lunch.lunchOrderTime),
-                          builder: (context, child) => MediaQuery(
-                              data: MediaQuery.of(context)
-                                  .copyWith(alwaysUse24HourFormat: true),
-                              child: child),
-                        );
-                        lunch.lunchOrderTime = DateTimeField.combine(lunch.lunchOrderTime, time);
-                        return DateTimeField.convert(time);
-                      },
-                    ),
-                    SizedBox(
-                      height: 10.0,
-                    ),
-                    DateTimeField(
-                      decoration: InputDecoration(
-                        hintText: 'lunch time',
-                        labelText: 'lunch time',
-                        border: OutlineInputBorder(),
-                      ),
-                      format: DateFormat("HH:mm"),
-                      initialValue: lunch.lunchLunchTime,
-                      onShowPicker: (context, currentValue) async {
-                        final time = await showTimePicker(
-                          context: context,
-                          initialTime: TimeOfDay.fromDateTime(lunch.lunchLunchTime),
-                          builder: (context, child) => MediaQuery(
-                              data: MediaQuery.of(context)
-                                  .copyWith(alwaysUse24HourFormat: true),
-                              child: child),
-                        );
-                        lunch.lunchLunchTime = DateTimeField.combine(lunch.lunchLunchTime, time);
-                        return DateTimeField.convert(time);
-                      },
-                    ),
-                    /*
-                    RaisedButton(
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(5.0)),
-                      elevation: 4.0,
-                      onPressed: () {
-                        DatePicker.showTimePicker(context,
-                            theme: DatePickerTheme(
-                              containerHeight: 210.0,
-                            ),
-                            showTitleActions: true, onConfirm: (time) {
-                          print('confirm $time');
-                          lunch.lunchOrderTime = time;
-                          setState(() {});
-                        }, currentTime: lunch.lunchOrderTime, locale: LocaleType.pl);
-                      },
-                      child: Container(
-                        alignment: Alignment.center,
-                        height: 50.0,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Container(
-                              child: Row(
-                                children: <Widget>[
-                                  Icon(
-                                    Icons.access_time,
-                                    size: 18.0,
-                                    color: Colors.teal,
-                                  ),
-                                  Text(
-                                    ' we accept order until ${lunch.lunchOrderTime.hour} : ${lunch.lunchOrderTime.minute}',
-                                    style: TextStyle(
-                                        color: Colors.teal,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 18.0),
-                                  )
-                                ],
+                    Container(
+                      color: Colors.white,
+                      margin: EdgeInsets.all(10),
+                      padding: EdgeInsets.all(10),
+                      child: Column(
+                        children: <Widget>[
+                          Align(
+                            alignment: Alignment.topLeft,
+                            child: Text(
+                              'Lunch details',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
                               ),
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 10.0,
-                    ),
-                    RaisedButton(
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(5.0)),
-                      elevation: 4.0,
-                      onPressed: () {
-                        DatePicker.showTimePicker(context,
-                            theme: DatePickerTheme(
-                              containerHeight: 210.0,
                             ),
-                            showTitleActions: true, onConfirm: (time) {
-                          print('confirm $time');
-                          lunch.lunchLunchTime = time;
-                          setState(() {});
-                        }, currentTime: lunch.lunchLunchTime, locale: LocaleType.pl);
-                      },
-                      child: Container(
-                        alignment: Alignment.center,
-                        height: 50.0,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Container(
-                              child: Row(
-                                children: <Widget>[
-                                  Icon(
-                                    Icons.access_time,
-                                    size: 18.0,
-                                    color: Colors.teal,
-                                  ),
-                                  Text(
-                                    ' lunch will be on ${lunch.lunchLunchTime.hour} : ${lunch.lunchLunchTime.minute}',
-                                    style: TextStyle(
-                                        color: Colors.teal,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 18.0),
-                                  )
-                                ],
+                          ),
+                          SizedBox(height: 5.0),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Text("Company kitchen"),
+                              Checkbox(
+                                value: lunch.lunchType == 0,
+                                onChanged: (bool value) {
+                                  setState(() {
+                                    lunch.lunchType = value ? 0 : 1;
+                                  });
+                                },
                               ),
-                            )
-                          ],
-                        ),
+                            ],
+                          ),
+                          TextFormField(
+                            decoration: InputDecoration(
+                              contentPadding: const EdgeInsets.all(16.0),
+                              hintText: 'description',
+                              hintStyle: TextStyle(color: Colors.grey[800]),
+                              border: OutlineInputBorder(
+                                  borderSide: BorderSide.none),
+                              filled: true,
+                              fillColor: Colors.grey[200],
+                            ),
+                            initialValue: lunch.lunchDescription,
+                            onSaved: (value) => lunch.lunchDescription = value,
+                            keyboardType: TextInputType.multiline,
+                          ),
+                          SizedBox(height: 10.0),
+                          DateTimeField(
+                            decoration: InputDecoration(
+                              contentPadding: const EdgeInsets.all(16.0),
+                              hintText: 'lunch order to',
+                              hintStyle: TextStyle(color: Colors.grey[800]),
+                              border: OutlineInputBorder(
+                                  borderSide: BorderSide.none),
+                              filled: true,
+                              fillColor: Colors.grey[200],
+                            ),
+                            format: DateFormat("HH:mm"),
+                            initialValue: lunch.lunchOrderTime,
+                            onShowPicker: (context, currentValue) async {
+                              final time = await showTimePicker(
+                                context: context,
+                                initialTime: TimeOfDay.fromDateTime(
+                                    lunch.lunchOrderTime),
+                                builder: (context, child) => MediaQuery(
+                                    data: MediaQuery.of(context)
+                                        .copyWith(alwaysUse24HourFormat: true),
+                                    child: child),
+                              );
+                              lunch.lunchOrderTime = DateTimeField.combine(
+                                  lunch.lunchOrderTime, time);
+                              return DateTimeField.convert(time);
+                            },
+                          ),
+                          SizedBox(
+                            height: 10.0,
+                          ),
+                          DateTimeField(
+                            decoration: InputDecoration(
+                              contentPadding: const EdgeInsets.all(16.0),
+                              hintText: 'lunch time',
+                              hintStyle: TextStyle(color: Colors.grey[800]),
+                              border: OutlineInputBorder(
+                                  borderSide: BorderSide.none),
+                              filled: true,
+                              fillColor: Colors.grey[200],
+                            ),
+                            format: DateFormat("HH:mm"),
+                            initialValue: lunch.lunchLunchTime,
+                            onShowPicker: (context, currentValue) async {
+                              final time = await showTimePicker(
+                                context: context,
+                                initialTime: TimeOfDay.fromDateTime(
+                                    lunch.lunchLunchTime),
+                                builder: (context, child) => MediaQuery(
+                                    data: MediaQuery.of(context)
+                                        .copyWith(alwaysUse24HourFormat: true),
+                                    child: child),
+                              );
+                              lunch.lunchLunchTime = DateTimeField.combine(
+                                  lunch.lunchLunchTime, time);
+                              return DateTimeField.convert(time);
+                            },
+                          ),
+                        ],
                       ),
                     ),
                     SizedBox(
                       height: 10.0,
-                    ),
-                    Visibility(
-                      visible: lunch.lunchType==0,
-                      child: TextFormField(
-                        decoration: InputDecoration(
-                          hintText: 'transport cost',
-                          labelText: 'transport',
-                          border: OutlineInputBorder(),
-                        ),
-                        onSaved: (value) => lunch.transportCost = double.tryParse(value),
-                        keyboardType: TextInputType.numberWithOptions(
-                          decimal: true
-                        ),
-                      ),
-                    ),
-
-                     */
-                    SizedBox(
-                      height: 20.0,
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -337,7 +251,9 @@ class _LunchScreenState extends State<LunchScreen> {
   Future saveLunch(BuildContext context) async {
     if (_formStateKey.currentState.validate()) {
       _formStateKey.currentState.save();
-    }
+    } else
+      return;
+
     globals.lunchSelected = lunch;
     if (lunch.lunchId == 0) {
       // prepare JSON for request
@@ -349,12 +265,13 @@ class _LunchScreenState extends State<LunchScreen> {
             restaurantId: globals.restaurantSelected.restaurantId,
             lunchType: lunch.lunchType,
             lunchDescription: lunch.lunchDescription,
-            transportCost: lunch.transportCost.toString(),
-            orderTime: DateFormat('yyyy-MM-dd HH:mm:ss').format(lunch.lunchOrderTime),
-            lunchTime: DateFormat('yyyy-MM-dd HH:mm:ss').format(lunch.lunchLunchTime),
-          )
-      );
-      print('request: '+r.toJson().toString());
+            transportCost: (lunch.transportCost??'0').toString(),
+            orderTime:
+                DateFormat('yyyy-MM-dd HH:mm:ss').format(lunch.lunchOrderTime),
+            lunchTime:
+                DateFormat('yyyy-MM-dd HH:mm:ss').format(lunch.lunchLunchTime),
+          ));
+      print('request: ' + r.toJson().toString());
       String reqJson = json.encode(r);
       // make POST request
       print(reqJson);
@@ -390,7 +307,56 @@ class _LunchScreenState extends State<LunchScreen> {
         }
       }
     } else {
-      Navigator.pop(context);
+      // prepare JSON for request
+      LunchEditRequest r = LunchEditRequest(
+        request: 'lunch.edit',
+        session: globals.sessionLunch.sessionId,
+        arguments: LunchEditArguments(
+          lunchId: lunch.lunchId,
+          restaurantId: lunch.restaurantId,
+          lunchDescription: lunch.lunchDescription,
+          lunchType: lunch.lunchType??0,
+          transportCost: (lunch.transportCost??'0').toString(),
+          orderTime:
+          DateFormat('yyyy-MM-dd HH:mm:ss').format(lunch.lunchOrderTime),
+          lunchTime:
+          DateFormat('yyyy-MM-dd HH:mm:ss').format(lunch.lunchLunchTime),
+        )
+      );
+      String reqJson = json.encode(r);
+      // make POST request
+      print('lunch.edit:'+reqJson);
+      Response response = await post(urlApi, headers: headers, body: reqJson);
+      print('statusCode:' + response.statusCode.toString());
+      var result = jsonDecode(response.body);
+      if (response.statusCode == 200) {
+        var res = result['response'];
+        if (res != null) {
+          bool createRestaurant = res['editLunch'];
+          if (createRestaurant) {
+            Navigator.pop(context);
+          } else {
+            setState(() {
+              message = res.toString();
+            });
+          }
+        } else {
+          setState(() {
+            message = 'Bad request';
+          });
+        }
+      } else {
+        var res = result['error'];
+        if (res != null) {
+          setState(() {
+            message = res.toString();
+          });
+        } else {
+          setState(() {
+            message = 'Bad request';
+          });
+        }
+      }
     }
   }
 

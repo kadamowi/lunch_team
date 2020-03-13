@@ -4,6 +4,7 @@ import 'dart:convert';
 
 import 'package:lunch_team/model/globals.dart' as globals;
 import 'package:lunch_team/model/LunchTeamCommon.dart';
+import 'package:lunch_team/widgets/LunchTeamWidget.dart';
 import 'package:lunch_team/model/Lunch.dart';
 import 'package:lunch_team/model/LunchRequest.dart';
 import 'package:lunch_team/screens/LunchScreen.dart';
@@ -38,7 +39,7 @@ class _LunchListScreenState extends State<LunchListScreen> {
                   builder: (BuildContext context,
                       AsyncSnapshot<List<Lunch>> snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
-                      return LinearProgressIndicator();
+                      return ProgressBar();
                     } else {
                       if (snapshot.hasError)
                         return Center(child: Text('Error: ${snapshot.error}'));

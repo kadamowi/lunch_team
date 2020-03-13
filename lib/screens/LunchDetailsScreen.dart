@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 
 import 'package:cached_network_image/cached_network_image.dart';
 
+import 'package:lunch_team/widgets/LunchTeamWidget.dart';
 import 'package:lunch_team/model/Restaurant.dart';
 import 'package:lunch_team/model/Meal.dart';
 import 'package:lunch_team/screens/MealScreen.dart';
@@ -138,7 +139,7 @@ class _LunchDetailsScreenState extends State<LunchDetailsScreen> {
                   builder: (BuildContext context,
                       AsyncSnapshot<List<Meal>> snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
-                      return LinearProgressIndicator();
+                      return ProgressBar();
                     } else {
                       if (snapshot.hasError) {
                         return Center(child: Text('Error: ${snapshot.error}'));
@@ -253,3 +254,4 @@ class _LunchDetailsScreenState extends State<LunchDetailsScreen> {
     );
   }
 }
+

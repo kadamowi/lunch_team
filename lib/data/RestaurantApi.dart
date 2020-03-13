@@ -7,7 +7,7 @@ import 'package:lunch_team/model/Restaurant.dart';
 import 'package:lunch_team/model/RestaurantRequest.dart';
 
 Future<Restaurant> detailsRestaurant(restaurantId) async {
-  print('detailsRestaurant for '+restaurantId.toString());
+  //print('detailsRestaurant for '+restaurantId.toString());
   // prepare JSON for request
   String reqJson = json.encode(RestaurantDetailsRequest(
       request: 'restaurant.details',
