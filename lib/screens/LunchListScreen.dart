@@ -38,7 +38,7 @@ class _LunchListScreenState extends State<LunchListScreen> {
                   builder: (BuildContext context,
                       AsyncSnapshot<List<Lunch>> snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
-                      return CircularProgressIndicator();
+                      return LinearProgressIndicator();
                     } else {
                       if (snapshot.hasError)
                         return Center(child: Text('Error: ${snapshot.error}'));
@@ -91,16 +91,38 @@ class _LunchListScreenState extends State<LunchListScreen> {
                                       );
                                     },
                                     onLongPress: () {
-                                      globals.lunchSelected = snapshot.data[index];
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) =>
-                                              LunchScreen(),
-                                        ),
-                                      ).then((value) {
-                                        setState(() {});
-                                      });
+                                      if (snapshot.data[index].username == globals.sessionLunch.username) {
+                                        globals.lunchSelected = snapshot.data[index];
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                LunchScreen(),
+                                          ),
+                                        ).then((value) {
+                                          setState(() {});
+                                        });
+                                      } else {
+                                        showDialog(
+                                          context: context,
+                                          builder: (BuildContext context) {
+                                            // return object of type Dialog
+                                            return AlertDialog(
+                                              title: Text('You are not an organizer !!!'),
+                                              //content: new Text("Alert Dialog body"),
+                                              actions: <Widget>[
+                                                // usually buttons at the bottom of the dialog
+                                                new FlatButton(
+                                                  child: new Text("Close"),
+                                                  onPressed: () {
+                                                    Navigator.of(context).pop();
+                                                  },
+                                                ),
+                                              ],
+                                            );
+                                          },
+                                        );
+                                      }
                                     }),
                               );
                             },

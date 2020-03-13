@@ -109,16 +109,28 @@ class _LunchDetailsScreenState extends State<LunchDetailsScreen> {
             ),
             Container(
               margin: EdgeInsets.all(5.0),
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  'Orders:',
-                  style: TextStyle(
-                      //color: Colors.yellowAccent,
-                      fontSize: 16.0,
-                      fontWeight: FontWeight.bold),
-                ),
-              ),
+              child: Row(
+                children: <Widget>[
+                  Expanded(
+                    child: Text(
+                      'Orders:',
+                      style: TextStyle(
+                        //color: Colors.yellowAccent,
+                          fontSize: 16.0,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: Text(
+                      'Total lunch cost '+globals.lunchSelected.lunchCost.toStringAsFixed(2),
+                      style: TextStyle(
+                          fontSize: 16.0,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  )
+                ],
+              )
             ),
             Expanded(
               child: FutureBuilder<List<Meal>>(
@@ -126,7 +138,7 @@ class _LunchDetailsScreenState extends State<LunchDetailsScreen> {
                   builder: (BuildContext context,
                       AsyncSnapshot<List<Meal>> snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
-                      return CircularProgressIndicator();
+                      return LinearProgressIndicator();
                     } else {
                       if (snapshot.hasError) {
                         return Center(child: Text('Error: ${snapshot.error}'));
@@ -167,15 +179,37 @@ class _LunchDetailsScreenState extends State<LunchDetailsScreen> {
                                   ),
                                   subtitle: Text(snapshot.data[index].username),
                                   onTap: () {
-                                    globals.mealSelected = snapshot.data[index];
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => MealScreen(),
-                                      ),
-                                    ).then((value) {
-                                      setState(() {});
-                                    });
+                                    if (snapshot.data[index].username == globals.sessionLunch.username) {
+                                      globals.mealSelected = snapshot.data[index];
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => MealScreen(),
+                                        ),
+                                      ).then((value) {
+                                        setState(() {});
+                                      });
+                                    } else {
+                                      showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          // return object of type Dialog
+                                          return AlertDialog(
+                                            title: Text('It is not your order !!!'),
+                                            //content: new Text("Alert Dialog body"),
+                                            actions: <Widget>[
+                                              // usually buttons at the bottom of the dialog
+                                              new FlatButton(
+                                                child: new Text("Close"),
+                                                onPressed: () {
+                                                  Navigator.of(context).pop();
+                                                },
+                                              ),
+                                            ],
+                                          );
+                                        },
+                                      );
+                                    }
                                   },
                                 ),
                               );
