@@ -4,6 +4,8 @@ import 'dart:convert';
 import 'package:intl/intl.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:url_launcher/url_launcher.dart';
+
 import 'package:lunch_team/model/globals.dart' as globals;
 import 'package:lunch_team/model/LunchTeamCommon.dart';
 import 'package:lunch_team/widgets/LunchTeamWidget.dart';
@@ -87,7 +89,7 @@ class _LunchScreenState extends State<LunchScreen> {
                   width: 150,
                 ),
                 onPressed: () {
-                  //launch(globals.restaurantSelected.restaurantUrl);
+                  launch(globals.restaurantSelected.restaurantUrl);
                 },
               ),
               Form(
@@ -232,13 +234,7 @@ class _LunchScreenState extends State<LunchScreen> {
                         ),
                       ],
                     ),
-                    Text(
-                      message,
-                      style: TextStyle(
-                          color: Colors.yellowAccent,
-                          fontSize: 16.0,
-                          fontWeight: FontWeight.bold),
-                    ),
+                    MessageError(message: message),
                     SizedBox(height: 10.0),
                   ])),
             ],
@@ -409,3 +405,4 @@ class _LunchScreenState extends State<LunchScreen> {
     }
   }
 }
+

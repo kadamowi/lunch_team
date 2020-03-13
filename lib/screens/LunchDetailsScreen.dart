@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import 'package:lunch_team/widgets/LunchTeamWidget.dart';
 import 'package:lunch_team/model/Restaurant.dart';
@@ -44,54 +44,71 @@ class _LunchDetailsScreenState extends State<LunchDetailsScreen> {
                 if (snapshot.hasData) {
                   return Container(
                     margin: const EdgeInsets.all(5),
-                    height: 100,
+                    height: 160,
                     alignment: Alignment.topLeft,
-                    child: Row(
+                    child: Column(
                       children: <Widget>[
-                        Align(
-                          alignment: Alignment.centerLeft,
-                          child: CachedNetworkImage(
-                              placeholder: (context, url) =>
-                                  CircularProgressIndicator(),
-                              imageUrl: snapshot.data.restaurantUrlLogo),
+                        Row(
+                          children: <Widget>[
+                            Align(
+                              alignment: Alignment.centerLeft,
+                              child: SizedBox(
+                                height: 100,
+                                child: CachedNetworkImage(
+                                    placeholder: (context, url) =>
+                                        CircularProgressIndicator(),
+                                    imageUrl: snapshot.data.restaurantUrlLogo),
+                              )
+                            ),
+                            Expanded(
+                              child: Column(
+                                children: <Widget>[
+                                  Align(
+                                    alignment: Alignment.centerRight,
+                                    child: Text(snapshot.data.restaurantName,
+                                        style: TextStyle(
+                                            fontSize: 24.0,
+                                            fontWeight: FontWeight.bold)),
+                                  ),
+                                  Align(
+                                    alignment: Alignment.centerRight,
+                                    child: Text(
+                                        'Host: ' + globals.lunchSelected.username,
+                                        style: TextStyle(
+                                            fontSize: 16.0,
+                                            fontWeight: FontWeight.bold)),
+                                  ),
+                                  Align(
+                                    alignment: Alignment.centerRight,
+                                    child: Text(
+                                        'Order time: ' +
+                                            DateFormat('HH:mm').format(globals
+                                                .lunchSelected.lunchOrderTime),
+                                        style: TextStyle(color: Colors.red)),
+                                  ),
+                                  Align(
+                                    alignment: Alignment.centerRight,
+                                    child: Text('Lunch time: ' +
+                                        DateFormat('HH:mm').format(
+                                            globals.lunchSelected.lunchLunchTime)),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
                         ),
-                        Expanded(
-                          child: Column(
-                            children: <Widget>[
-                              Align(
-                                alignment: Alignment.centerRight,
-                                child: Text(snapshot.data.restaurantName,
-                                    style: TextStyle(
-                                        fontSize: 24.0,
-                                        fontWeight: FontWeight.bold)),
-                              ),
-                              Align(
-                                alignment: Alignment.centerRight,
-                                child: Text(
-                                    'Host: ' + globals.lunchSelected.username,
-                                    style: TextStyle(
-                                        fontSize: 16.0,
-                                        fontWeight: FontWeight.bold)),
-                              ),
-                              Align(
-                                alignment: Alignment.centerRight,
-                                child: Text(
-                                    'Order time: ' +
-                                        DateFormat('HH:mm').format(globals
-                                            .lunchSelected.lunchOrderTime),
-                                    style: TextStyle(color: Colors.red)),
-                              ),
-                              Align(
-                                alignment: Alignment.centerRight,
-                                child: Text('Lunch time: ' +
-                                    DateFormat('HH:mm').format(
-                                        globals.lunchSelected.lunchLunchTime)),
-                              ),
-                            ],
+                        FlatButton(
+                          padding: EdgeInsets.all(5),
+                          child: Image(
+                            image: AssetImage('images/menu.png'),
+                            height: 50,
                           ),
+                          onPressed: () {
+                            launch(snapshot.data.restaurantUrl);
+                          },
                         ),
                       ],
-                    ),
+                    )
                   );
                 } else {
                   return Text('No restauraunt information');
@@ -223,13 +240,7 @@ class _LunchDetailsScreenState extends State<LunchDetailsScreen> {
             SizedBox(
               height: 40,
             ),
-            Text(
-              message,
-              style: TextStyle(
-                  color: Colors.yellowAccent,
-                  fontSize: 16.0,
-                  fontWeight: FontWeight.bold),
-            ),
+            MessageError(message: message),
           ],
         ),
       ),

@@ -4,6 +4,7 @@ import 'dart:convert';
 
 import 'package:lunch_team/model/globals.dart' as globals;
 import 'package:lunch_team/model/LunchTeamCommon.dart';
+import 'package:lunch_team/widgets/LunchTeamWidget.dart';
 import 'package:lunch_team/model/Meal.dart';
 import 'package:lunch_team/model/MealRequest.dart';
 
@@ -133,13 +134,7 @@ class _MealScreenState extends State<MealScreen> {
                         ),
                       ],
                     ),
-                    Text(
-                      message,
-                      style: TextStyle(
-                          color: Colors.yellowAccent,
-                          fontSize: 16.0,
-                          fontWeight: FontWeight.bold),
-                    ),
+                    MessageError(message: message),
                     SizedBox(height: 10.0),
                   ])),
             ],

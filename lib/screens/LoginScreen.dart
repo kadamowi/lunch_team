@@ -6,6 +6,7 @@ import 'package:package_info/package_info.dart';
 
 import 'package:lunch_team/model/globals.dart' as globals;
 import 'package:lunch_team/model/LunchTeamCommon.dart';
+import 'package:lunch_team/widgets/LunchTeamWidget.dart';
 import 'package:lunch_team/model/LoginRequest.dart';
 import 'package:lunch_team/screens/HomeScreen.dart';
 import 'package:lunch_team/screens/UserScreen.dart';
@@ -177,13 +178,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ])),
               Spacer(),
-              Text(
-                message,
-                style: TextStyle(
-                    color: Colors.red,
-                    fontSize: 16.0,
-                    fontWeight: FontWeight.bold),
-              ),
+              MessageError(message: message),
               Text(
                   'Version '+_packageInfo.version,
               ),
