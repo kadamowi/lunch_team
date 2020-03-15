@@ -8,8 +8,12 @@ class ProgressBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 20,
-      child: LinearProgressIndicator(),
+      width: 200,
+      height: 200,
+      child: CircularProgressIndicator(
+        valueColor: AlwaysStoppedAnimation(Colors.orange),
+        strokeWidth: 10,
+      ),
     );
   }
 }

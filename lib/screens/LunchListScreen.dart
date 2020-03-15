@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'dart:convert';
+import 'package:badges/badges.dart';
 
 import 'package:lunch_team/model/globals.dart' as globals;
 import 'package:lunch_team/model/LunchTeamCommon.dart';
@@ -59,72 +60,79 @@ class _LunchListScreenState extends State<LunchListScreen> {
 /*                                  border: Border.all(),*/
                                   color: Colors.white,
                                 ),
-                                child: ListTile(
-                                    trailing: Icon(
-                                      Icons.fastfood,
-                                      color: Colors.orange[800],
-                                    ),
-                                    title: Text(
-                                      snapshot.data[index].restaurantName +
-                                          ' - ' +
-                                          snapshot.data[index].username,
-                                      style: TextStyle(
-                                          color: Colors.orange[800],
-                                          fontWeight: FontWeight.bold),
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                    subtitle: Container(
-                                      height: 50,
-                                      child: Text(
-                                        snapshot.data[index].lunchDescription,
-                                        overflow: TextOverflow.clip,
-                                        style: TextStyle(color: Colors.grey[800]),
+                                child: Badge(
+                                  badgeContent: Text(
+                                    snapshot.data[index].mealCount.toString()
+                                  ),
+                                  badgeColor: Colors.orange[50],
+                                  padding: EdgeInsets.all(8),
+                                  child: ListTile(
+                                      trailing: Icon(
+                                        Icons.fastfood,
+                                        color: Colors.orange[800],
                                       ),
-                                    ),
-                                    onTap: () {
-                                      globals.lunchSelected = snapshot.data[index];
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) =>
-                                              LunchDetailsScreen(),
+                                      title: Text(
+                                        snapshot.data[index].restaurantName +
+                                            ' - ' +
+                                            snapshot.data[index].username,
+                                        style: TextStyle(
+                                            color: Colors.orange[800],
+                                            fontWeight: FontWeight.bold),
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                      subtitle: Container(
+                                        height: 50,
+                                        child: Text(
+                                          snapshot.data[index].lunchDescription,
+                                          overflow: TextOverflow.clip,
+                                          style: TextStyle(color: Colors.grey[800]),
                                         ),
-                                      );
-                                    },
-                                    onLongPress: () {
-                                      if (snapshot.data[index].username == globals.sessionLunch.username) {
+                                      ),
+                                      onTap: () {
                                         globals.lunchSelected = snapshot.data[index];
                                         Navigator.push(
                                           context,
                                           MaterialPageRoute(
                                             builder: (context) =>
-                                                LunchScreen(),
+                                                LunchDetailsScreen(),
                                           ),
-                                        ).then((value) {
-                                          setState(() {});
-                                        });
-                                      } else {
-                                        showDialog(
-                                          context: context,
-                                          builder: (BuildContext context) {
-                                            // return object of type Dialog
-                                            return AlertDialog(
-                                              title: Text('You are not an organizer !!!'),
-                                              //content: new Text("Alert Dialog body"),
-                                              actions: <Widget>[
-                                                // usually buttons at the bottom of the dialog
-                                                new FlatButton(
-                                                  child: new Text("Close"),
-                                                  onPressed: () {
-                                                    Navigator.of(context).pop();
-                                                  },
-                                                ),
-                                              ],
-                                            );
-                                          },
                                         );
-                                      }
-                                    }),
+                                      },
+                                      onLongPress: () {
+                                        if (snapshot.data[index].username == globals.sessionLunch.username) {
+                                          globals.lunchSelected = snapshot.data[index];
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  LunchScreen(),
+                                            ),
+                                          ).then((value) {
+                                            setState(() {});
+                                          });
+                                        } else {
+                                          showDialog(
+                                            context: context,
+                                            builder: (BuildContext context) {
+                                              // return object of type Dialog
+                                              return AlertDialog(
+                                                title: Text('You are not an organizer !!!'),
+                                                //content: new Text("Alert Dialog body"),
+                                                actions: <Widget>[
+                                                  // usually buttons at the bottom of the dialog
+                                                  new FlatButton(
+                                                    child: new Text("Close"),
+                                                    onPressed: () {
+                                                      Navigator.of(context).pop();
+                                                    },
+                                                  ),
+                                                ],
+                                              );
+                                            },
+                                          );
+                                        }
+                                      }),
+                                ),
                               );
                             },
                           ),
