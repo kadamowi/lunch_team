@@ -142,6 +142,22 @@ class _LunchScreenState extends State<LunchScreen> {
                             keyboardType: TextInputType.multiline,
                           ),
                           SizedBox(height: 10.0),
+                          TextFormField(
+                            decoration: InputDecoration(
+                              contentPadding: const EdgeInsets.all(16.0),
+                              hintText: 'transport cost',
+                              hintStyle: TextStyle(color: Colors.grey[800]),
+                              border: OutlineInputBorder(
+                                  borderSide: BorderSide.none),
+                              filled: true,
+                              fillColor: Colors.grey[200],
+                            ),
+                            initialValue: (lunch.transportCost > 0)?lunch.transportCost.toString():'',
+                            onSaved: (value) => lunch.transportCost = double.tryParse(value),
+                            keyboardType:
+                            TextInputType.numberWithOptions(decimal: true),
+                          ),
+                          SizedBox(height: 10.0),
                           DateTimeField(
                             decoration: InputDecoration(
                               contentPadding: const EdgeInsets.all(16.0),

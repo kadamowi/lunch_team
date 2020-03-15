@@ -44,7 +44,7 @@ class Lunch {
       lunchOrderTime: DateTime.parse(parsedJson['lunchOrderTime']),
       lunchLunchTime: DateTime.parse(parsedJson['lunchLunchTime']),
       mealCount: parsedJson['mealCount'],
-      lunchCost: double.parse(parsedJson['lunchCost']),
+      lunchCost: (parsedJson['lunchCost'].toString().length > 0)?double.parse(parsedJson['lunchCost']):0,
       status: parsedJson['status'],
       //totalMealCost: parsedJson['totalMealCost'],
     );
