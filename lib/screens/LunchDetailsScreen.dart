@@ -18,7 +18,7 @@ class LunchDetailsScreen extends StatefulWidget {
 }
 
 class _LunchDetailsScreenState extends State<LunchDetailsScreen> {
-  String message = "";
+  String message = "X";
 
   Future<Null> refreshList() {
     setState(() {});
@@ -302,7 +302,7 @@ class _LunchDetailsScreenState extends State<LunchDetailsScreen> {
               ),
 
             ),
-            MessageError(message: message),
+            //MessageError(message: message),
           ],
         ),
       ),
@@ -324,6 +324,7 @@ class _LunchDetailsScreenState extends State<LunchDetailsScreen> {
         tooltip: 'Add lunch order',
         child: Icon(Icons.add),
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
   }
 }

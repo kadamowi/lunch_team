@@ -163,7 +163,7 @@ class _RestaurantListScreenState extends State<RestaurantListScreen> {
               ),
             ),
              */
-            SizedBox(height: 80.0),
+            //SizedBox(height: 80.0),
           ],
         ),
       ),
@@ -186,6 +186,7 @@ class _RestaurantListScreenState extends State<RestaurantListScreen> {
         tooltip: 'Add restaurant',
         child: Icon(Icons.add),
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
   }
 
