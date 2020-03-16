@@ -38,9 +38,7 @@ class _SplashScreenState extends State<SplashScreen> {
                         builder:
                             (BuildContext context, AsyncSnapshot snapshot2) {
                           if (snapshot2.connectionState != ConnectionState.done) {
-                            return Image(
-                              image: AssetImage('images/splashscreen.png'),
-                            );
+                            return Text(''); //Image(image: AssetImage('images/splashscreen.png'),);
                           } else {
                             if (snapshot2.data != null) {
                               globals.sessionLunch = SessionLunch(

@@ -17,7 +17,7 @@ Future<List<Meal>> fetchMealList() async {
       )
   ));
   // make POST request
-  print('fetch meal.list ...');
+  //print('fetch meal.list ...');
   Response response = await post(urlApi, headers: headers, body: reqJson);
   var result = jsonDecode(response.body);
   var resp = result['response'];

@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'dart:convert';
+import 'package:badges/badges.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:lunch_team/model/Lunch.dart';
 
 import 'package:lunch_team/model/globals.dart' as globals;
 import 'package:lunch_team/model/LunchTeamCommon.dart';
+import 'package:lunch_team/widgets/LunchTeamWidget.dart';
 import 'package:lunch_team/model/Restaurant.dart';
 import 'package:lunch_team/model/RestaurantRequest.dart';
 import 'package:lunch_team/screens/RestaurantScreen.dart';
@@ -18,8 +20,7 @@ class RestaurantListScreen extends StatefulWidget {
 
 class _RestaurantListScreenState extends State<RestaurantListScreen> {
   Future<Null> refreshList() {
-    setState(() {
-    });
+    setState(() {});
     return null;
   }
 
@@ -47,7 +48,7 @@ class _RestaurantListScreenState extends State<RestaurantListScreen> {
                   builder: (BuildContext context,
                       AsyncSnapshot<List<Restaurant>> snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
-                      return Center(child: Text('Please wait its loading...'));
+                      return ProgressBar();
                     } else {
                       if (snapshot.hasError)
                         return Center(child: Text('Error: ${snapshot.error}'));
@@ -67,70 +68,77 @@ class _RestaurantListScreenState extends State<RestaurantListScreen> {
                                   /*border: Border.all(),*/
                                   color: Colors.white,
                                 ),
-                                child: ListTile(
-                                    leading: Container(
-                                      width: 60,
-                                      height: 60,
-                                      child:CachedNetworkImage(
-                                          placeholder: (context, url) => CircularProgressIndicator(),
-                                          imageUrl: snapshot.data[index].restaurantUrlLogo
-                                      ),
+                                child: Badge(
+                                    badgeContent: Text(
+                                        snapshot.data[index].lunchCount.toString()
                                     ),
-                                    trailing: Icon(
-                                      Icons.fastfood,
-                                      color: Colors.orange[800],
-                                    ),
-                                    title: Text(
-                                      snapshot.data[index].restaurantName +
-                                          ' (' +
-                                          snapshot.data[index].lunchCount
-                                              .toString() +
-                                          ')',
-                                      style:
-                                      TextStyle(
+                                    badgeColor: Colors.orange[50],
+                                    padding: EdgeInsets.all(8),
+                                    child: ListTile(
+                                        leading: Container(
+                                          width: 60,
+                                          height: 60,
+                                          child: CachedNetworkImage(
+                                              placeholder: (context, url) =>
+                                                  CircularProgressIndicator(),
+                                              imageUrl: snapshot.data[index]
+                                                  .restaurantUrlLogo),
+                                        ),
+                                        trailing: Icon(
+                                          Icons.fastfood,
                                           color: Colors.orange[800],
-                                          fontWeight: FontWeight.bold),
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                    subtitle: Container(
-                                      height: 50,
-                                      child: Text(
-                                        snapshot.data[index].restaurantDescription,
-                                        overflow: TextOverflow.clip,
-                                        style: TextStyle(color: Colors.grey[800])
-                                      ),
-                                    ),
-                                    onTap: () {
-                                      globals.restaurantSelected = snapshot.data[index];
-                                      globals.lunchSelected = Lunch(
-                                        lunchId: 0,
-                                        lunchDescription: '',
-                                        lunchType: 0,
-                                        lunchOrderTime: DateTime.now().add(new Duration(hours: 1)),
-                                        lunchLunchTime: DateTime.now().add(new Duration(hours: 2)),
-                                      );
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => LunchScreen(),
+                                        ),
+                                        title: Text(
+                                          snapshot.data[index].restaurantName,
+                                          style: TextStyle(
+                                              color: Colors.orange[800],
+                                              fontWeight: FontWeight.bold),
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                        subtitle: Container(
+                                          height: 50,
+                                          child: Text(
+                                              snapshot.data[index]
+                                                  .restaurantDescription,
+                                              overflow: TextOverflow.clip,
+                                              style: TextStyle(
+                                                  color: Colors.grey[800])),
+                                        ),
+                                        onTap: () {
+                                          globals.restaurantSelected =
+                                              snapshot.data[index];
+                                          globals.lunchSelected = Lunch(
+                                            lunchId: 0,
+                                            lunchDescription: '',
+                                            lunchType: 0,
+                                            lunchOrderTime: DateTime.now()
+                                                .add(new Duration(hours: 1)),
+                                            lunchLunchTime: DateTime.now()
+                                                .add(new Duration(hours: 2)),
+                                          );
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  LunchScreen(),
                                             ),
-                                      ).then((value) {
-                                        setState(() {});
-                                      });
-                                    },
-                                    onLongPress: () {
-                                      globals.restaurantSelected =
-                                      snapshot.data[index];
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                RestaurantScreen(),
+                                          ).then((value) {
+                                            setState(() {});
+                                          });
+                                        },
+                                        onLongPress: () {
+                                          globals.restaurantSelected =
+                                              snapshot.data[index];
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  RestaurantScreen(),
                                             ),
-                                      ).then((value) {
-                                        setState(() {});
-                                      });
-                                    }),
+                                          ).then((value) {
+                                            setState(() {});
+                                          });
+                                        })),
                               );
                             },
                           ),
@@ -155,8 +163,7 @@ class _RestaurantListScreenState extends State<RestaurantListScreen> {
               ),
             ),
              */
-            SizedBox(height: 80.0),
-
+            //SizedBox(height: 80.0),
           ],
         ),
       ),
@@ -172,13 +179,14 @@ class _RestaurantListScreenState extends State<RestaurantListScreen> {
           Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => RestaurantScreen(),
-                ),
+              builder: (context) => RestaurantScreen(),
+            ),
           );
         },
         tooltip: 'Add restaurant',
         child: Icon(Icons.add),
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
   }
 

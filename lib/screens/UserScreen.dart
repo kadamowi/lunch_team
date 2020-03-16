@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:lunch_team/model/User.dart';
 import 'package:lunch_team/model/LoginRequest.dart';
 import 'package:lunch_team/data/LoginApi.dart';
-import 'package:lunch_team/model/globals.dart' as globals;
+import 'package:lunch_team/widgets/LunchTeamWidget.dart';
 
 class UserScreen extends StatefulWidget {
   @override
@@ -181,13 +181,7 @@ class _UserScreenState extends State<UserScreen> {
                      */
                   ])),
               Spacer(),
-              Text(
-                globals.errorMessage,
-                style: TextStyle(
-                    color: Colors.red,
-                    fontSize: 16.0,
-                    fontWeight: FontWeight.bold),
-              ),
+              MessageError(message: message),
             ],
           ),
         ),

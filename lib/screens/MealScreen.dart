@@ -4,6 +4,8 @@ import 'dart:convert';
 
 import 'package:lunch_team/model/globals.dart' as globals;
 import 'package:lunch_team/model/LunchTeamCommon.dart';
+import 'package:lunch_team/widgets/LunchTeamWidget.dart';
+import 'package:lunch_team/data/LunchApi.dart';
 import 'package:lunch_team/model/Meal.dart';
 import 'package:lunch_team/model/MealRequest.dart';
 
@@ -133,13 +135,7 @@ class _MealScreenState extends State<MealScreen> {
                         ),
                       ],
                     ),
-                    Text(
-                      message,
-                      style: TextStyle(
-                          color: Colors.yellowAccent,
-                          fontSize: 16.0,
-                          fontWeight: FontWeight.bold),
-                    ),
+                    MessageError(message: message),
                     SizedBox(height: 10.0),
                   ])),
             ],
@@ -219,6 +215,7 @@ class _MealScreenState extends State<MealScreen> {
         if (res != null) {
           bool editMeal = res['editMeal'];
           if (editMeal) {
+            globals.lunchSelected = await detailsLunch(globals.lunchSelected.lunchId);
             Navigator.pop(context);
           } else {
             setState(() {
@@ -269,6 +266,7 @@ class _MealScreenState extends State<MealScreen> {
         if (res != null) {
           bool deleteRestaurant = res['deleteMeal'];
           if (deleteRestaurant) {
+            globals.lunchSelected = await detailsLunch(globals.lunchSelected.lunchId);
             Navigator.pop(context);
           } else {
             setState(() {

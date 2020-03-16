@@ -4,6 +4,7 @@ import 'dart:convert';
 
 import 'package:lunch_team/model/LunchTeamCommon.dart';
 import 'package:lunch_team/model/TeamUsersRequest.dart';
+import 'package:lunch_team/widgets/LunchTeamWidget.dart';
 import 'package:lunch_team/model/User.dart';
 import 'package:lunch_team/model/globals.dart' as globals;
 
@@ -44,7 +45,7 @@ class _HungerListScreenState extends State<HungerListScreen> {
                   builder: (BuildContext context,
                       AsyncSnapshot<List<String>> snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
-                      return Center(child: Text('Please wait its loading...'));
+                      return ProgressBar();
                     } else {
                       if (snapshot.hasError)
                         return Center(child: Text('Error: ${snapshot.error}'));

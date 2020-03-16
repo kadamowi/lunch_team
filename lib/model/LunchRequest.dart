@@ -1,5 +1,3 @@
-import 'package:lunch_team/model/Lunch.dart';
-
 class LunchCreateArguments {
   int restaurantId;
   String lunchDescription;
@@ -44,10 +42,42 @@ class LunchCreateRequest {
   }
 }
 
+class LunchEditArguments {
+  int lunchId;
+  int restaurantId;
+  String lunchDescription;
+  int lunchType;
+  String transportCost;
+  String orderTime;
+  String lunchTime;
+
+  LunchEditArguments(
+      {
+        this.lunchId,
+        this.restaurantId,
+        this.lunchDescription,
+        this.lunchType,
+        this.transportCost,
+        this.orderTime,
+        this.lunchTime});
+
+  toJson() {
+    return {
+      'lunchId': lunchId,
+      'restaurantId': restaurantId,
+      'lunchDescription': lunchDescription,
+      'lunchType': lunchType,
+      'transportCost': transportCost,
+      'orderTime': orderTime,
+      'lunchTime': lunchTime,
+    };
+  }
+}
+
 class LunchEditRequest {
   String request;
   String session;
-  Lunch arguments;
+  LunchEditArguments arguments;
 
   LunchEditRequest({this.request, this.session, this.arguments});
 
@@ -98,6 +128,34 @@ class LunchListRequest {
     return {
       'request': request,
       'session': session,
+    };
+  }
+}
+
+class LunchDetailsArguments {
+  int lunchId;
+
+  LunchDetailsArguments({this.lunchId});
+
+  toJson() {
+    return {
+      'lunchId': lunchId,
+    };
+  }
+}
+
+class LunchDetailsRequest {
+  String request;
+  String session;
+  LunchDetailsArguments arguments;
+
+  LunchDetailsRequest({this.request, this.session, this.arguments});
+
+  toJson() {
+    return {
+      'request': request,
+      'session': session,
+      'arguments': arguments,
     };
   }
 }
