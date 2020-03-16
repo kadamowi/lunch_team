@@ -7,7 +7,7 @@ import 'package:lunch_team/model/Restaurant.dart';
 import 'package:lunch_team/model/RestaurantRequest.dart';
 
 Future<Restaurant> detailsRestaurant(restaurantId) async {
-  //print('detailsRestaurant for '+restaurantId.toString());
+  print('detailsRestaurant for '+restaurantId.toString());
   // prepare JSON for request
   String reqJson = json.encode(RestaurantDetailsRequest(
       request: 'restaurant.details',
@@ -17,11 +17,12 @@ Future<Restaurant> detailsRestaurant(restaurantId) async {
       )));
   // make POST request
   Response response = await post(urlApi, headers: headers, body: reqJson);
+  print('statusCode:'+response.statusCode.toString());
   var result = jsonDecode(response.body);
   if (response.statusCode == 200) {
     var res = result['response'];
     if (res != null) {
-      //print(res);
+      print(res);
       var restaurant = Restaurant.fromJson(res);
       return restaurant;
     } else {
