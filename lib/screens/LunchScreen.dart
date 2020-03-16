@@ -41,7 +41,7 @@ class _LunchScreenState extends State<LunchScreen> {
   Widget build(BuildContext context) {
     if (globals.lunchSelected != null && globals.lunchSelected.lunchId != 0) {
       lunch = globals.lunchSelected;
-      print('bulid Lunch Screen - lunchId: '+lunch.lunchId.toString());
+      //print('bulid Lunch Screen - lunchId: '+lunch.lunchId.toString());
     }
 
     return Scaffold(
@@ -153,7 +153,7 @@ class _LunchScreenState extends State<LunchScreen> {
                               fillColor: Colors.grey[200],
                             ),
                             initialValue: (lunch.transportCost > 0)?lunch.transportCost.toString():'',
-                            onSaved: (value) => lunch.transportCost = double.tryParse(value),
+                            onSaved: (value) => lunch.transportCost = double.tryParse(value??"0.00"),
                             keyboardType:
                             TextInputType.numberWithOptions(decimal: true),
                           ),
@@ -277,7 +277,7 @@ class _LunchScreenState extends State<LunchScreen> {
             restaurantId: globals.restaurantSelected.restaurantId,
             lunchType: lunch.lunchType,
             lunchDescription: lunch.lunchDescription,
-            transportCost: (lunch.transportCost??'0').toString(),
+            transportCost: (lunch.transportCost??'0.00').toString(),
             orderTime:
                 DateFormat('yyyy-MM-dd HH:mm:ss').format(lunch.lunchOrderTime),
             lunchTime:
@@ -328,7 +328,7 @@ class _LunchScreenState extends State<LunchScreen> {
           restaurantId: lunch.restaurantId,
           lunchDescription: lunch.lunchDescription,
           lunchType: lunch.lunchType??0,
-          transportCost: (lunch.transportCost??'0').toString(),
+          transportCost: (lunch.transportCost??'0.00').toString(),
           orderTime:
           DateFormat('yyyy-MM-dd HH:mm:ss').format(lunch.lunchOrderTime),
           lunchTime:

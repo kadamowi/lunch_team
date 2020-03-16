@@ -229,7 +229,7 @@ class _LunchDetailsScreenState extends State<LunchDetailsScreen> {
                   }),
             ),
             SizedBox(
-              height: 40,
+              height: 20,
             ),
             Container(
               margin: EdgeInsets.all(5.0),

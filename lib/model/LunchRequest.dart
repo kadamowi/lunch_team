@@ -131,3 +131,31 @@ class LunchListRequest {
     };
   }
 }
+
+class LunchDetailsArguments {
+  int lunchId;
+
+  LunchDetailsArguments({this.lunchId});
+
+  toJson() {
+    return {
+      'lunchId': lunchId,
+    };
+  }
+}
+
+class LunchDetailsRequest {
+  String request;
+  String session;
+  LunchDetailsArguments arguments;
+
+  LunchDetailsRequest({this.request, this.session, this.arguments});
+
+  toJson() {
+    return {
+      'request': request,
+      'session': session,
+      'arguments': arguments,
+    };
+  }
+}

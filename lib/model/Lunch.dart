@@ -38,7 +38,7 @@ class Lunch {
       restaurantName: parsedJson['restaurantName'],
       userId: parsedJson['userId'],
       username: parsedJson['userName'],
-      //lunchType: parsedJson['lunchType'],
+      lunchType: parsedJson['lunchType']??0,
       lunchDescription: parsedJson['lunchDescription'],
       transportCost: (parsedJson['transportCost']==null)?0:double.parse(parsedJson['transportCost']),
       lunchOrderTime: DateTime.parse(parsedJson['lunchOrderTime']),
