@@ -96,7 +96,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 fillColor: Colors.grey[200],
                               ),
                               initialValue: globals.sessionLunch.username,
-                              onSaved: (value) => loginUser.username = value,
+                              onSaved: (value) => loginUser.username = value.trim(),
                             ),
                             SizedBox(height: 10.0),
                             TextFormField(
@@ -119,7 +119,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 fillColor: Colors.grey[200],
                               ),
                               initialValue: globals.sessionLunch.password,
-                              onSaved: (value) => loginUser.password = value,
+                              onSaved: (value) => loginUser.password = value.trim(),
                               obscureText: true,
                             ),
                           ],

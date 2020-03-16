@@ -138,15 +138,6 @@ class _LunchDetailsScreenState extends State<LunchDetailsScreen> {
                           fontWeight: FontWeight.bold),
                     ),
                   ),
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: Text(
-                      'Total lunch cost '+globals.lunchSelected.lunchCost.toStringAsFixed(2),
-                      style: TextStyle(
-                          fontSize: 16.0,
-                          fontWeight: FontWeight.bold),
-                    ),
-                  )
                 ],
               )
             ),
@@ -239,6 +230,77 @@ class _LunchDetailsScreenState extends State<LunchDetailsScreen> {
             ),
             SizedBox(
               height: 40,
+            ),
+            Container(
+              margin: EdgeInsets.all(5.0),
+              padding: EdgeInsets.all(10.0),
+              width: MediaQuery.of(context).size.width,
+              decoration: BoxDecoration(
+                color: Colors.white,
+              ),
+              child: Column(
+                children: <Widget>[
+                  Row(
+                    children: <Widget>[
+                      SizedBox(
+                        width: 150,
+                        child: Text('Orders'),
+                      ),
+                      SizedBox(
+                        width: 100,
+                        child: Align(
+                          alignment: Alignment.centerRight,
+                          child: Text(
+                            globals.lunchSelected.lunchCost.toStringAsFixed(2),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: <Widget>[
+                      SizedBox(
+                        width: 150,
+                        child: Text('Transport'),
+                      ),
+                      SizedBox(
+                        width: 100,
+                        child: Align(
+                          alignment: Alignment.centerRight,
+                          child: Text(
+                            '0.00',//globals.lunchSelected.transportCost.toStringAsFixed(2),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: <Widget>[
+                      SizedBox(
+                        width: 150,
+                        child: Text('Total lunch cost',
+                          style: TextStyle(
+                            //fontSize: 16.0,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      SizedBox(
+                        width: 100,
+                        child: Align(
+                          alignment: Alignment.centerRight,
+                          child: Text(
+                            (globals.lunchSelected.lunchCost).toStringAsFixed(2),
+                            style: TextStyle(
+                              //fontSize: 16.0,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+
             ),
             MessageError(message: message),
           ],
