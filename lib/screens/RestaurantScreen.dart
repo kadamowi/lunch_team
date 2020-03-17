@@ -22,7 +22,7 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
     restaurantDescription: '',
     restaurantUrl: '',
     restaurantUrlLogo:
-        'https://image.freepik.com/free-vector/chef-restaurant-logo-template-design_4549-1.jpg',
+        '',
   );
 
   @override
@@ -133,6 +133,8 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                             padding: const EdgeInsets.all(20.0),
                             child: Text("Save".toUpperCase()),
                             onPressed: () {
+                              //if (restaurant.restaurantUrlLogo==null)
+                              //  restaurant.restaurantUrlLogo = 'https://image.freepik.com/free-vector/chef-restaurant-logo-template-design_4549-1.jpg';
                               saveRestaurant(context);
                             },
                           ),

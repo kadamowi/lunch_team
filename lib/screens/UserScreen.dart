@@ -36,7 +36,7 @@ class _UserScreenState extends State<UserScreen> {
                   image: AssetImage('images/logo.png'),
                 ),
               ),
-              SizedBox(height: 20.0,width: double.infinity),
+              SizedBox(height: 20.0, width: double.infinity),
               Form(
                   key: _formStateKey,
                   autovalidate: false,
@@ -49,11 +49,13 @@ class _UserScreenState extends State<UserScreen> {
                           children: <Widget>[
                             Align(
                               alignment: Alignment.topLeft,
-                              child: Text('Register new user',
+                              child: Text(
+                                'Register new user',
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 16,
-                                ),),
+                                ),
+                              ),
                             ),
                             SizedBox(height: 5.0),
                             TextFormField(
@@ -63,7 +65,8 @@ class _UserScreenState extends State<UserScreen> {
                                     padding: const EdgeInsets.only(
                                         top: 16.0, bottom: 16.0),
                                     margin: const EdgeInsets.only(right: 8.0),
-                                    decoration: BoxDecoration(color: Colors.grey[200]),
+                                    decoration:
+                                        BoxDecoration(color: Colors.grey[200]),
                                     child: Icon(
                                       Icons.person,
                                       color: Colors.orange[800],
@@ -90,7 +93,8 @@ class _UserScreenState extends State<UserScreen> {
                                     padding: const EdgeInsets.only(
                                         top: 16.0, bottom: 16.0),
                                     margin: const EdgeInsets.only(right: 8.0),
-                                    decoration: BoxDecoration(color: Colors.grey[200]),
+                                    decoration:
+                                        BoxDecoration(color: Colors.grey[200]),
                                     child: Icon(
                                       Icons.lock,
                                       color: Colors.orange[800],
@@ -118,7 +122,8 @@ class _UserScreenState extends State<UserScreen> {
                                     padding: const EdgeInsets.only(
                                         top: 16.0, bottom: 16.0),
                                     margin: const EdgeInsets.only(right: 8.0),
-                                    decoration: BoxDecoration(color: Colors.grey[200]),
+                                    decoration:
+                                        BoxDecoration(color: Colors.grey[200]),
                                     child: Icon(
                                       Icons.lock,
                                       color: Colors.orange[800],
@@ -139,8 +144,7 @@ class _UserScreenState extends State<UserScreen> {
                               obscureText: true,
                             ),
                           ],
-                        )
-                    ),
+                        )),
                     SizedBox(height: 30.0),
                     SizedBox(
                       width: double.infinity,
@@ -154,8 +158,14 @@ class _UserScreenState extends State<UserScreen> {
                           if (_formStateKey.currentState.validate()) {
                             _formStateKey.currentState.save();
                             if (loginUser.password == secondPassword) {
-                              createAccount(loginUser);
-                              Navigator.pop(context);
+                              createAccount(loginUser).then((value) {
+                                if (value != null)
+                                  setState(() {
+                                    message = value;
+                                  });
+                                else
+                                  Navigator.pop(context);
+                              });
                             }
                           }
                         },

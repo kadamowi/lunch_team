@@ -319,7 +319,9 @@ class _LunchDetailsScreenState extends State<LunchDetailsScreen> {
             MaterialPageRoute(
               builder: (context) => MealScreen(),
             ),
-          );
+          ).then((value) {
+            setState(() {});
+          });
         },
         tooltip: 'Add lunch order',
         child: Icon(Icons.add),

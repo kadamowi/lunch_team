@@ -146,24 +146,6 @@ class _RestaurantListScreenState extends State<RestaurantListScreen> {
                     }
                   }),
             ),
-            //Spacer(),
-            /*
-            SizedBox(height: 20.0),
-            SizedBox(
-              width: MediaQuery.of(context).size.width * 0.5,
-              child: RaisedButton(
-                color: Colors.white,
-                textColor: Colors.lightGreen,
-                child: Text("Refresh"),
-                onPressed: () {
-                  setState(() {});
-                },
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30.0)),
-              ),
-            ),
-             */
-            //SizedBox(height: 80.0),
           ],
         ),
       ),
@@ -181,7 +163,9 @@ class _RestaurantListScreenState extends State<RestaurantListScreen> {
             MaterialPageRoute(
               builder: (context) => RestaurantScreen(),
             ),
-          );
+          ).then((value) {
+            setState(() {});
+          });
         },
         tooltip: 'Add restaurant',
         child: Icon(Icons.add),
