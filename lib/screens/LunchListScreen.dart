@@ -61,9 +61,9 @@ class _LunchListScreenState extends State<LunchListScreen> {
                                   color: Colors.white,
                                 ),
                                 child: Badge(
-                                  badgeContent: Text(
-                                    snapshot.data[index].mealCount.toString()
-                                  ),
+                                  badgeContent: Text(snapshot
+                                      .data[index].mealCount
+                                      .toString()),
                                   badgeColor: Colors.orange[50],
                                   padding: EdgeInsets.all(8),
                                   child: ListTile(
@@ -74,7 +74,10 @@ class _LunchListScreenState extends State<LunchListScreen> {
                                       title: Text(
                                         snapshot.data[index].restaurantName +
                                             ' - ' +
-                                            snapshot.data[index].username,
+                                            snapshot.data[index].username +
+                                            ' (' +
+                                            snapshot.data[index].status +
+                                            ')',
                                         style: TextStyle(
                                             color: Colors.orange[800],
                                             fontWeight: FontWeight.bold),
@@ -85,11 +88,13 @@ class _LunchListScreenState extends State<LunchListScreen> {
                                         child: Text(
                                           snapshot.data[index].lunchDescription,
                                           overflow: TextOverflow.clip,
-                                          style: TextStyle(color: Colors.grey[800]),
+                                          style: TextStyle(
+                                              color: Colors.grey[800]),
                                         ),
                                       ),
                                       onTap: () {
-                                        globals.lunchSelected = snapshot.data[index];
+                                        globals.lunchSelected =
+                                            snapshot.data[index];
                                         Navigator.push(
                                           context,
                                           MaterialPageRoute(
@@ -99,8 +104,10 @@ class _LunchListScreenState extends State<LunchListScreen> {
                                         );
                                       },
                                       onLongPress: () {
-                                        if (snapshot.data[index].username == globals.sessionLunch.username) {
-                                          globals.lunchSelected = snapshot.data[index];
+                                        if (snapshot.data[index].username ==
+                                            globals.sessionLunch.username) {
+                                          globals.lunchSelected =
+                                              snapshot.data[index];
                                           Navigator.push(
                                             context,
                                             MaterialPageRoute(
@@ -116,14 +123,16 @@ class _LunchListScreenState extends State<LunchListScreen> {
                                             builder: (BuildContext context) {
                                               // return object of type Dialog
                                               return AlertDialog(
-                                                title: Text('You are not an organizer !!!'),
+                                                title: Text(
+                                                    'You are not an organizer !!!'),
                                                 //content: new Text("Alert Dialog body"),
                                                 actions: <Widget>[
                                                   // usually buttons at the bottom of the dialog
                                                   new FlatButton(
                                                     child: new Text("Close"),
                                                     onPressed: () {
-                                                      Navigator.of(context).pop();
+                                                      Navigator.of(context)
+                                                          .pop();
                                                     },
                                                   ),
                                                 ],

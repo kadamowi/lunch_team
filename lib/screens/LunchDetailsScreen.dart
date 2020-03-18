@@ -163,7 +163,7 @@ class _LunchDetailsScreenState extends State<LunchDetailsScreen> {
                                 margin: const EdgeInsets.all(5),
                                 //padding: const EdgeInsets.all(5),
                                 decoration: BoxDecoration(
-                                  color: Colors.white,
+                                  color: (snapshot.data[index].settled)?Colors.orange[50]:Colors.white,
                                 ),
                                 child: ListTile(
                                   title: Row(
@@ -186,7 +186,10 @@ class _LunchDetailsScreenState extends State<LunchDetailsScreen> {
                                       )
                                     ],
                                   ),
-                                  subtitle: Text(snapshot.data[index].username),
+                                  subtitle: Text(
+                                      snapshot.data[index].username+
+                                          ((snapshot.data[index].settled)?' - rozliczone':'')
+                                  ),
                                   onTap: () {
                                     if (snapshot.data[index].username == globals.sessionLunch.username) {
                                       globals.mealSelected = snapshot.data[index];
@@ -196,28 +199,61 @@ class _LunchDetailsScreenState extends State<LunchDetailsScreen> {
                                           builder: (context) => MealScreen(),
                                         ),
                                       ).then((value) {
+                                        setSettled(snapshot.data[index].mealId);
                                         setState(() {});
                                       });
                                     } else {
-                                      showDialog(
-                                        context: context,
-                                        builder: (BuildContext context) {
-                                          // return object of type Dialog
-                                          return AlertDialog(
-                                            title: Text('It is not your order !!!'),
-                                            //content: new Text("Alert Dialog body"),
-                                            actions: <Widget>[
-                                              // usually buttons at the bottom of the dialog
-                                              new FlatButton(
-                                                child: new Text("Close"),
-                                                onPressed: () {
-                                                  Navigator.of(context).pop();
-                                                },
-                                              ),
-                                            ],
-                                          );
-                                        },
-                                      );
+                                      // Czy to jest właściciel Lunch
+                                      if (globals.sessionLunch.username == globals.lunchSelected.username) {
+                                        print('Właściciel kliknął na rozliczenie');
+                                        showDialog(
+                                          context: context,
+                                          builder: (BuildContext context) {
+                                            // return object of type Dialog
+                                            return AlertDialog(
+                                              title: Text('Do you accepte settlement ?'),
+                                              actions: <Widget>[
+                                                new FlatButton(
+                                                  child: new Text("Yes"),
+                                                  onPressed: () {
+                                                    setSettled(snapshot.data[index].mealId).then((value) {
+                                                      setState(() {
+                                                        Navigator.of(context).pop();
+                                                      });
+                                                    } );
+                                                  },
+                                                ),
+                                                new FlatButton(
+                                                  child: new Text("No"),
+                                                  onPressed: () {
+                                                    Navigator.of(context).pop();
+                                                  },
+                                                ),
+                                              ],
+                                            );
+                                          },
+                                        );
+                                      } else {
+                                        showDialog(
+                                          context: context,
+                                          builder: (BuildContext context) {
+                                            // return object of type Dialog
+                                            return AlertDialog(
+                                              title: Text('It is not your order !!!'),
+                                              //content: new Text("Alert Dialog body"),
+                                              actions: <Widget>[
+                                                // usually buttons at the bottom of the dialog
+                                                new FlatButton(
+                                                  child: new Text("Close"),
+                                                  onPressed: () {
+                                                    Navigator.of(context).pop();
+                                                  },
+                                                ),
+                                              ],
+                                            );
+                                          },
+                                        );
+                                      }
                                     }
                                   },
                                 ),

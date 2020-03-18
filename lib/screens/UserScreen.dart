@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:package_info/package_info.dart';
 
 import 'package:lunch_team/model/User.dart';
 import 'package:lunch_team/model/LoginRequest.dart';
@@ -14,8 +15,27 @@ class _UserScreenState extends State<UserScreen> {
   final GlobalKey<FormState> _formStateKey = GlobalKey<FormState>();
   LoginUser loginUser = new LoginUser(username: '', password: '');
   String secondPassword;
-  String message = "";
+  String message = "X";
   User user;
+  PackageInfo _packageInfo = PackageInfo(
+    appName: 'Unknown',
+    packageName: 'Unknown',
+    version: 'Unknown',
+    buildNumber: 'Unknown',
+  );
+
+  @override
+  void initState() {
+    super.initState();
+    _initPackageInfo();
+  }
+
+  Future<void> _initPackageInfo() async {
+    final PackageInfo info = await PackageInfo.fromPlatform();
+    setState(() {
+      _packageInfo = info;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +51,7 @@ class _UserScreenState extends State<UserScreen> {
             children: <Widget>[
               Container(
                 margin: const EdgeInsets.only(top: 40.0, bottom: 20.0),
-                height: 200,
+                height: 180,
                 child: Image(
                   image: AssetImage('images/logo.png'),
                 ),
@@ -145,7 +165,7 @@ class _UserScreenState extends State<UserScreen> {
                             ),
                           ],
                         )),
-                    SizedBox(height: 30.0),
+                    SizedBox(height: 10.0),
                     SizedBox(
                       width: double.infinity,
                       child: RaisedButton(
@@ -172,26 +192,12 @@ class _UserScreenState extends State<UserScreen> {
                         shape: RoundedRectangleBorder(),
                       ),
                     ),
-                    /*
-                    SizedBox(height: 10,),
-                    SizedBox(
-                      width: double.infinity,
-                      child: RaisedButton(
-                        color: Colors.black,
-                        textColor: Colors.white,
-                        padding: const EdgeInsets.all(20.0),
-                        child: Text("Login".toUpperCase()),
-                        onPressed: () {
-                          //_loginButton(context);
-                        },
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30.0)),
-                      ),
-                    ),
-                     */
                   ])),
-              Spacer(),
+              //Spacer(),
               MessageError(message: message),
+              Text(
+                'Version '+_packageInfo.version,
+              ),
             ],
           ),
         ),

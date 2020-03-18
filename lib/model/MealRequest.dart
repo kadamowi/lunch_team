@@ -118,3 +118,31 @@ class MealListRequest {
     };
   }
 }
+
+class MealSettledArguments {
+  int mealId;
+
+  MealSettledArguments({this.mealId});
+
+  toJson() {
+    return {
+      'mealId': mealId,
+    };
+  }
+}
+
+class MealSettledRequest {
+  String request;
+  String session;
+  MealSettledArguments arguments;
+
+  MealSettledRequest({this.request, this.session, this.arguments});
+
+  toJson() {
+    return {
+      'request': request,
+      'session': session,
+      'arguments': arguments,
+    };
+  }
+}
