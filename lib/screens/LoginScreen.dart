@@ -52,7 +52,7 @@ class _LoginScreenState extends State<LoginScreen> {
             children: <Widget>[
               Container(
                 margin: const EdgeInsets.only(top: 80.0, bottom: 20.0),
-                height: 200,
+                height: 180,
                 child: Image(
                   image: AssetImage('images/logo.png'),
                 ),
@@ -125,7 +125,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           ],
                         )
                     ),
-                    SizedBox(height: 25.0),
+                    SizedBox(height: 10.0),
                     SizedBox(
                       width: double.infinity,
                       child: RaisedButton(

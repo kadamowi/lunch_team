@@ -4,6 +4,7 @@ import 'package:lunch_team/screens/RestaurantListScreen.dart';
 import 'package:lunch_team/screens/LunchListScreen.dart';
 import 'package:lunch_team/screens/HungerListScreen.dart';
 import 'package:lunch_team/screens/LoginScreen.dart';
+import 'package:lunch_team/model/globals.dart' as globals;
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -23,6 +24,10 @@ class _HomeScreenState extends State<HomeScreen> {
         width: double.infinity,
         child: Column(
           children: <Widget>[
+            Align(
+              alignment: Alignment.topRight,
+              child: Text(globals.sessionLunch.username),
+            ),
             Container(
               margin: const EdgeInsets.only(top: 20.0, bottom: 20.0),
               height: 200,
@@ -30,13 +35,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 image: AssetImage('images/logo.png'),
               ),
             ),
-/*            Text(
-              "Lunch Team",
-              style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 24.0,
-                  fontWeight: FontWeight.bold),
-            ),*/
             SizedBox(height: 20.0),
             SizedBox(
               width: MediaQuery.of(context).size.width * 0.5,

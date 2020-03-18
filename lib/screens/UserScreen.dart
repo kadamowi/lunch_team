@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:package_info/package_info.dart';
 
 import 'package:lunch_team/model/User.dart';
 import 'package:lunch_team/model/LoginRequest.dart';
@@ -14,8 +15,27 @@ class _UserScreenState extends State<UserScreen> {
   final GlobalKey<FormState> _formStateKey = GlobalKey<FormState>();
   LoginUser loginUser = new LoginUser(username: '', password: '');
   String secondPassword;
-  String message = "";
+  String message = "X";
   User user;
+  PackageInfo _packageInfo = PackageInfo(
+    appName: 'Unknown',
+    packageName: 'Unknown',
+    version: 'Unknown',
+    buildNumber: 'Unknown',
+  );
+
+  @override
+  void initState() {
+    super.initState();
+    _initPackageInfo();
+  }
+
+  Future<void> _initPackageInfo() async {
+    final PackageInfo info = await PackageInfo.fromPlatform();
+    setState(() {
+      _packageInfo = info;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,12 +51,12 @@ class _UserScreenState extends State<UserScreen> {
             children: <Widget>[
               Container(
                 margin: const EdgeInsets.only(top: 40.0, bottom: 20.0),
-                height: 200,
+                height: 180,
                 child: Image(
                   image: AssetImage('images/logo.png'),
                 ),
               ),
-              SizedBox(height: 20.0,width: double.infinity),
+              SizedBox(height: 20.0, width: double.infinity),
               Form(
                   key: _formStateKey,
                   autovalidate: false,
@@ -49,11 +69,13 @@ class _UserScreenState extends State<UserScreen> {
                           children: <Widget>[
                             Align(
                               alignment: Alignment.topLeft,
-                              child: Text('Register new user',
+                              child: Text(
+                                'Register new user',
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 16,
-                                ),),
+                                ),
+                              ),
                             ),
                             SizedBox(height: 5.0),
                             TextFormField(
@@ -63,7 +85,8 @@ class _UserScreenState extends State<UserScreen> {
                                     padding: const EdgeInsets.only(
                                         top: 16.0, bottom: 16.0),
                                     margin: const EdgeInsets.only(right: 8.0),
-                                    decoration: BoxDecoration(color: Colors.grey[200]),
+                                    decoration:
+                                        BoxDecoration(color: Colors.grey[200]),
                                     child: Icon(
                                       Icons.person,
                                       color: Colors.orange[800],
@@ -90,7 +113,8 @@ class _UserScreenState extends State<UserScreen> {
                                     padding: const EdgeInsets.only(
                                         top: 16.0, bottom: 16.0),
                                     margin: const EdgeInsets.only(right: 8.0),
-                                    decoration: BoxDecoration(color: Colors.grey[200]),
+                                    decoration:
+                                        BoxDecoration(color: Colors.grey[200]),
                                     child: Icon(
                                       Icons.lock,
                                       color: Colors.orange[800],
@@ -118,7 +142,8 @@ class _UserScreenState extends State<UserScreen> {
                                     padding: const EdgeInsets.only(
                                         top: 16.0, bottom: 16.0),
                                     margin: const EdgeInsets.only(right: 8.0),
-                                    decoration: BoxDecoration(color: Colors.grey[200]),
+                                    decoration:
+                                        BoxDecoration(color: Colors.grey[200]),
                                     child: Icon(
                                       Icons.lock,
                                       color: Colors.orange[800],
@@ -139,9 +164,8 @@ class _UserScreenState extends State<UserScreen> {
                               obscureText: true,
                             ),
                           ],
-                        )
-                    ),
-                    SizedBox(height: 30.0),
+                        )),
+                    SizedBox(height: 10.0),
                     SizedBox(
                       width: double.infinity,
                       child: RaisedButton(
@@ -154,34 +178,26 @@ class _UserScreenState extends State<UserScreen> {
                           if (_formStateKey.currentState.validate()) {
                             _formStateKey.currentState.save();
                             if (loginUser.password == secondPassword) {
-                              createAccount(loginUser);
-                              Navigator.pop(context);
+                              createAccount(loginUser).then((value) {
+                                if (value != null)
+                                  setState(() {
+                                    message = value;
+                                  });
+                                else
+                                  Navigator.pop(context);
+                              });
                             }
                           }
                         },
                         shape: RoundedRectangleBorder(),
                       ),
                     ),
-                    /*
-                    SizedBox(height: 10,),
-                    SizedBox(
-                      width: double.infinity,
-                      child: RaisedButton(
-                        color: Colors.black,
-                        textColor: Colors.white,
-                        padding: const EdgeInsets.all(20.0),
-                        child: Text("Login".toUpperCase()),
-                        onPressed: () {
-                          //_loginButton(context);
-                        },
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30.0)),
-                      ),
-                    ),
-                     */
                   ])),
-              Spacer(),
+              //Spacer(),
               MessageError(message: message),
+              Text(
+                'Version '+_packageInfo.version,
+              ),
             ],
           ),
         ),

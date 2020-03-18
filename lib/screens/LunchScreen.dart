@@ -269,7 +269,7 @@ class _LunchScreenState extends State<LunchScreen> {
     globals.lunchSelected = lunch;
     if (lunch.lunchId == 0) {
       // prepare JSON for request
-      print('prepare JSON');
+      //print('prepare JSON');
       LunchCreateRequest r = LunchCreateRequest(
           request: 'lunch.create',
           session: globals.sessionLunch.sessionId,
@@ -283,12 +283,12 @@ class _LunchScreenState extends State<LunchScreen> {
             lunchTime:
                 DateFormat('yyyy-MM-dd HH:mm:ss').format(lunch.lunchLunchTime),
           ));
-      print('request: ' + r.toJson().toString());
+      //print('request: ' + r.toJson().toString());
       String reqJson = json.encode(r);
       // make POST request
-      print(reqJson);
+      //print(reqJson);
       Response response = await post(urlApi, headers: headers, body: reqJson);
-      print('statusCode:' + response.statusCode.toString());
+      //print('statusCode:' + response.statusCode.toString());
       var result = jsonDecode(response.body);
       if (response.statusCode == 200) {
         var res = result['response'];
@@ -337,9 +337,9 @@ class _LunchScreenState extends State<LunchScreen> {
       );
       String reqJson = json.encode(r);
       // make POST request
-      print('lunch.edit:'+reqJson);
+      //print('lunch.edit:'+reqJson);
       Response response = await post(urlApi, headers: headers, body: reqJson);
-      print('statusCode:' + response.statusCode.toString());
+      //print('statusCode:' + response.statusCode.toString());
       var result = jsonDecode(response.body);
       if (response.statusCode == 200) {
         var res = result['response'];

@@ -30,3 +30,30 @@ Future<List<Meal>> fetchMealList() async {
   }
   return mealList;
 }
+
+Future<String> setSettled(int mealId) async {
+  // prepare JSON for request
+  String reqJson = json.encode(MealSettledRequest(
+      request: 'meal.settled',
+      session: globals.sessionLunch.sessionId,
+      arguments: MealSettledArguments(
+        mealId: mealId,
+      )
+  ));
+  // make POST request
+  //print('Set settlement:'+reqJson);
+  Response response = await post(urlApi, headers: headers, body: reqJson);
+  var result = jsonDecode(response.body);
+  //print('Result:'+result.toString());
+  var resp = result['response'];
+  if (resp != null) {
+    //print('resp:'+resp.toString());
+    var settledMeal = resp['settledMeal'];
+    if (!settledMeal)
+      return 'Settlement problem';
+  } else {
+    //print('Technical problem');
+    return 'Technical problem';
+  }
+  return null;
+}

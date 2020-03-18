@@ -32,13 +32,10 @@ Future<String> loginApp(String username, String password) async {
   return null;
 }
 
-void createAccount(LoginUser loginUser) async {
+Future<String>  createAccount(LoginUser loginUser) async {
   // prepare JSON for request
-  String reqJson = json
-      .encode(LoginRequest(
-      request: 'user.register',
-      arguments: loginUser
-  ));
+  String reqJson =
+      json.encode(LoginRequest(request: 'user.register', arguments: loginUser));
   // make POST request
   print(reqJson);
   Response response = await post(urlApi, headers: headers, body: reqJson);
@@ -47,14 +44,18 @@ void createAccount(LoginUser loginUser) async {
   print(resp);
   if (resp != null) {
     bool registerUser = resp['registerUser'];
-    if (registerUser) {
-      globals.errorMessage = 'User "' + loginUser.username + '" registered';
-    } else {
+    print('registerUser:' + registerUser.toString());
+    if (!registerUser) {
       globals.errorMessage = 'User "' + loginUser.username + '" not registered';
+      return globals.errorMessage;
     }
   } else {
-    globals.errorMessage = 'Register error ' + result.toString();
+    resp = result['error'];
+    if (resp != null)
+      globals.errorMessage = 'Register error ' + resp.toString();
+    else
+      globals.errorMessage = 'Register error ' + result.toString();
+    return globals.errorMessage;
   }
+  return null;
 }
-
-

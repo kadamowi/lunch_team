@@ -163,7 +163,7 @@ class _LunchDetailsScreenState extends State<LunchDetailsScreen> {
                                 margin: const EdgeInsets.all(5),
                                 //padding: const EdgeInsets.all(5),
                                 decoration: BoxDecoration(
-                                  color: Colors.white,
+                                  color: (snapshot.data[index].settled)?Colors.orange[50]:Colors.white,
                                 ),
                                 child: ListTile(
                                   title: Row(
@@ -186,38 +186,94 @@ class _LunchDetailsScreenState extends State<LunchDetailsScreen> {
                                       )
                                     ],
                                   ),
-                                  subtitle: Text(snapshot.data[index].username),
+                                  subtitle: Text(
+                                      snapshot.data[index].username+
+                                          ((snapshot.data[index].settled)?' - rozliczone':'')
+                                  ),
                                   onTap: () {
                                     if (snapshot.data[index].username == globals.sessionLunch.username) {
-                                      globals.mealSelected = snapshot.data[index];
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => MealScreen(),
-                                        ),
-                                      ).then((value) {
-                                        setState(() {});
-                                      });
+                                      if (globals.lunchSelected.lunchOrderTime.difference(DateTime.now()).inMinutes >= 0) {
+                                        globals.mealSelected = snapshot.data[index];
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => MealScreen(),
+                                          ),
+                                        ).then((value) {
+                                          setSettled(snapshot.data[index].mealId);
+                                          setState(() {});
+                                        });
+                                      } else {
+                                        showDialog(
+                                          context: context,
+                                          builder: (BuildContext context) {
+                                            // return object of type Dialog
+                                            return AlertDialog(
+                                              title: Text('It is to late, maybe next time'),
+                                              actions: <Widget>[
+                                                new FlatButton(
+                                                  child: new Text("Close"),
+                                                  onPressed: () {
+                                                    Navigator.of(context).pop();
+                                                  },
+                                                ),
+                                              ],
+                                            );
+                                          },
+                                        );
+                                      }
                                     } else {
-                                      showDialog(
-                                        context: context,
-                                        builder: (BuildContext context) {
-                                          // return object of type Dialog
-                                          return AlertDialog(
-                                            title: Text('It is not your order !!!'),
-                                            //content: new Text("Alert Dialog body"),
-                                            actions: <Widget>[
-                                              // usually buttons at the bottom of the dialog
-                                              new FlatButton(
-                                                child: new Text("Close"),
-                                                onPressed: () {
-                                                  Navigator.of(context).pop();
-                                                },
-                                              ),
-                                            ],
-                                          );
-                                        },
-                                      );
+                                      // Czy to jest właściciel Lunch
+                                      if (globals.sessionLunch.username == globals.lunchSelected.username) {
+                                        print('Właściciel kliknął na rozliczenie');
+                                        showDialog(
+                                          context: context,
+                                          builder: (BuildContext context) {
+                                            // return object of type Dialog
+                                            return AlertDialog(
+                                              title: Text('Do you accepte settlement ?'),
+                                              actions: <Widget>[
+                                                new FlatButton(
+                                                  child: new Text("Yes"),
+                                                  onPressed: () {
+                                                    setSettled(snapshot.data[index].mealId).then((value) {
+                                                      setState(() {
+                                                        Navigator.of(context).pop();
+                                                      });
+                                                    } );
+                                                  },
+                                                ),
+                                                new FlatButton(
+                                                  child: new Text("No"),
+                                                  onPressed: () {
+                                                    Navigator.of(context).pop();
+                                                  },
+                                                ),
+                                              ],
+                                            );
+                                          },
+                                        );
+                                      } else {
+                                        showDialog(
+                                          context: context,
+                                          builder: (BuildContext context) {
+                                            // return object of type Dialog
+                                            return AlertDialog(
+                                              title: Text('It is not your order !!!'),
+                                              //content: new Text("Alert Dialog body"),
+                                              actions: <Widget>[
+                                                // usually buttons at the bottom of the dialog
+                                                new FlatButton(
+                                                  child: new Text("Close"),
+                                                  onPressed: () {
+                                                    Navigator.of(context).pop();
+                                                  },
+                                                ),
+                                              ],
+                                            );
+                                          },
+                                        );
+                                      }
                                     }
                                   },
                                 ),
@@ -268,7 +324,7 @@ class _LunchDetailsScreenState extends State<LunchDetailsScreen> {
                         child: Align(
                           alignment: Alignment.centerRight,
                           child: Text(
-                            '0.00',//globals.lunchSelected.transportCost.toStringAsFixed(2),
+                            globals.lunchSelected.transportCost.toStringAsFixed(2),
                           ),
                         ),
                       ),
@@ -289,7 +345,7 @@ class _LunchDetailsScreenState extends State<LunchDetailsScreen> {
                         child: Align(
                           alignment: Alignment.centerRight,
                           child: Text(
-                            (globals.lunchSelected.lunchCost).toStringAsFixed(2),
+                            (globals.lunchSelected.lunchCost+globals.lunchSelected.transportCost).toStringAsFixed(2),
                             style: TextStyle(
                               //fontSize: 16.0,
                                 fontWeight: FontWeight.bold),
@@ -314,12 +370,36 @@ class _LunchDetailsScreenState extends State<LunchDetailsScreen> {
             mealName: '',
             mealCost: 0,
           );
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => MealScreen(),
-            ),
-          );
+          //print('lunchOrderTime:'+globals.lunchSelected.lunchOrderTime.toString());
+          //print('difference:'+globals.lunchSelected.lunchOrderTime.difference(DateTime.now()).inMinutes.toString());
+          if (globals.lunchSelected.lunchOrderTime.difference(DateTime.now()).inMinutes >= 0) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => MealScreen(),
+              ),
+            ).then((value) {
+              setState(() {});
+            });
+          } else {
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                // return object of type Dialog
+                return AlertDialog(
+                  title: Text('It is to late, maybe next time'),
+                  actions: <Widget>[
+                    new FlatButton(
+                      child: new Text("Close"),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                    ),
+                  ],
+                );
+              },
+            );
+          }
         },
         tooltip: 'Add lunch order',
         child: Icon(Icons.add),

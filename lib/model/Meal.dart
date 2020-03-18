@@ -6,6 +6,7 @@ class Meal {
   String mealName;
   double mealCost;
   double finalCost;
+  bool settled;
 
   Meal({
     this.mealId,
@@ -15,6 +16,7 @@ class Meal {
     this.mealName,
     this.mealCost,
     this.finalCost,
+    this.settled,
   });
 
   factory Meal.fromJson(Map<String, dynamic> parsedJson) {
@@ -25,6 +27,7 @@ class Meal {
       username: parsedJson['userName'],
       mealName: parsedJson['mealName'],
       mealCost: double.parse(parsedJson['expectedCost']),
+      settled: parsedJson['settled'],
       //finalCost: double.parse(parsedJson['finalCost']),
     );
   }
