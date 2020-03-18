@@ -68,16 +68,21 @@ class _LunchListScreenState extends State<LunchListScreen> {
                                   padding: EdgeInsets.all(8),
                                   child: ListTile(
                                       trailing: Icon(
-                                        Icons.fastfood,
+                                        (snapshot.data[index].status == 'COLLECTING')
+                                            ? Icons.create_new_folder
+                                            : (snapshot.data[index].status == 'DELIVERING')
+                                                ? Icons.directions_car
+                                                : (snapshot.data[index].status == 'TO_SETTLEMENT')
+                                                    ? Icons.attach_money
+                                                    : (snapshot.data[index].status == 'SETTLEMENTED')
+                                                        ? Icons.money_off
+                                                        : Icons.error,
                                         color: Colors.orange[800],
                                       ),
                                       title: Text(
                                         snapshot.data[index].restaurantName +
                                             ' - ' +
-                                            snapshot.data[index].username +
-                                            ' (' +
-                                            snapshot.data[index].status +
-                                            ')',
+                                            snapshot.data[index].username,
                                         style: TextStyle(
                                             color: Colors.orange[800],
                                             fontWeight: FontWeight.bold),

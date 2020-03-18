@@ -192,16 +192,36 @@ class _LunchDetailsScreenState extends State<LunchDetailsScreen> {
                                   ),
                                   onTap: () {
                                     if (snapshot.data[index].username == globals.sessionLunch.username) {
-                                      globals.mealSelected = snapshot.data[index];
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => MealScreen(),
-                                        ),
-                                      ).then((value) {
-                                        setSettled(snapshot.data[index].mealId);
-                                        setState(() {});
-                                      });
+                                      if (globals.lunchSelected.lunchOrderTime.difference(DateTime.now()).inMinutes >= 0) {
+                                        globals.mealSelected = snapshot.data[index];
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => MealScreen(),
+                                          ),
+                                        ).then((value) {
+                                          setSettled(snapshot.data[index].mealId);
+                                          setState(() {});
+                                        });
+                                      } else {
+                                        showDialog(
+                                          context: context,
+                                          builder: (BuildContext context) {
+                                            // return object of type Dialog
+                                            return AlertDialog(
+                                              title: Text('It is to late, maybe next time'),
+                                              actions: <Widget>[
+                                                new FlatButton(
+                                                  child: new Text("Close"),
+                                                  onPressed: () {
+                                                    Navigator.of(context).pop();
+                                                  },
+                                                ),
+                                              ],
+                                            );
+                                          },
+                                        );
+                                      }
                                     } else {
                                       // Czy to jest właściciel Lunch
                                       if (globals.sessionLunch.username == globals.lunchSelected.username) {
@@ -350,14 +370,36 @@ class _LunchDetailsScreenState extends State<LunchDetailsScreen> {
             mealName: '',
             mealCost: 0,
           );
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => MealScreen(),
-            ),
-          ).then((value) {
-            setState(() {});
-          });
+          //print('lunchOrderTime:'+globals.lunchSelected.lunchOrderTime.toString());
+          //print('difference:'+globals.lunchSelected.lunchOrderTime.difference(DateTime.now()).inMinutes.toString());
+          if (globals.lunchSelected.lunchOrderTime.difference(DateTime.now()).inMinutes >= 0) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => MealScreen(),
+              ),
+            ).then((value) {
+              setState(() {});
+            });
+          } else {
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                // return object of type Dialog
+                return AlertDialog(
+                  title: Text('It is to late, maybe next time'),
+                  actions: <Widget>[
+                    new FlatButton(
+                      child: new Text("Close"),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                    ),
+                  ],
+                );
+              },
+            );
+          }
         },
         tooltip: 'Add lunch order',
         child: Icon(Icons.add),
