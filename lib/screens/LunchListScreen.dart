@@ -157,6 +157,20 @@ class _LunchListScreenState extends State<LunchListScreen> {
           ],
         ),
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => LunchScreen(),
+            ),
+          ).then((value) {
+            setState(() {});
+          });
+        },
+        tooltip: 'Add restaurant',
+        child: Icon(Icons.add),
+      ),
     );
   }
 

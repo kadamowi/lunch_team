@@ -3,6 +3,8 @@ import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:lunch_team/model/LunchTeamCommon.dart';
 import 'package:lunch_team/model/LoginRequest.dart';
+import 'package:lunch_team/model/Restaurant.dart';
+import 'package:lunch_team/data/RestaurantApi.dart';
 import 'package:lunch_team/model/globals.dart' as globals;
 
 Future<LoginUser> getSavedUser() async {
@@ -27,7 +29,25 @@ Future<String> loginApp(String username, String password) async {
   if (res != null) {
     print(username + ' entered');
     String sessionId = res['session'];
-    if (sessionId != null && sessionId != 'null') return sessionId;
+    globals.sessionLunch = SessionLunch(
+        username,
+        password,
+        sessionId
+    );
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('username', username);
+    prefs.setString('password', password);
+    // Pobranie listy restauracji
+    //print('Lista restauracji');
+    List<Restaurant> restaurants = await restaurantList();
+    globals.restaurantSets = new Map();
+    for (Restaurant r in restaurants) {
+      globals.restaurantSets[r.restaurantId] = r.restaurantName;
+    }
+    //print('Liczba:'+globals.restaurantSets.length.toString());
+    //if (sessionId != null && sessionId != 'null') return sessionId;
+  } else {
+    return result.toString();
   }
   return null;
 }

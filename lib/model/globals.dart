@@ -12,3 +12,5 @@ SessionLunch sessionLunch;
 Restaurant restaurantSelected;
 Lunch lunchSelected;
 Meal mealSelected;
+
+Map restaurantSets;

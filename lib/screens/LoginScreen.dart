@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart';
-import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:package_info/package_info.dart';
 
 import 'package:lunch_team/model/globals.dart' as globals;
-import 'package:lunch_team/model/LunchTeamCommon.dart';
 import 'package:lunch_team/widgets/LunchTeamWidget.dart';
 import 'package:lunch_team/model/LoginRequest.dart';
+import 'package:lunch_team/data/LoginApi.dart';
 import 'package:lunch_team/screens/HomeScreen.dart';
 import 'package:lunch_team/screens/UserScreen.dart';
 
@@ -136,8 +134,21 @@ class _LoginScreenState extends State<LoginScreen> {
                         onPressed: () {
                           if (_formStateKey.currentState.validate()) {
                             _formStateKey.currentState.save();
-                          }
-                          _loginButton(context);
+                            loginApp(loginUser.username,loginUser.password).then((value)  {
+                              if (value == null) {
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => HomeScreen(),
+                                      ),
+                                );
+                              } else {
+                                setState(() {
+                                  //message = value;
+                                });
+                              }
+                            });
+                          };
                         },
                       ),
                     ),
@@ -187,44 +198,6 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       ),
     );
-  }
-
-  void _loginButton(BuildContext context) async {
-    // prepare JSON for request
-    String reqJson =
-        json.encode(LoginRequest(request: 'user.login', arguments: loginUser));
-    // make POST request
-    Response response = await post(urlApi, headers: headers, body: reqJson);
-    var result = jsonDecode(response.body);
-    var res = result['response'];
-    if (res != null) {
-      print(loginUser.username + ' entered');
-      String sessionId = res['session'];
-      if (sessionId != null && sessionId != 'null') {
-        SharedPreferences prefs = await SharedPreferences.getInstance();
-        prefs.setString('username', loginUser.username);
-        prefs.setString('password', loginUser.password);
-        final SessionLunch sessionLunch =
-            new SessionLunch(loginUser.username, loginUser.password, sessionId);
-        globals.sessionLunch = sessionLunch;
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-              builder: (context) => HomeScreen(),
-              settings: RouteSettings(
-                arguments: sessionLunch,
-              )),
-        );
-      } else {
-        setState(() {
-          message = 'Incorrect login ' + res.toString();
-        });
-      }
-    } else {
-      setState(() {
-        message = 'Incorrect login';
-      });
-    }
   }
 
   Future<LoginUser> getSavedUser() async {

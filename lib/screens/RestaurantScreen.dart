@@ -133,8 +133,6 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                             padding: const EdgeInsets.all(20.0),
                             child: Text("Save".toUpperCase()),
                             onPressed: () {
-                              //if (restaurant.restaurantUrlLogo==null)
-                              //  restaurant.restaurantUrlLogo = 'https://image.freepik.com/free-vector/chef-restaurant-logo-template-design_4549-1.jpg';
                               saveRestaurant(context);
                             },
                           ),
@@ -167,6 +165,8 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
     if (_formStateKey.currentState.validate()) {
       _formStateKey.currentState.save();
     }
+    if (restaurant.restaurantUrlLogo==null || restaurant.restaurantUrlLogo.length==0)
+      restaurant.restaurantUrlLogo = 'https://image.freepik.com/free-vector/chef-restaurant-logo-template-design_4549-1.jpg';
     globals.restaurantSelected = restaurant;
     if (restaurant.restaurantId == 0) {
       // prepare JSON for request

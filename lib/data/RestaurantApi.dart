@@ -38,3 +38,23 @@ Future<Restaurant> detailsRestaurant(restaurantId) async {
     }
   }
 }
+
+Future<List<Restaurant>> restaurantList() async {
+  // prepare JSON for request
+  String reqJson = json.encode(RestaurantListRequest(
+      request: 'restaurant.list', session: globals.sessionLunch.sessionId));
+  // make POST request
+  Response response = await post(urlApi, headers: headers, body: reqJson);
+  var result = jsonDecode(response.body);
+  var resp = result['response'];
+  var u = resp['restaurants'];
+  //print(u.toString());
+  var restaurants = u.map((i) => Restaurant.fromJson(i)).toList();
+  List<Restaurant> restaurantList = new List<Restaurant>();
+  for (Restaurant restaurant in restaurants) {
+    //print(user.username);
+    restaurantList.add(restaurant);
+  }
+  return restaurantList;
+}
+

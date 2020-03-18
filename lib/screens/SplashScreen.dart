@@ -40,12 +40,12 @@ class _SplashScreenState extends State<SplashScreen> {
                           if (snapshot2.connectionState != ConnectionState.done) {
                             return Text(''); //Image(image: AssetImage('images/splashscreen.png'),);
                           } else {
-                            if (snapshot2.data != null) {
-                              globals.sessionLunch = SessionLunch(
-                                  snapshot.data.username,
-                                  snapshot.data.password,
-                                  snapshot2.data
-                              );
+                            if (snapshot2.data == null) {
+                              //globals.sessionLunch = SessionLunch(
+                              //    snapshot.data.username,
+                              //    snapshot.data.password,
+                              //    snapshot2.data
+                              //);
                               return HomeScreen();
                             } else {
                               globals.sessionLunch = SessionLunch(

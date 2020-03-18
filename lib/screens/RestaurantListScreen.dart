@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart';
-import 'dart:convert';
 import 'package:badges/badges.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:lunch_team/data/RestaurantApi.dart';
 import 'package:lunch_team/model/Lunch.dart';
 
 import 'package:lunch_team/model/globals.dart' as globals;
-import 'package:lunch_team/model/LunchTeamCommon.dart';
 import 'package:lunch_team/widgets/LunchTeamWidget.dart';
 import 'package:lunch_team/model/Restaurant.dart';
-import 'package:lunch_team/model/RestaurantRequest.dart';
 import 'package:lunch_team/screens/RestaurantScreen.dart';
 import 'package:lunch_team/screens/LunchScreen.dart';
 
@@ -44,7 +41,7 @@ class _RestaurantListScreenState extends State<RestaurantListScreen> {
           children: <Widget>[
             Expanded(
               child: FutureBuilder<List<Restaurant>>(
-                  future: downloadData(globals.sessionLunch),
+                  future: restaurantList(),
                   builder: (BuildContext context,
                       AsyncSnapshot<List<Restaurant>> snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
@@ -172,24 +169,5 @@ class _RestaurantListScreenState extends State<RestaurantListScreen> {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
-  }
-
-  Future<List<Restaurant>> downloadData(SessionLunch sessionLunch) async {
-    // prepare JSON for request
-    String reqJson = json.encode(RestaurantListRequest(
-        request: 'restaurant.list', session: sessionLunch.sessionId));
-    // make POST request
-    Response response = await post(urlApi, headers: headers, body: reqJson);
-    var result = jsonDecode(response.body);
-    var resp = result['response'];
-    var u = resp['restaurants'];
-    //print(u.toString());
-    var restaurants = u.map((i) => Restaurant.fromJson(i)).toList();
-    List<Restaurant> restaurantList = new List<Restaurant>();
-    for (Restaurant restaurant in restaurants) {
-      //print(user.username);
-      restaurantList.add(restaurant);
-    }
-    return restaurantList;
   }
 }

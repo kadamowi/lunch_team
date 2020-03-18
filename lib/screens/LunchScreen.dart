@@ -26,7 +26,7 @@ class _LunchScreenState extends State<LunchScreen> {
     lunchId: 0,
     restaurantId: (globals.restaurantSelected != null)
         ? globals.restaurantSelected.restaurantId
-        : 0,
+        : globals.restaurantSets.keys.first,
     username: globals.sessionLunch.username,
     lunchType: 0,
     lunchDescription: '',
@@ -37,11 +37,45 @@ class _LunchScreenState extends State<LunchScreen> {
     //totalMealCost: 0.0,
   );
 
+  List<DropdownMenuItem<String>> _dropDownMenuItems;
+  String _currentRestaurant;
+  int _currentRestaurantId = 0;
+  List<DropdownMenuItem<String>> getDropDownMenuItems() {
+    List<DropdownMenuItem<String>> items = new List();
+    globals.restaurantSets.values.forEach(
+            (v) => items.add(new DropdownMenuItem(value: v, child: new Text(v))));
+    return items;
+  }
+
+  @override
+  void initState() {
+    _dropDownMenuItems = getDropDownMenuItems();
+    _currentRestaurantId = lunch.restaurantId;
+    _currentRestaurant = globals.restaurantSets[_currentRestaurantId]; //_dropDownMenuItems[0].value;
+    _currentRestaurantId = globals.restaurantSets.keys.firstWhere(
+            (k) => globals.restaurantSets[k] == _currentRestaurant,
+        orElse: () => null);
+    super.initState();
+  }
+
+  void changedDropDownItem(String selectedRestaurant) {
+    var key = globals.restaurantSets.keys.firstWhere(
+            (k) => globals.restaurantSets[k] == selectedRestaurant,
+        orElse: () => null);
+    if (key == null) key = 0;
+    _currentRestaurantId = key;
+    lunch.restaurantId = key;
+    setState(() {
+      _currentRestaurant = selectedRestaurant;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     if (globals.lunchSelected != null && globals.lunchSelected.lunchId != 0) {
       lunch = globals.lunchSelected;
-      //print('bulid Lunch Screen - lunchId: '+lunch.lunchId.toString());
+      _currentRestaurantId = lunch.restaurantId;
+      _currentRestaurant = globals.restaurantSets[_currentRestaurantId]; //_dropDownMenuItems[0].value;
     }
 
     return Scaffold(
@@ -55,7 +89,7 @@ class _LunchScreenState extends State<LunchScreen> {
           child: Column(
             children: <Widget>[
               FutureBuilder<Restaurant>(
-                future: detailsRestaurant(lunch.restaurantId),
+                future: detailsRestaurant(_currentRestaurantId),
                 builder:
                     (BuildContext context, AsyncSnapshot<Restaurant> snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
@@ -66,7 +100,7 @@ class _LunchScreenState extends State<LunchScreen> {
                     else
                       return Container(
                         margin: const EdgeInsets.all(5),
-                        height: 100,
+                        //height: 200,
                         child: Column(
                           children: <Widget>[
                             Container(
@@ -76,20 +110,20 @@ class _LunchScreenState extends State<LunchScreen> {
                                       CircularProgressIndicator(),
                                   imageUrl: snapshot.data.restaurantUrlLogo),
                             ),
+                            FlatButton(
+                              padding: EdgeInsets.all(5),
+                              child: Image(
+                                image: AssetImage('images/menu.png'),
+                                width: 150,
+                              ),
+                              onPressed: () {
+                                launch(globals.restaurantSelected.restaurantUrl);
+                              },
+                            ),
                           ],
                         ),
                       );
                   }
-                },
-              ),
-              FlatButton(
-                padding: EdgeInsets.all(5),
-                child: Image(
-                  image: AssetImage('images/menu.png'),
-                  width: 150,
-                ),
-                onPressed: () {
-                  launch(globals.restaurantSelected.restaurantUrl);
                 },
               ),
               Form(
@@ -113,6 +147,7 @@ class _LunchScreenState extends State<LunchScreen> {
                             ),
                           ),
                           SizedBox(height: 5.0),
+                          /*
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
@@ -127,6 +162,37 @@ class _LunchScreenState extends State<LunchScreen> {
                               ),
                             ],
                           ),
+                          */
+                          Container(
+                            //margin: const EdgeInsets.all(5),
+                            padding: const EdgeInsets.only(left: 10),
+                            decoration: BoxDecoration(
+                              color: Colors.grey[200],
+                            ),
+                            child: Row(
+                              children: <Widget>[
+                                Text(
+                                  'Restaurant: ',
+                                  style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 16.0,
+                                      fontWeight: FontWeight.bold
+                                  ),
+                                ),
+                                DropdownButton(
+                                  value: _currentRestaurant,
+                                  items: _dropDownMenuItems,
+                                  onChanged: changedDropDownItem,
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 16.0,
+                                    //fontWeight: FontWeight.bold
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                          SizedBox(height: 10.0),
                           TextFormField(
                             decoration: InputDecoration(
                               contentPadding: const EdgeInsets.all(16.0),
