@@ -304,7 +304,7 @@ class _LunchDetailsScreenState extends State<LunchDetailsScreen> {
                         child: Align(
                           alignment: Alignment.centerRight,
                           child: Text(
-                            '0.00',//globals.lunchSelected.transportCost.toStringAsFixed(2),
+                            globals.lunchSelected.transportCost.toStringAsFixed(2),
                           ),
                         ),
                       ),
@@ -325,7 +325,7 @@ class _LunchDetailsScreenState extends State<LunchDetailsScreen> {
                         child: Align(
                           alignment: Alignment.centerRight,
                           child: Text(
-                            (globals.lunchSelected.lunchCost).toStringAsFixed(2),
+                            (globals.lunchSelected.lunchCost+globals.lunchSelected.transportCost).toStringAsFixed(2),
                             style: TextStyle(
                               //fontSize: 16.0,
                                 fontWeight: FontWeight.bold),
