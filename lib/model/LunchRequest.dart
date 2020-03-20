@@ -52,14 +52,13 @@ class LunchEditArguments {
   String lunchTime;
 
   LunchEditArguments(
-      {
-        this.lunchId,
-        this.restaurantId,
-        this.lunchDescription,
-        this.lunchType,
-        this.transportCost,
-        this.orderTime,
-        this.lunchTime});
+      {this.lunchId,
+      this.restaurantId,
+      this.lunchDescription,
+      this.lunchType,
+      this.transportCost,
+      this.orderTime,
+      this.lunchTime});
 
   toJson() {
     return {
@@ -118,16 +117,37 @@ class LunchDeleteRequest {
   }
 }
 
+class LunchListFilters {
+  String dateFrom;
+  String dateTo;
+  bool onlyMyMeal;
+  bool onlyMyLunch;
+
+  LunchListFilters(
+      {this.dateFrom, this.dateTo, this.onlyMyMeal, this.onlyMyLunch});
+
+  toJson() {
+    return {
+      'dateFrom': dateFrom,
+      'dateTo': dateTo,
+      'onlyMyMeal': onlyMyMeal,
+      'onlyMyLunch': onlyMyLunch,
+    };
+  }
+}
+
 class LunchListRequest {
   String request;
   String session;
+  LunchListFilters filters;
 
-  LunchListRequest({this.request, this.session});
+  LunchListRequest({this.request, this.session, this.filters});
 
   toJson() {
     return {
       'request': request,
       'session': session,
+      'filters': filters,
     };
   }
 }

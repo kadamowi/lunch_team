@@ -340,7 +340,7 @@ class _LunchScreenState extends State<LunchScreen> {
           request: 'lunch.create',
           session: globals.sessionLunch.sessionId,
           arguments: LunchCreateArguments(
-            restaurantId: globals.restaurantSelected.restaurantId,
+            restaurantId: lunch.restaurantId,
             lunchType: lunch.lunchType,
             lunchDescription: lunch.lunchDescription,
             transportCost: (lunch.transportCost??'0.00').toString(),

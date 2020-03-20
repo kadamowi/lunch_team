@@ -33,7 +33,11 @@ class MessageError extends StatelessWidget {
       child: Text(
         message,
         style: TextStyle(
-            color: Colors.red, fontSize: 18.0, fontWeight: FontWeight.bold),
+            color: Colors.red,
+            //fontSize: 18.0,
+            //fontWeight:
+            //FontWeight.bold
+        ),
       ),
     );
   }
