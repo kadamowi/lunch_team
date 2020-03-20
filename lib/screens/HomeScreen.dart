@@ -5,6 +5,7 @@ import 'package:lunch_team/screens/LunchListScreen.dart';
 import 'package:lunch_team/screens/HungerListScreen.dart';
 import 'package:lunch_team/screens/LoginScreen.dart';
 import 'package:lunch_team/model/globals.dart' as globals;
+import 'package:lunch_team/screens/HomePageScreen.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -96,6 +97,23 @@ class _HomeScreenState extends State<HomeScreen> {
                     context,
                     MaterialPageRoute(
                       builder: (context) => LoginScreen(),
+                    ),
+                  );
+                },
+              ),
+            ),
+            SizedBox(height: 20),
+            SizedBox(
+              width: MediaQuery.of(context).size.width * 0.5,
+              child: RaisedButton(
+                color: Colors.blue,
+                textColor: Colors.white,
+                child: Text("Test HOME"),
+                onPressed: () {
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => Home(),
                     ),
                   );
                 },
