@@ -2,6 +2,7 @@ class Lunch {
   int lunchId;
   int restaurantId;
   String restaurantName;
+  String restaurantLogo;
   int userId;
   String username;
   int lunchType;
@@ -18,6 +19,7 @@ class Lunch {
     this.lunchId,
     this.restaurantId,
     this.restaurantName,
+    this.restaurantLogo,
     this.userId,
     this.username,
     this.lunchType,
@@ -36,6 +38,7 @@ class Lunch {
       lunchId: parsedJson['lunchId'],
       restaurantId: parsedJson['restaurantId'],
       restaurantName: parsedJson['restaurantName'],
+      restaurantLogo: parsedJson['restaurantUrlLogo'],
       userId: parsedJson['userId'],
       username: parsedJson['userName'],
       lunchType: parsedJson['lunchType']??0,

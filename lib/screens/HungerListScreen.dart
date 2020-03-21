@@ -17,28 +17,15 @@ class _HungerListScreenState extends State<HungerListScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Hunger list'),
-      ),
+      //appBar: AppBar(
+      //  title: Text('Hunger list'),
+      //),
       body: Container(
         padding: const EdgeInsets.all(16.0),
         height: double.infinity,
         width: double.infinity,
-        //decoration: BoxDecoration(
-        //    gradient: LinearGradient(colors: [
-        //  Theme.of(context).primaryColorLight,
-        //  Theme.of(context).primaryColorDark,
-        //])),
         child: Column(
           children: <Widget>[
-            Text(
-              "List of people who like to eat in a band",
-              style: TextStyle(
-                  color: Colors.grey[800],
-                  fontSize: 20.0,
-                  fontWeight: FontWeight.bold),
-            ),
-            SizedBox(height: 20.0),
             Expanded(
               child: FutureBuilder<List<String>>(
                   future: downloadData(globals.sessionLunch),
@@ -77,18 +64,6 @@ class _HungerListScreenState extends State<HungerListScreen> {
                     }
                   }),
             ),
-            SizedBox(
-              width: MediaQuery.of(context).size.width * 0.5,
-              child: RaisedButton(
-                color: Colors.orange[800],
-                textColor: Colors.white,
-                child: Text("Refresh"),
-                onPressed: () {
-                  setState(() {});
-                },
-              ),
-            ),
-            SizedBox(height: 20.0),
           ],
         ),
       ),

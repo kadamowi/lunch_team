@@ -28,15 +28,18 @@ class MessageError extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.only(top: 5.0, bottom: 5.0),
-      child: Text(
-        message,
-        style: TextStyle(
+    return Visibility(
+      visible: message.length > 0,
+      child: Container(
+        margin: const EdgeInsets.only(top: 5.0, bottom: 5.0),
+        child: Text(
+          message,
+          style: TextStyle(
             color: Colors.red,
             //fontSize: 18.0,
             //fontWeight:
             //FontWeight.bold
+          ),
         ),
       ),
     );

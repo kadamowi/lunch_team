@@ -24,19 +24,13 @@ class _RestaurantListScreenState extends State<RestaurantListScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Restaurant list'),
-      ),
+      //appBar: AppBar(
+      //  title: Text('Restaurant list'),
+      //),
       body: Container(
         padding: const EdgeInsets.all(10.0),
         height: double.infinity,
         width: double.infinity,
-        //decoration: BoxDecoration(
-        //    gradient: LinearGradient(colors: [
-        //  Theme.of(context).primaryColorLight,
-        //  Theme.of(context).primaryColorDark,
-        //])
-        //),
         child: Column(
           children: <Widget>[
             Expanded(

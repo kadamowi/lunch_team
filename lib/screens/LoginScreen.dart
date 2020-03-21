@@ -6,7 +6,7 @@ import 'package:lunch_team/model/globals.dart' as globals;
 import 'package:lunch_team/widgets/LunchTeamWidget.dart';
 import 'package:lunch_team/model/LoginRequest.dart';
 import 'package:lunch_team/data/LoginApi.dart';
-import 'package:lunch_team/screens/HomeScreen.dart';
+import 'package:lunch_team/screens/HomePageScreen.dart';
 import 'package:lunch_team/screens/UserScreen.dart';
 
 
@@ -139,7 +139,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 Navigator.pushReplacement(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => HomeScreen(),
+                                      builder: (context) => Home(),
                                       ),
                                 );
                               } else {

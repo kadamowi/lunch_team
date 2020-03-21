@@ -57,7 +57,8 @@ class _LunchDetailsScreenState extends State<LunchDetailsScreen> {
                                 child: CachedNetworkImage(
                                     placeholder: (context, url) =>
                                         CircularProgressIndicator(),
-                                    imageUrl: snapshot.data.restaurantUrlLogo),
+                                    imageUrl: snapshot.data.restaurantUrlLogo
+                                ),
                               )
                             ),
                             Expanded(

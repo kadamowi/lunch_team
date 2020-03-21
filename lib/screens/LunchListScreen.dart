@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:badges/badges.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:intl/intl.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 import 'package:lunch_team/model/globals.dart' as globals;
 import 'package:lunch_team/widgets/LunchTeamWidget.dart';
@@ -16,8 +17,6 @@ class LunchListScreen extends StatefulWidget {
 }
 
 class _LunchListScreenState extends State<LunchListScreen> {
-  DateTime dateFrom = DateTime.now().add(Duration(days: -7));
-  DateTime dateTo = DateTime.now();
   bool onlyMyMeal = false;
   bool onlyMyLunch = false;
 
@@ -29,85 +28,19 @@ class _LunchListScreenState extends State<LunchListScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Lunch list'),
-      ),
+      //appBar: AppBar(
+      //  title: Text('Lunch list'),
+      //),
       body: Container(
         padding: const EdgeInsets.all(10.0),
         height: double.infinity,
         width: double.infinity,
         child: Column(
           children: <Widget>[
-            Container(
-              margin: const EdgeInsets.all(5),
-              padding: const EdgeInsets.all(5),
-              decoration: BoxDecoration(
-                //border: Border.all(),
-                color: Colors.white,
-              ),
-              child: Column(
-                children: <Widget>[
-                  Align(
-                    alignment: Alignment.topLeft,
-                    child: Text('Filters'),
-                  ),
-                  DateTimeField(
-                    decoration: InputDecoration(
-                      contentPadding: const EdgeInsets.all(16.0),
-                      hintText: 'date from',
-                      hintStyle: TextStyle(color: Colors.grey[800]),
-                      border: OutlineInputBorder(borderSide: BorderSide.none),
-                      filled: true,
-                      fillColor: Colors.grey[200],
-                    ),
-                    format: DateFormat("yyyy-MM-dd"),
-                    initialValue: dateFrom,
-                    onShowPicker: (context, currentValue) async {
-                      final date = await showDatePicker(
-                          context: context,
-                          firstDate: DateTime(2020),
-                          initialDate: dateFrom,
-                          lastDate: DateTime(2100)
-                      );
-                      setState(() {
-                        dateFrom = date;
-                      });
-                      return date;
-                    },
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  DateTimeField(
-                    decoration: InputDecoration(
-                      contentPadding: const EdgeInsets.all(16.0),
-                      hintText: 'date to',
-                      hintStyle: TextStyle(color: Colors.grey[800]),
-                      border: OutlineInputBorder(borderSide: BorderSide.none),
-                      filled: true,
-                      fillColor: Colors.grey[200],
-                    ),
-                    format: DateFormat("yyyy-MM-dd"),
-                    initialValue: dateTo,
-                    onShowPicker: (context, currentValue) async {
-                      final date = await showDatePicker(
-                          context: context,
-                          firstDate: DateTime(2020),
-                          initialDate: dateTo,
-                          lastDate: DateTime(2100)
-                      );
-                      setState(() {
-                        dateTo = date;
-                      });
-                      return date;
-                    },
-                  ),
-                ],
-              ),
-            ),
             Expanded(
               child: FutureBuilder<List<Lunch>>(
-                  future: lunchList(dateFrom, dateTo, onlyMyMeal, onlyMyLunch),
+                  future: lunchList(globals.dateFrom, globals.dateTo,
+                      onlyMyMeal, onlyMyLunch),
                   builder: (BuildContext context,
                       AsyncSnapshot<List<Lunch>> snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
@@ -124,11 +57,9 @@ class _LunchListScreenState extends State<LunchListScreen> {
                             itemCount: snapshot.data.length,
                             itemBuilder: (context, index) {
                               return Container(
-                                //height: 100,
                                 margin: const EdgeInsets.all(5),
                                 padding: const EdgeInsets.all(5),
                                 decoration: BoxDecoration(
-/*                                  border: Border.all(),*/
                                   color: Colors.white,
                                 ),
                                 child: Badge(
@@ -137,44 +68,73 @@ class _LunchListScreenState extends State<LunchListScreen> {
                                       .toString()),
                                   badgeColor: Colors.orange[50],
                                   padding: EdgeInsets.all(8),
-                                  child: ListTile(
-                                      trailing: Icon(
-                                        (snapshot.data[index].status ==
-                                                'COLLECTING')
-                                            ? Icons.create_new_folder
-                                            : (snapshot.data[index].status ==
-                                                    'DELIVERING')
-                                                ? Icons.directions_car
-                                                : (snapshot.data[index]
-                                                            .status ==
-                                                        'TO_SETTLEMENT')
-                                                    ? Icons.attach_money
-                                                    : (snapshot.data[index]
-                                                                .status ==
-                                                            'SETTLEMENTED')
-                                                        ? Icons.money_off
-                                                        : Icons.error,
-                                        color: Colors.orange[800],
+                                  child: RaisedButton(
+                                      color: Colors.white,
+                                      child: Row(
+                                        children: <Widget>[
+                                          RotatedBox(
+                                            quarterTurns: 1,
+                                            child: Text(
+                                              snapshot.data[index].status,
+                                              style: TextStyle(
+                                                color: Colors.red,
+                                                fontSize: 10,
+                                              ),
+                                            ),
+                                          ),
+                                          Container(
+                                            margin: const EdgeInsets.all(10),
+                                            height: 70,
+                                            width: 70,
+                                            child: CachedNetworkImage(
+                                                placeholder: (context, url) =>
+                                                    CircularProgressIndicator(),
+                                                imageUrl: snapshot.data[index]
+                                                    .restaurantLogo),
+                                          ),
+                                          Expanded(
+                                              child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceEvenly,
+                                            children: <Widget>[
+                                              Container(
+                                                child:Align(
+                                                  alignment: Alignment.topLeft,
+                                                  child: Text(
+                                                    snapshot.data[index]
+                                                        .restaurantName,
+                                                    style: TextStyle(
+                                                      color: Colors.orange,
+                                                      fontSize: 16,
+                                                    ),
+                                                  ),
+                                                )
+                                              ),
+                                              Align(
+                                                alignment: Alignment.centerLeft,
+                                                child: Text(
+                                                  snapshot.data[index]
+                                                      .lunchDescription,
+                                                ),
+                                              ),
+                                              Align(
+                                                alignment:
+                                                Alignment.topLeft,
+                                                child: Text(
+                                                  snapshot
+                                                      .data[index].username,
+                                                  style: TextStyle(
+                                                      color: Colors.black,
+                                                      fontSize: 12,
+                                                      fontWeight:
+                                                      FontWeight.bold),
+                                                ),
+                                              ),
+                                            ],
+                                          ))
+                                        ],
                                       ),
-                                      title: Text(
-                                        snapshot.data[index].restaurantName +
-                                            ' - ' +
-                                            snapshot.data[index].username,
-                                        style: TextStyle(
-                                            color: Colors.orange[800],
-                                            fontWeight: FontWeight.bold),
-                                        overflow: TextOverflow.ellipsis,
-                                      ),
-                                      subtitle: Container(
-                                        height: 50,
-                                        child: Text(
-                                          snapshot.data[index].lunchDescription,
-                                          overflow: TextOverflow.clip,
-                                          style: TextStyle(
-                                              color: Colors.grey[800]),
-                                        ),
-                                      ),
-                                      onTap: () {
+                                      onPressed: () {
                                         globals.lunchSelected =
                                             snapshot.data[index];
                                         Navigator.push(
@@ -231,6 +191,74 @@ class _LunchListScreenState extends State<LunchListScreen> {
                     }
                   }),
             ),
+            Container(
+              margin: const EdgeInsets.all(5),
+              padding: const EdgeInsets.all(5),
+              decoration: BoxDecoration(
+                //border: Border.all(),
+                color: Colors.white,
+              ),
+              child: Column(
+                children: <Widget>[
+                  Align(
+                    alignment: Alignment.topLeft,
+                    child: Text('Filters',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold
+                    ),),
+                  ),
+                  DateTimeField(
+                    decoration: InputDecoration(
+                      contentPadding: const EdgeInsets.all(16.0),
+                      hintText: 'date from',
+                      hintStyle: TextStyle(color: Colors.grey[800]),
+                      border: OutlineInputBorder(borderSide: BorderSide.none),
+                      filled: true,
+                      fillColor: Colors.grey[200],
+                    ),
+                    format: DateFormat("yyyy-MM-dd"),
+                    initialValue: globals.dateFrom,
+                    onShowPicker: (context, currentValue) async {
+                      final date = await showDatePicker(
+                          context: context,
+                          firstDate: DateTime(2020),
+                          initialDate: globals.dateFrom,
+                          lastDate: DateTime(2100));
+                      setState(() {
+                        globals.dateFrom = date;
+                      });
+                      return date;
+                    },
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  DateTimeField(
+                    decoration: InputDecoration(
+                      contentPadding: const EdgeInsets.all(16.0),
+                      hintText: 'date to',
+                      hintStyle: TextStyle(color: Colors.grey[800]),
+                      border: OutlineInputBorder(borderSide: BorderSide.none),
+                      filled: true,
+                      fillColor: Colors.grey[200],
+                    ),
+                    format: DateFormat("yyyy-MM-dd"),
+                    initialValue: globals.dateTo,
+                    onShowPicker: (context, currentValue) async {
+                      final date = await showDatePicker(
+                          context: context,
+                          firstDate: DateTime(2020),
+                          initialDate: globals.dateTo,
+                          lastDate: DateTime(2100));
+                      setState(() {
+                        globals.dateTo = date;
+                      });
+                      return date;
+                    },
+                  ),
+                ],
+              ),
+            ),
             MessageError(message: globals.errorMessage),
           ],
         ),
@@ -246,7 +274,7 @@ class _LunchListScreenState extends State<LunchListScreen> {
             setState(() {});
           });
         },
-        tooltip: 'Add restaurant',
+        tooltip: 'Add lunch',
         child: Icon(Icons.add),
       ),
     );
