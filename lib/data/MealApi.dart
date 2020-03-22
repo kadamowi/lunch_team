@@ -7,13 +7,13 @@ import 'package:lunch_team/model/Meal.dart';
 import 'package:lunch_team/model/MealRequest.dart';
 
 
-Future<List<Meal>> fetchMealList() async {
+Future<List<Meal>> fetchMealList(int lunchId) async {
   // prepare JSON for request
   String reqJson = json.encode(MealListRequest(
       request: 'meal.list',
       session: globals.sessionLunch.sessionId,
       arguments: MealListArguments(
-        lunchId: globals.lunchSelected.lunchId,
+        lunchId: lunchId,
       )
   ));
   // make POST request

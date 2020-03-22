@@ -57,6 +57,7 @@ class _LunchListScreenState extends State<LunchListScreen> {
                             itemCount: snapshot.data.length,
                             itemBuilder: (context, index) {
                               return Container(
+                                height: 100,
                                 margin: const EdgeInsets.all(5),
                                 padding: const EdgeInsets.all(5),
                                 decoration: BoxDecoration(
@@ -68,7 +69,7 @@ class _LunchListScreenState extends State<LunchListScreen> {
                                       .toString()),
                                   badgeColor: Colors.orange[50],
                                   padding: EdgeInsets.all(8),
-                                  child: RaisedButton(
+                                  child: FlatButton(
                                       color: Colors.white,
                                       child: Row(
                                         children: <Widget>[
@@ -110,13 +111,16 @@ class _LunchListScreenState extends State<LunchListScreen> {
                                                   ),
                                                 )
                                               ),
-                                              Align(
-                                                alignment: Alignment.centerLeft,
-                                                child: Text(
-                                                  snapshot.data[index]
-                                                      .lunchDescription,
+                                              Expanded(
+                                                child:Align(
+                                                  alignment: Alignment.topLeft,
+                                                  child: Text(
+                                                    snapshot.data[index]
+                                                        .lunchDescription,
+                                                  ),
                                                 ),
                                               ),
+
                                               Align(
                                                 alignment:
                                                 Alignment.topLeft,
@@ -265,6 +269,7 @@ class _LunchListScreenState extends State<LunchListScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
+          globals.lunchSelected = new Lunch(lunchId: 0);
           Navigator.push(
             context,
             MaterialPageRoute(

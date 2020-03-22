@@ -15,5 +15,5 @@ Meal mealSelected;
 
 Map restaurantSets;
 
-DateTime dateFrom = DateTime.now().add(Duration(days: -7));
+DateTime dateFrom = DateTime.now().add(Duration(days: -3));
 DateTime dateTo = DateTime.now();
