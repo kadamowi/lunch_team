@@ -73,13 +73,18 @@ class _LunchListScreenState extends State<LunchListScreen> {
                                       color: Colors.white,
                                       child: Row(
                                         children: <Widget>[
-                                          RotatedBox(
-                                            quarterTurns: 1,
-                                            child: Text(
-                                              snapshot.data[index].status,
-                                              style: TextStyle(
-                                                color: Colors.red,
-                                                fontSize: 10,
+                                          Container(
+                                            padding: EdgeInsets.all(5),
+                                            color: globals.statusColors[snapshot.data[index].status],
+                                            child:RotatedBox(
+                                              quarterTurns: 3,
+                                              child: Text(
+                                                globals.statusDesc[snapshot.data[index].status],
+                                                style: TextStyle(
+                                                  backgroundColor: globals.statusColors[snapshot.data[index].status],
+                                                  color: Colors.white,
+                                                  fontSize: 10,
+                                                ),
                                               ),
                                             ),
                                           ),
@@ -120,19 +125,51 @@ class _LunchListScreenState extends State<LunchListScreen> {
                                                   ),
                                                 ),
                                               ),
-
-                                              Align(
-                                                alignment:
-                                                Alignment.topLeft,
-                                                child: Text(
-                                                  snapshot
-                                                      .data[index].username,
-                                                  style: TextStyle(
-                                                      color: Colors.black,
-                                                      fontSize: 12,
-                                                      fontWeight:
-                                                      FontWeight.bold),
-                                                ),
+                                              Row(
+                                                children: <Widget>[
+                                                  Icon(Icons.person),
+                                                  Text(
+                                                    snapshot
+                                                        .data[index].username,
+                                                    style: TextStyle(
+                                                        color: Colors.black,
+                                                        fontSize: 12,
+                                                        fontWeight:
+                                                        FontWeight.bold),
+                                                  ),
+                                                  //Align(
+                                                  //  alignment:
+                                                  //  Alignment.topLeft,
+                                                  //  child:
+                                                  //),
+                                                  Spacer(),
+                                                  Visibility(
+                                                    visible: (snapshot.data[index].status == 'COLLECTING' || snapshot.data[index].status == 'DELIVERING'),
+                                                    child: Icon(Icons.timer),
+                                                  ),
+                                                  Visibility(
+                                                    visible: (snapshot.data[index].status == 'COLLECTING'),
+                                                    child: Text(
+                                                      snapshot.data[index].lunchOrderTime.difference(DateTime.now()).inMinutes.toString(),
+                                                      style: TextStyle(
+                                                          color: Colors.black,
+                                                          fontSize: 12,
+                                                          fontWeight:
+                                                          FontWeight.bold),
+                                                    ),
+                                                  ),
+                                                  Visibility(
+                                                    visible: (snapshot.data[index].status == 'DELIVERING'),
+                                                    child: Text(
+                                                      snapshot.data[index].lunchLunchTime.difference(DateTime.now()).inMinutes.toString(),
+                                                      style: TextStyle(
+                                                          color: Colors.black,
+                                                          fontSize: 12,
+                                                          fontWeight:
+                                                          FontWeight.bold),
+                                                    ),
+                                                  ),
+                                                ],
                                               ),
                                             ],
                                           ))
