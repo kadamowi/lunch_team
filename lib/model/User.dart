@@ -1,13 +1,17 @@
 class User {
   String userId;
   String username;
+  String displayName;
+  String avatarUrl;
 
-  User({this.userId, this.username});
+  User({this.userId, this.username, this.displayName, this.avatarUrl});
 
   factory User.fromJson(Map<String, dynamic> parsedJson) {
     return User(
       userId: parsedJson['userId'],
       username: parsedJson['username'],
+      displayName: parsedJson['userDisplayName'],
+      avatarUrl: parsedJson['userAvatarUrl']
     );
   }
 }

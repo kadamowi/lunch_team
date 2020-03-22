@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart';
-import 'dart:convert';
+import 'package:cached_network_image/cached_network_image.dart';
 
-import 'package:lunch_team/model/LunchTeamCommon.dart';
-import 'package:lunch_team/model/TeamUsersRequest.dart';
 import 'package:lunch_team/widgets/LunchTeamWidget.dart';
 import 'package:lunch_team/model/User.dart';
-import 'package:lunch_team/model/globals.dart' as globals;
+import 'package:lunch_team/data/LoginApi.dart';
 
 class HungerListScreen extends StatefulWidget {
   @override
@@ -14,6 +11,11 @@ class HungerListScreen extends StatefulWidget {
 }
 
 class _HungerListScreenState extends State<HungerListScreen> {
+  Future<Null> refreshList() {
+    setState(() {});
+    return null;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,39 +29,59 @@ class _HungerListScreenState extends State<HungerListScreen> {
         child: Column(
           children: <Widget>[
             Expanded(
-              child: FutureBuilder<List<String>>(
-                  future: downloadData(globals.sessionLunch),
+              child: FutureBuilder<List<User>>(
+                  future: userList(),
                   builder: (BuildContext context,
-                      AsyncSnapshot<List<String>> snapshot) {
+                      AsyncSnapshot<List<User>> snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return ProgressBar();
                     } else {
                       if (snapshot.hasError)
                         return Center(child: Text('Error: ${snapshot.error}'));
                       else
-                        return ListView.builder(
-                          scrollDirection: Axis.vertical,
-                          shrinkWrap: true,
-                          itemCount: snapshot.data.length,
-                          itemBuilder: (context, index) {
-                            return Container(
-                              //height: 50,
-                              margin: const EdgeInsets.all(5),
-                              padding: const EdgeInsets.all(5),
-                              decoration: BoxDecoration(
-                                /*border: Border.all(),*/
-                                color: Colors.white,
-                              ),
-                              child: Center(
-                                  child: Text(
-                                    snapshot.data[index],
+                        return RefreshIndicator(
+                          onRefresh: refreshList,
+                          child: ListView.builder(
+                            scrollDirection: Axis.vertical,
+                            shrinkWrap: true,
+                            itemCount: snapshot.data.length,
+                            itemBuilder: (context, index) {
+                              return Container(
+                                margin: const EdgeInsets.all(5),
+                                padding: const EdgeInsets.all(5),
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                ),
+                                child: ListTile(
+                                  leading: Container(
+                                    width: 60,
+                                    height: 60,
+                                    child: CachedNetworkImage(
+                                        placeholder: (context, url) =>
+                                            CircularProgressIndicator(),
+                                        imageUrl: snapshot.data[index].avatarUrl
+                                            ),
+                                  ),
+                                    title: Text(
+                                      snapshot.data[index].displayName,
+                                      style: TextStyle(
+                                          color: Colors.grey[800],
+                                          //fontSize: 20.0,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  subtitle: Text(
+                                    snapshot.data[index].username,
                                     style: TextStyle(
                                         color: Colors.grey[800],
-                                        fontSize: 20.0,
-                                        fontWeight: FontWeight.bold),
-                                  )),
-                            );
-                          },
+                                        //fontSize: 20.0,
+                                        //fontWeight: FontWeight.bold
+                                    ),
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+
                         );
                     }
                   }),
@@ -68,24 +90,5 @@ class _HungerListScreenState extends State<HungerListScreen> {
         ),
       ),
     );
-  }
-
-  Future<List<String>> downloadData(SessionLunch sessionLunch) async {
-    // prepare JSON for request
-    String reqJson = json.encode(TeamUsersRequest(
-        request: 'user.list', session: sessionLunch.sessionId));
-    // make POST request
-    Response response = await post(urlApi, headers: headers, body: reqJson);
-    var result = jsonDecode(response.body);
-    var resp = result['response'];
-    var u = resp['users'];
-    //print(u.toString());
-    var users = u.map((i) => User.fromJson(i)).toList();
-    List<String> userList = new List<String>();
-    for (User user in users) {
-      //print(user.username);
-      userList.add(user.username);
-    }
-    return userList;
   }
 }

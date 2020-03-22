@@ -6,6 +6,8 @@ import 'package:lunch_team/model/LoginRequest.dart';
 import 'package:lunch_team/model/Restaurant.dart';
 import 'package:lunch_team/data/RestaurantApi.dart';
 import 'package:lunch_team/model/globals.dart' as globals;
+import 'package:lunch_team/model/User.dart';
+import 'package:lunch_team/model/TeamUsersRequest.dart';
 
 Future<LoginUser> getSavedUser() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -78,4 +80,25 @@ Future<String>  createAccount(LoginUser loginUser) async {
     return globals.errorMessage;
   }
   return null;
+}
+
+Future<List<User>> userList() async {
+  // prepare JSON for request
+  String reqJson = json.encode(TeamUsersRequest(
+      request: 'user.list',
+      session: globals.sessionLunch.sessionId
+  ));
+  // make POST request
+  Response response = await post(urlApi, headers: headers, body: reqJson);
+  var result = jsonDecode(response.body);
+  var resp = result['response'];
+  var u = resp['users'];
+  //print(u.toString());
+  var users = u.map((i) => User.fromJson(i)).toList();
+  List<User> userList = new List<User>();
+  for (User user in users) {
+    //print(user.username);
+    userList.add(user);
+  }
+  return userList;
 }

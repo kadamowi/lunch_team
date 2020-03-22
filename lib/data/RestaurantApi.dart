@@ -42,7 +42,8 @@ Future<Restaurant> detailsRestaurant(restaurantId) async {
 Future<List<Restaurant>> restaurantList() async {
   // prepare JSON for request
   String reqJson = json.encode(RestaurantListRequest(
-      request: 'restaurant.list', session: globals.sessionLunch.sessionId));
+      request: 'restaurant.list',
+      session: globals.sessionLunch.sessionId));
   // make POST request
   Response response = await post(urlApi, headers: headers, body: reqJson);
   var result = jsonDecode(response.body);
