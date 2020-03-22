@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lunch_team/data/LoginApi.dart';
 import 'package:lunch_team/model/LunchTeamCommon.dart';
 import 'package:lunch_team/screens/HomePageScreen.dart';
-import 'package:lunch_team/model/LoginRequest.dart';
+import 'package:lunch_team/request/LoginRequest.dart';
 import 'package:lunch_team/screens/LoginScreen.dart';
 import 'package:lunch_team/model/globals.dart' as globals;
 

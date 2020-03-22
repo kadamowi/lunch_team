@@ -6,7 +6,7 @@ import 'package:lunch_team/model/globals.dart' as globals;
 import 'package:lunch_team/model/LunchTeamCommon.dart';
 import 'package:lunch_team/widgets/LunchTeamWidget.dart';
 import 'package:lunch_team/model/Restaurant.dart';
-import 'package:lunch_team/model/RestaurantRequest.dart';
+import 'package:lunch_team/request/RestaurantRequest.dart';
 
 class RestaurantScreen extends StatefulWidget {
   @override
@@ -152,7 +152,6 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                       ],
                     ),
                     MessageError(message: message),
-                    SizedBox(height: 10.0),
                   ])),
             ],
           ),

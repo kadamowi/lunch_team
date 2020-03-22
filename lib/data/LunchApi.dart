@@ -4,7 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:lunch_team/model/globals.dart' as globals;
 import 'package:lunch_team/model/LunchTeamCommon.dart';
 import 'package:lunch_team/model/Lunch.dart';
-import 'package:lunch_team/model/LunchRequest.dart';
+import 'package:lunch_team/request/LunchRequest.dart';
 
 Future<Lunch> lunchDeetails(lunchId) async {
   //print('detailsLunch for ' + lunchId.toString());

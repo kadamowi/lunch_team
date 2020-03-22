@@ -2,16 +2,33 @@ class User {
   String userId;
   String username;
   String displayName;
+  String email;
   String avatarUrl;
 
-  User({this.userId, this.username, this.displayName, this.avatarUrl});
+  User(
+      {this.userId,
+      this.username,
+      this.displayName,
+      this.email,
+      this.avatarUrl});
+
+  toJson() {
+    return {
+      'userId': userId,
+      'username': username,
+      'userDisplayName': displayName,
+      'userEmail': email,
+      'userAvatarUrl': avatarUrl,
+    };
+  }
 
   factory User.fromJson(Map<String, dynamic> parsedJson) {
     return User(
       userId: parsedJson['userId'],
       username: parsedJson['username'],
       displayName: parsedJson['userDisplayName'],
-      avatarUrl: parsedJson['userAvatarUrl']
+      email: parsedJson['userEmail'],
+      avatarUrl: parsedJson['userAvatarUrl'],
     );
   }
 }
@@ -29,11 +46,3 @@ class UsersList {
     );
   }
 }
-
-//class Response {
-//  List<User> users;
-//}
-
-//class TeamUserResponse {
-//  Response response;
-//}

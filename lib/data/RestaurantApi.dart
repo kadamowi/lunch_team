@@ -4,7 +4,7 @@ import 'dart:convert';
 import 'package:lunch_team/model/globals.dart' as globals;
 import 'package:lunch_team/model/LunchTeamCommon.dart';
 import 'package:lunch_team/model/Restaurant.dart';
-import 'package:lunch_team/model/RestaurantRequest.dart';
+import 'package:lunch_team/request/RestaurantRequest.dart';
 
 Future<Restaurant> detailsRestaurant(restaurantId) async {
   //print('detailsRestaurant for '+restaurantId.toString());
@@ -58,4 +58,6 @@ Future<List<Restaurant>> restaurantList() async {
   }
   return restaurantList;
 }
+
+
 

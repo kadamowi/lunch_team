@@ -12,7 +12,7 @@ import 'package:lunch_team/widgets/LunchTeamWidget.dart';
 import 'package:lunch_team/model/Restaurant.dart';
 import 'package:lunch_team/data/RestaurantApi.dart';
 import 'package:lunch_team/model/Lunch.dart';
-import 'package:lunch_team/model/LunchRequest.dart';
+import 'package:lunch_team/request/LunchRequest.dart';
 
 class LunchScreen extends StatefulWidget {
   @override

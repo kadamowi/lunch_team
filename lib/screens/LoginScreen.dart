@@ -4,7 +4,7 @@ import 'package:package_info/package_info.dart';
 
 import 'package:lunch_team/model/globals.dart' as globals;
 import 'package:lunch_team/widgets/LunchTeamWidget.dart';
-import 'package:lunch_team/model/LoginRequest.dart';
+import 'package:lunch_team/request/LoginRequest.dart';
 import 'package:lunch_team/data/LoginApi.dart';
 import 'package:lunch_team/screens/HomePageScreen.dart';
 import 'package:lunch_team/screens/UserScreen.dart';

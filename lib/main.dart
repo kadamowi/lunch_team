@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'screens/LoginScreen.dart';
 import 'screens/SplashScreen.dart';
 
 void main() {
@@ -17,12 +16,6 @@ class MyApp extends StatelessWidget {
         primaryColor: Colors.orange[800],
         accentColor: Colors.orange[800],
       ),
-      //theme: ThemeData(
-      //  scaffoldBackgroundColor: Colors.green,
-      //  primarySwatch: Colors.blue,
-      //  primaryColorLight: Colors.lightGreen,
-      //  primaryColorDark: Colors.green,
-      //),
       home: SplashScreen(),
     );
   }

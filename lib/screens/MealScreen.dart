@@ -6,7 +6,7 @@ import 'package:lunch_team/model/globals.dart' as globals;
 import 'package:lunch_team/model/LunchTeamCommon.dart';
 import 'package:lunch_team/widgets/LunchTeamWidget.dart';
 import 'package:lunch_team/model/Meal.dart';
-import 'package:lunch_team/model/MealRequest.dart';
+import 'package:lunch_team/request/MealRequest.dart';
 
 class MealScreen extends StatefulWidget {
   @override

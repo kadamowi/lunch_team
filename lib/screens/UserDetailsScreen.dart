@@ -1,47 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:package_info/package_info.dart';
+import 'package:lunch_team/data/UserApi.dart';
 
-import 'package:lunch_team/model/User.dart';
-import 'package:lunch_team/request/LoginRequest.dart';
-import 'package:lunch_team/data/LoginApi.dart';
+import 'package:lunch_team/model/globals.dart' as globals;
 import 'package:lunch_team/widgets/LunchTeamWidget.dart';
 
-class UserScreen extends StatefulWidget {
+class UserDetailsScreen extends StatefulWidget {
   @override
-  _UserScreenState createState() => _UserScreenState();
+  _UserDetailsScreenState createState() => _UserDetailsScreenState();
 }
 
-class _UserScreenState extends State<UserScreen> {
+class _UserDetailsScreenState extends State<UserDetailsScreen> {
   final GlobalKey<FormState> _formStateKey = GlobalKey<FormState>();
-  LoginUser loginUser = new LoginUser(username: '', password: '');
-  String secondPassword;
   String message = "X";
-  User user;
-  PackageInfo _packageInfo = PackageInfo(
-    appName: 'Unknown',
-    packageName: 'Unknown',
-    version: 'Unknown',
-    buildNumber: 'Unknown',
-  );
-
-  @override
-  void initState() {
-    super.initState();
-    _initPackageInfo();
-  }
-
-  Future<void> _initPackageInfo() async {
-    final PackageInfo info = await PackageInfo.fromPlatform();
-    setState(() {
-      _packageInfo = info;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Registration'),
+        title: Text('User details'),
       ),
       body: SingleChildScrollView(
         child: Container(
@@ -49,14 +25,6 @@ class _UserScreenState extends State<UserScreen> {
           height: MediaQuery.of(context).size.height,
           child: Column(
             children: <Widget>[
-              Container(
-                margin: const EdgeInsets.only(top: 40.0, bottom: 20.0),
-                height: 180,
-                child: Image(
-                  image: AssetImage('images/logo.png'),
-                ),
-              ),
-              SizedBox(height: 20.0, width: double.infinity),
               Form(
                   key: _formStateKey,
                   autovalidate: false,
@@ -70,7 +38,7 @@ class _UserScreenState extends State<UserScreen> {
                             Align(
                               alignment: Alignment.topLeft,
                               child: Text(
-                                'Register new user',
+                                'User details',
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 16,
@@ -91,21 +59,23 @@ class _UserScreenState extends State<UserScreen> {
                                       Icons.person,
                                       color: Colors.orange[800],
                                     )),
-                                hintText: "enter your name",
+                                hintText: "display name",
                                 hintStyle: TextStyle(color: Colors.grey[800]),
                                 border: OutlineInputBorder(
                                     borderSide: BorderSide.none),
                                 filled: true,
                                 fillColor: Colors.grey[200],
                               ),
+                              initialValue: globals.userLogged.displayName,
                               validator: (value) {
                                 if (value.length == 0)
-                                  return "username is empty";
+                                  return "display name is empty";
                                 return null;
                               },
-                              onSaved: (value) => loginUser.username = value,
+                              onSaved: (value) =>
+                                  globals.userLogged.displayName = value,
                             ),
-                            SizedBox(height: 10.0),
+                            SizedBox(height: 5.0),
                             TextFormField(
                               decoration: InputDecoration(
                                 contentPadding: const EdgeInsets.all(16.0),
@@ -116,25 +86,21 @@ class _UserScreenState extends State<UserScreen> {
                                     decoration:
                                         BoxDecoration(color: Colors.grey[200]),
                                     child: Icon(
-                                      Icons.lock,
+                                      Icons.person,
                                       color: Colors.orange[800],
                                     )),
-                                hintText: "enter your password",
+                                hintText: "avatar",
                                 hintStyle: TextStyle(color: Colors.grey[800]),
                                 border: OutlineInputBorder(
                                     borderSide: BorderSide.none),
                                 filled: true,
                                 fillColor: Colors.grey[200],
                               ),
-                              validator: (value) {
-                                if (value.length == 0)
-                                  return "passwords is empty";
-                                return null;
-                              },
-                              onSaved: (value) => loginUser.password = value,
-                              obscureText: true,
+                              initialValue: globals.userLogged.avatarUrl,
+                              onSaved: (value) =>
+                                  globals.userLogged.avatarUrl = value,
                             ),
-                            SizedBox(height: 10.0),
+                            SizedBox(height: 5.0),
                             TextFormField(
                               decoration: InputDecoration(
                                 contentPadding: const EdgeInsets.all(16.0),
@@ -145,59 +111,64 @@ class _UserScreenState extends State<UserScreen> {
                                     decoration:
                                         BoxDecoration(color: Colors.grey[200]),
                                     child: Icon(
-                                      Icons.lock,
+                                      Icons.person,
                                       color: Colors.orange[800],
                                     )),
-                                hintText: "retype your password",
+                                hintText: "email",
                                 hintStyle: TextStyle(color: Colors.grey[800]),
                                 border: OutlineInputBorder(
                                     borderSide: BorderSide.none),
                                 filled: true,
                                 fillColor: Colors.grey[200],
                               ),
-                              validator: (value) {
-                                if (value.length == 0)
-                                  return "passwords is empty";
-                                return null;
-                              },
-                              onSaved: (value) => secondPassword = value,
-                              obscureText: true,
+                              initialValue: globals.userLogged.email,
+                              onSaved: (value) =>
+                                  globals.userLogged.email = value,
                             ),
+                            SizedBox(height: 10.0),
                           ],
                         )),
                     SizedBox(height: 10.0),
-                    SizedBox(
-                      width: double.infinity,
-                      child: RaisedButton(
-                        color: Colors.orange[800],
-                        textColor: Colors.white,
-                        padding: const EdgeInsets.all(20.0),
-                        child: Text("Sign up".toUpperCase()),
-                        onPressed: () {
-                          print(loginUser.username);
-                          if (_formStateKey.currentState.validate()) {
-                            _formStateKey.currentState.save();
-                            if (loginUser.password == secondPassword) {
-                              createAccount(loginUser).then((value) {
-                                if (value != null)
-                                  setState(() {
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: <Widget>[
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width * 0.3,
+                          child: RaisedButton(
+                            color: Colors.orange[800],
+                            textColor: Colors.white,
+                            padding: const EdgeInsets.all(20.0),
+                            child: Text("Save".toUpperCase()),
+                            onPressed: () {
+                              if (_formStateKey.currentState.validate()) {
+                                _formStateKey.currentState.save();
+                                editUser().then((value) {
+                                  if (value == null)
+                                    Navigator.pop(context);
+                                  else {
                                     message = value;
-                                  });
-                                else
-                                  Navigator.pop(context);
-                              });
-                            }
-                          }
-                        },
-                        shape: RoundedRectangleBorder(),
-                      ),
+                                    setState(() {});
+                                  }
+                                });
+                              }
+                            },
+                          ),
+                        ),
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width * 0.3,
+                          child: RaisedButton(
+                            color: Colors.orange[800],
+                            textColor: Colors.white,
+                            padding: const EdgeInsets.all(20.0),
+                            child: Text("Delete".toUpperCase()),
+                            onPressed: () {},
+                          ),
+                        ),
+                      ],
                     ),
                   ])),
               //Spacer(),
               MessageError(message: message),
-              Text(
-                'Version '+_packageInfo.version,
-              ),
             ],
           ),
         ),
