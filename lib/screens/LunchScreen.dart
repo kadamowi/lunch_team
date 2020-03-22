@@ -174,7 +174,7 @@ class _LunchScreenState extends State<LunchScreen> {
                                 Text(
                                   'Restaurant: ',
                                   style: TextStyle(
-                                      color: Colors.black,
+                                      color: Colors.grey[800],
                                       fontSize: 16.0,
                                       fontWeight: FontWeight.bold
                                   ),
@@ -184,7 +184,7 @@ class _LunchScreenState extends State<LunchScreen> {
                                   items: _dropDownMenuItems,
                                   onChanged: changedDropDownItem,
                                   style: TextStyle(
-                                    color: Colors.black,
+                                    color: Colors.grey[800],
                                     fontSize: 16.0,
                                     //fontWeight: FontWeight.bold
                                   ),

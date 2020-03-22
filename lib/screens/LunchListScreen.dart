@@ -64,17 +64,24 @@ class _LunchListScreenState extends State<LunchListScreen> {
                                   color: Colors.white,
                                 ),
                                 child: Badge(
+                                  shape: BadgeShape.square,
+                                  toAnimate: true,
                                   badgeContent: Text(snapshot
                                       .data[index].mealCount
-                                      .toString()),
-                                  badgeColor: Colors.orange[50],
+                                      .toString(),
+                                      style: TextStyle(color: Colors.white)),
+                                  badgeColor: Colors.orange[800],
                                   padding: EdgeInsets.all(8),
                                   child: FlatButton(
+                                      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                                       color: Colors.white,
+                                      padding: EdgeInsets.all(0),
                                       child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.center,
                                         children: <Widget>[
                                           Container(
-                                            padding: EdgeInsets.all(5),
+                                            padding: EdgeInsets.all(8),
+                                            margin: const EdgeInsets.all(0),
                                             color: globals.statusColors[snapshot.data[index].status],
                                             child:RotatedBox(
                                               quarterTurns: 3,
@@ -132,7 +139,7 @@ class _LunchListScreenState extends State<LunchListScreen> {
                                                     snapshot
                                                         .data[index].username,
                                                     style: TextStyle(
-                                                        color: Colors.black,
+                                                        color: Colors.grey[800],
                                                         fontSize: 12,
                                                         fontWeight:
                                                         FontWeight.bold),
@@ -152,7 +159,7 @@ class _LunchListScreenState extends State<LunchListScreen> {
                                                     child: Text(
                                                       snapshot.data[index].lunchOrderTime.difference(DateTime.now()).inMinutes.toString(),
                                                       style: TextStyle(
-                                                          color: Colors.black,
+                                                          color: Colors.grey[800],
                                                           fontSize: 12,
                                                           fontWeight:
                                                           FontWeight.bold),
@@ -163,7 +170,7 @@ class _LunchListScreenState extends State<LunchListScreen> {
                                                     child: Text(
                                                       snapshot.data[index].lunchLunchTime.difference(DateTime.now()).inMinutes.toString(),
                                                       style: TextStyle(
-                                                          color: Colors.black,
+                                                          color: Colors.grey[800],
                                                           fontSize: 12,
                                                           fontWeight:
                                                           FontWeight.bold),
