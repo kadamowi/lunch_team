@@ -7,6 +7,7 @@ import 'package:lunch_team/model/LunchTeamCommon.dart';
 import 'package:lunch_team/widgets/LunchTeamWidget.dart';
 import 'package:lunch_team/model/Restaurant.dart';
 import 'package:lunch_team/request/RestaurantRequest.dart';
+import 'package:lunch_team/data/RestaurantApi.dart';
 
 class RestaurantScreen extends StatefulWidget {
   @override
@@ -189,6 +190,12 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
         if (res != null) {
           bool createRestaurant = res['createRestaurant'];
           if (createRestaurant) {
+            // Pobranie listy restauracji
+            List<Restaurant> restaurants = await restaurantList();
+            globals.restaurantSets = new Map();
+            for (Restaurant r in restaurants) {
+              globals.restaurantSets[r.restaurantId] = r.restaurantName;
+            }
             Navigator.pop(context);
           } else {
             setState(() {

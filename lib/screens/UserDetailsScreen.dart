@@ -29,6 +29,7 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                   autovalidate: false,
                   child: Column(children: <Widget>[
                     Container(
+                      height: 240,
                         color: Colors.white,
                         margin: EdgeInsets.all(10),
                         padding: EdgeInsets.all(10),
@@ -142,8 +143,10 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                               if (_formStateKey.currentState.validate()) {
                                 _formStateKey.currentState.save();
                                 editUser().then((value) {
-                                  if (value == null)
-                                    Navigator.pop(context);
+                                  if (value == null) {
+                                    message = 'Data changed';
+                                    setState(() {});
+                                  }
                                   else {
                                     message = value;
                                     setState(() {});
@@ -166,7 +169,8 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                       ],
                     ),
                   ])),
-              Spacer(),
+              //Spacer(),
+              SizedBox(height: 10.0),
               SizedBox(
                 width: MediaQuery.of(context).size.width * 0.3,
                 child: RaisedButton(

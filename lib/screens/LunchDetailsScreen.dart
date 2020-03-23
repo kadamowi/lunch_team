@@ -140,14 +140,15 @@ class _LunchDetailsScreenState extends State<LunchDetailsScreen> {
                                                 margin: const EdgeInsets.all(5),
                                                 //padding: const EdgeInsets.all(5),
                                                 decoration: BoxDecoration(
-                                                  color: (snapshot.data[index].settled)?Colors.orange[50]:Colors.white,
+                                                  color: (snapshot.data[index].settled) ? Colors.orange[50] : Colors.white,
                                                 ),
                                                 child: ListTile(
                                                   title: Row(
                                                     children: <Widget>[
+                                                      Icon(Icons.person),
                                                       Expanded(
                                                         child: Text(
-                                                          snapshot.data[index].mealName,
+                                                          snapshot.data[index].username,
                                                           style: TextStyle(color: Colors.orange[800], fontWeight: FontWeight.bold),
                                                           overflow: TextOverflow.ellipsis,
                                                         ),
@@ -157,10 +158,10 @@ class _LunchDetailsScreenState extends State<LunchDetailsScreen> {
                                                       )
                                                     ],
                                                   ),
-                                                  subtitle: Text(
-                                                    //@todo dodać ikonę Icon(Icons.person)
-                                                      snapshot.data[index].username+
-                                                          ((snapshot.data[index].settled)?' - rozliczone':'')
+                                                  subtitle: Row(
+                                                    children: <Widget>[
+                                                      Text(snapshot.data[index].mealName),
+                                                    ],
                                                   ),
                                                   onTap: () {
                                                     // User kliknął na swoje zamówienie
@@ -174,7 +175,7 @@ class _LunchDetailsScreenState extends State<LunchDetailsScreen> {
                                                             builder: (context) => MealScreen(),
                                                           ),
                                                         ).then((value) {
-                                                          setSettled(snapshot.data[index].mealId);
+                                                          if (globals.userLogged.userId == globals.lunchSelected.userId) setSettled(snapshot.data[index].mealId);
                                                           setState(() {});
                                                         });
                                                       } else {
