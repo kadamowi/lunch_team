@@ -39,10 +39,8 @@ class _LunchListScreenState extends State<LunchListScreen> {
           children: <Widget>[
             Expanded(
               child: FutureBuilder<List<Lunch>>(
-                  future: lunchList(globals.dateFrom, globals.dateTo,
-                      onlyMyMeal, onlyMyLunch),
-                  builder: (BuildContext context,
-                      AsyncSnapshot<List<Lunch>> snapshot) {
+                  future: lunchList(globals.dateFrom, globals.dateTo, onlyMyMeal, onlyMyLunch),
+                  builder: (BuildContext context, AsyncSnapshot<List<Lunch>> snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return ProgressBar();
                     } else {
@@ -66,10 +64,7 @@ class _LunchListScreenState extends State<LunchListScreen> {
                                 child: Badge(
                                   shape: BadgeShape.square,
                                   toAnimate: true,
-                                  badgeContent: Text(
-                                      snapshot.data[index].mealCount.toString(),
-                                      style: TextStyle(color: Colors.white)
-                                  ),
+                                  badgeContent: Text(snapshot.data[index].mealCount.toString(), style: TextStyle(color: Colors.white)),
                                   badgeColor: Colors.orange[800],
                                   padding: EdgeInsets.all(8),
                                   child: FlatButton(
@@ -83,7 +78,7 @@ class _LunchListScreenState extends State<LunchListScreen> {
                                             padding: EdgeInsets.all(8),
                                             margin: const EdgeInsets.all(0),
                                             color: globals.statusColors[snapshot.data[index].status],
-                                            child:RotatedBox(
+                                            child: RotatedBox(
                                               quarterTurns: 3,
                                               child: Text(
                                                 globals.statusDesc[snapshot.data[index].status],
@@ -99,36 +94,28 @@ class _LunchListScreenState extends State<LunchListScreen> {
                                             margin: const EdgeInsets.all(10),
                                             height: 70,
                                             width: 70,
-                                            child: CachedNetworkImage(
-                                                placeholder: (context, url) =>
-                                                    CircularProgressIndicator(),
-                                                imageUrl: snapshot.data[index]
-                                                    .restaurantLogo),
+                                            child: CachedNetworkImage(placeholder: (context, url) => CircularProgressIndicator(), imageUrl: snapshot.data[index].restaurantLogo),
                                           ),
                                           Expanded(
                                               child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceEvenly,
+                                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                             children: <Widget>[
                                               Container(
-                                                child:Align(
-                                                  alignment: Alignment.topLeft,
-                                                  child: Text(
-                                                    snapshot.data[index]
-                                                        .restaurantName,
-                                                    style: TextStyle(
-                                                      color: Colors.orange,
-                                                      fontSize: 16,
-                                                    ),
+                                                  child: Align(
+                                                alignment: Alignment.topLeft,
+                                                child: Text(
+                                                  snapshot.data[index].restaurantName,
+                                                  style: TextStyle(
+                                                    color: Colors.orange,
+                                                    fontSize: 16,
                                                   ),
-                                                )
-                                              ),
+                                                ),
+                                              )),
                                               Expanded(
-                                                child:Align(
+                                                child: Align(
                                                   alignment: Alignment.topLeft,
                                                   child: Text(
-                                                    snapshot.data[index]
-                                                        .lunchDescription,
+                                                    snapshot.data[index].lunchDescription,
                                                   ),
                                                 ),
                                               ),
@@ -136,13 +123,8 @@ class _LunchListScreenState extends State<LunchListScreen> {
                                                 children: <Widget>[
                                                   Icon(Icons.person),
                                                   Text(
-                                                    snapshot
-                                                        .data[index].username,
-                                                    style: TextStyle(
-                                                        color: Colors.grey[800],
-                                                        fontSize: 12,
-                                                        fontWeight:
-                                                        FontWeight.bold),
+                                                    snapshot.data[index].username,
+                                                    style: TextStyle(color: Colors.grey[800], fontSize: 12, fontWeight: FontWeight.bold),
                                                   ),
                                                   //Align(
                                                   //  alignment:
@@ -162,22 +144,14 @@ class _LunchListScreenState extends State<LunchListScreen> {
                                                     visible: (snapshot.data[index].status == 'COLLECTING'),
                                                     child: Text(
                                                       snapshot.data[index].lunchOrderTime.difference(DateTime.now()).inMinutes.toString(),
-                                                      style: TextStyle(
-                                                          color: Colors.grey[800],
-                                                          fontSize: 12,
-                                                          fontWeight:
-                                                          FontWeight.bold),
+                                                      style: TextStyle(color: Colors.grey[800], fontSize: 12, fontWeight: FontWeight.bold),
                                                     ),
                                                   ),
                                                   Visibility(
                                                     visible: (snapshot.data[index].status == 'DELIVERING'),
                                                     child: Text(
                                                       snapshot.data[index].lunchLunchTime.difference(DateTime.now()).inMinutes.toString(),
-                                                      style: TextStyle(
-                                                          color: Colors.grey[800],
-                                                          fontSize: 12,
-                                                          fontWeight:
-                                                          FontWeight.bold),
+                                                      style: TextStyle(color: Colors.grey[800], fontSize: 12, fontWeight: FontWeight.bold),
                                                     ),
                                                   ),
                                                 ],
@@ -187,26 +161,21 @@ class _LunchListScreenState extends State<LunchListScreen> {
                                         ],
                                       ),
                                       onPressed: () {
-                                        globals.lunchSelected =
-                                            snapshot.data[index];
+                                        globals.lunchSelected = snapshot.data[index];
                                         Navigator.push(
                                           context,
                                           MaterialPageRoute(
-                                            builder: (context) =>
-                                                LunchDetailsScreen(),
+                                            builder: (context) => LunchDetailsScreen(),
                                           ),
                                         );
                                       },
                                       onLongPress: () {
-                                        if (snapshot.data[index].username ==
-                                            globals.sessionLunch.username) {
-                                          globals.lunchSelected =
-                                              snapshot.data[index];
+                                        if (snapshot.data[index].userId == globals.userLogged.userId) {
+                                          globals.lunchSelected = snapshot.data[index];
                                           Navigator.push(
                                             context,
                                             MaterialPageRoute(
-                                              builder: (context) =>
-                                                  LunchScreen(),
+                                              builder: (context) => LunchScreen(),
                                             ),
                                           ).then((value) {
                                             setState(() {});
@@ -217,16 +186,14 @@ class _LunchListScreenState extends State<LunchListScreen> {
                                             builder: (BuildContext context) {
                                               // return object of type Dialog
                                               return AlertDialog(
-                                                title: Text(
-                                                    'You are not an organizer !!!'),
+                                                title: Text('You are not an organizer !!!'),
                                                 //content: new Text("Alert Dialog body"),
                                                 actions: <Widget>[
                                                   // usually buttons at the bottom of the dialog
                                                   new FlatButton(
                                                     child: new Text("Close"),
                                                     onPressed: () {
-                                                      Navigator.of(context)
-                                                          .pop();
+                                                      Navigator.of(context).pop();
                                                     },
                                                   ),
                                                 ],
@@ -254,10 +221,10 @@ class _LunchListScreenState extends State<LunchListScreen> {
                 children: <Widget>[
                   Align(
                     alignment: Alignment.topLeft,
-                    child: Text('Filters',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold
-                    ),),
+                    child: Text(
+                      'Filters',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
                   ),
                   DateTimeField(
                     decoration: InputDecoration(
@@ -271,11 +238,7 @@ class _LunchListScreenState extends State<LunchListScreen> {
                     format: DateFormat("yyyy-MM-dd"),
                     initialValue: globals.dateFrom,
                     onShowPicker: (context, currentValue) async {
-                      final date = await showDatePicker(
-                          context: context,
-                          firstDate: DateTime(2020),
-                          initialDate: globals.dateFrom,
-                          lastDate: DateTime(2100));
+                      final date = await showDatePicker(context: context, firstDate: DateTime(2020), initialDate: globals.dateFrom, lastDate: DateTime(2100));
                       setState(() {
                         globals.dateFrom = date;
                       });
@@ -297,11 +260,7 @@ class _LunchListScreenState extends State<LunchListScreen> {
                     format: DateFormat("yyyy-MM-dd"),
                     initialValue: globals.dateTo,
                     onShowPicker: (context, currentValue) async {
-                      final date = await showDatePicker(
-                          context: context,
-                          firstDate: DateTime(2020),
-                          initialDate: globals.dateTo,
-                          lastDate: DateTime(2100));
+                      final date = await showDatePicker(context: context, firstDate: DateTime(2020), initialDate: globals.dateTo, lastDate: DateTime(2100));
                       setState(() {
                         globals.dateTo = date;
                       });

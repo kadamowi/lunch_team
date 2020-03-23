@@ -39,8 +39,7 @@ class _LunchDetailsScreenState extends State<LunchDetailsScreen> {
           children: <Widget>[
             FutureBuilder<Lunch>(
               future: lunchDeetails(globals.lunchSelected.lunchId),
-              builder:
-                  (BuildContext context, AsyncSnapshot<Lunch> snapshot) {
+              builder: (BuildContext context, AsyncSnapshot<Lunch> snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return ProgressBar();
                 } else {
@@ -50,7 +49,7 @@ class _LunchDetailsScreenState extends State<LunchDetailsScreen> {
                     return Container(
                         margin: const EdgeInsets.all(5),
                         //alignment: Alignment.topLeft,
-                        height: MediaQuery.of(context).size.height-150,
+                        height: MediaQuery.of(context).size.height - 150,
                         child: Column(
                           children: <Widget>[
                             Row(
@@ -59,43 +58,26 @@ class _LunchDetailsScreenState extends State<LunchDetailsScreen> {
                                     alignment: Alignment.centerLeft,
                                     child: SizedBox(
                                       height: 100,
-                                      child: CachedNetworkImage(
-                                          placeholder: (context, url) =>
-                                              CircularProgressIndicator(),
-                                          imageUrl: snapshot.data.restaurantLogo
-                                      ),
-                                    )
-                                ),
+                                      child: CachedNetworkImage(placeholder: (context, url) => CircularProgressIndicator(), imageUrl: snapshot.data.restaurantLogo),
+                                    )),
                                 Expanded(
                                   child: Column(
                                     children: <Widget>[
                                       Align(
                                         alignment: Alignment.centerRight,
-                                        child: Text(snapshot.data.restaurantName,
-                                            style: TextStyle(
-                                                fontSize: 24.0,
-                                                fontWeight: FontWeight.bold)),
+                                        child: Text(snapshot.data.restaurantName, style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold)),
                                       ),
                                       Align(
                                         alignment: Alignment.centerRight,
-                                        child: Text(
-                                            'Host: ' + snapshot.data.username,
-                                            style: TextStyle(
-                                                fontSize: 16.0,
-                                                fontWeight: FontWeight.bold)),
+                                        child: Text('Host: ' + snapshot.data.username, style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold)),
                                       ),
                                       Align(
                                         alignment: Alignment.centerRight,
-                                        child: Text(
-                                            'Order time: ' +
-                                                DateFormat('HH:mm').format(snapshot.data.lunchOrderTime),
-                                            style: TextStyle(color: Colors.red)),
+                                        child: Text('Order time: ' + DateFormat('HH:mm').format(snapshot.data.lunchOrderTime), style: TextStyle(color: Colors.red)),
                                       ),
                                       Align(
                                         alignment: Alignment.centerRight,
-                                        child: Text('Lunch time: ' +
-                                            DateFormat('HH:mm').format(
-                                                snapshot.data.lunchLunchTime)),
+                                        child: Text('Lunch time: ' + DateFormat('HH:mm').format(snapshot.data.lunchLunchTime)),
                                       ),
                                     ],
                                   ),
@@ -130,19 +112,17 @@ class _LunchDetailsScreenState extends State<LunchDetailsScreen> {
                                       child: Text(
                                         'Orders:',
                                         style: TextStyle(
-                                          //color: Colors.yellowAccent,
+                                            //color: Colors.yellowAccent,
                                             fontSize: 16.0,
                                             fontWeight: FontWeight.bold),
                                       ),
                                     ),
                                   ],
-                                )
-                            ),
+                                )),
                             Expanded(
                               child: FutureBuilder<List<Meal>>(
                                   future: fetchMealList(snapshot.data.lunchId),
-                                  builder: (BuildContext context,
-                                      AsyncSnapshot<List<Meal>> snapshot) {
+                                  builder: (BuildContext context, AsyncSnapshot<List<Meal>> snapshot) {
                                     if (snapshot.connectionState == ConnectionState.waiting) {
                                       return ProgressBar();
                                     } else {
@@ -160,7 +140,7 @@ class _LunchDetailsScreenState extends State<LunchDetailsScreen> {
                                                 margin: const EdgeInsets.all(5),
                                                 //padding: const EdgeInsets.all(5),
                                                 decoration: BoxDecoration(
-                                                  color: (snapshot.data[index].settled)?Colors.orange[50]:Colors.white,
+                                                  color: (snapshot.data[index].settled) ? Colors.orange[50] : Colors.white,
                                                 ),
                                                 child: ListTile(
                                                   title: Row(
@@ -168,27 +148,20 @@ class _LunchDetailsScreenState extends State<LunchDetailsScreen> {
                                                       Expanded(
                                                         child: Text(
                                                           snapshot.data[index].mealName,
-                                                          style: TextStyle(
-                                                              color: Colors.orange[800],
-                                                              fontWeight: FontWeight.bold),
+                                                          style: TextStyle(color: Colors.orange[800], fontWeight: FontWeight.bold),
                                                           overflow: TextOverflow.ellipsis,
                                                         ),
                                                       ),
                                                       Container(
-                                                        child: Align(
-                                                            alignment: Alignment.centerRight,
-                                                            child: Text(snapshot
-                                                                .data[index].mealCost
-                                                                .toStringAsFixed(2))),
+                                                        child: Align(alignment: Alignment.centerRight, child: Text(snapshot.data[index].mealCost.toStringAsFixed(2))),
                                                       )
                                                     ],
                                                   ),
-                                                  subtitle: Text(
-                                                      snapshot.data[index].username+
-                                                          ((snapshot.data[index].settled)?' - rozliczone':'')
-                                                  ),
+                                                  subtitle: Text(snapshot.data[index].username + ((snapshot.data[index].settled) ? ' - rozliczone' : '')),
                                                   onTap: () {
-                                                    if (snapshot.data[index].username == globals.sessionLunch.username) {
+                                                    // User kliknął na swoje zamówienie
+                                                    if (snapshot.data[index].userId == globals.userLogged.userId) {
+                                                      // Czy jest jeszcze czas
                                                       if (globals.lunchSelected.lunchOrderTime.difference(DateTime.now()).inMinutes >= 0) {
                                                         globals.mealSelected = snapshot.data[index];
                                                         Navigator.push(
@@ -221,7 +194,7 @@ class _LunchDetailsScreenState extends State<LunchDetailsScreen> {
                                                       }
                                                     } else {
                                                       // Czy to jest właściciel Lunch
-                                                      if (globals.sessionLunch.username == globals.lunchSelected.username) {
+                                                      if (globals.userLogged.userId == globals.lunchSelected.userId) {
                                                         print('Właściciel kliknął na rozliczenie');
                                                         showDialog(
                                                           context: context,
@@ -237,7 +210,7 @@ class _LunchDetailsScreenState extends State<LunchDetailsScreen> {
                                                                       setState(() {
                                                                         Navigator.of(context).pop();
                                                                       });
-                                                                    } );
+                                                                    });
                                                                   },
                                                                 ),
                                                                 new FlatButton(
@@ -284,11 +257,10 @@ class _LunchDetailsScreenState extends State<LunchDetailsScreen> {
                             Container(
                               child: Align(
                                 alignment: Alignment.topLeft,
-                                child: Text('Summary',
-                                  style: TextStyle(
-                                      fontSize: 16.0,
-                                      fontWeight: FontWeight.bold
-                                  ),),
+                                child: Text(
+                                  'Summary',
+                                  style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
+                                ),
                               ),
                             ),
                             Container(
@@ -338,9 +310,10 @@ class _LunchDetailsScreenState extends State<LunchDetailsScreen> {
                                     children: <Widget>[
                                       SizedBox(
                                         width: 150,
-                                        child: Text('Total lunch cost',
+                                        child: Text(
+                                          'Total lunch cost',
                                           style: TextStyle(
-                                            //fontSize: 16.0,
+                                              //fontSize: 16.0,
                                               fontWeight: FontWeight.bold),
                                         ),
                                       ),
@@ -349,9 +322,9 @@ class _LunchDetailsScreenState extends State<LunchDetailsScreen> {
                                         child: Align(
                                           alignment: Alignment.centerRight,
                                           child: Text(
-                                            (snapshot.data.lunchCost+snapshot.data.transportCost).toStringAsFixed(2),
+                                            (snapshot.data.lunchCost + snapshot.data.transportCost).toStringAsFixed(2),
                                             style: TextStyle(
-                                              //fontSize: 16.0,
+                                                //fontSize: 16.0,
                                                 fontWeight: FontWeight.bold),
                                           ),
                                         ),
@@ -360,11 +333,9 @@ class _LunchDetailsScreenState extends State<LunchDetailsScreen> {
                                   ),
                                 ],
                               ),
-
                             ),
                           ],
-                        )
-                    );
+                        ));
                   }
                 }
               },
@@ -421,4 +392,3 @@ class _LunchDetailsScreenState extends State<LunchDetailsScreen> {
     );
   }
 }
-

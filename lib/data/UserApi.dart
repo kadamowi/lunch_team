@@ -75,8 +75,10 @@ Future<String> editUser() async {
     var res = result['response'];
     if (res != null) {
       bool editUser = res['editUser'];
-      if (editUser)
+      if (editUser) {
+        globals.userLogged = await detailsUser(globals.userLogged.userId);
         return null;
+      }
       else
         return 'Not edited';
     } else {

@@ -1,4 +1,5 @@
 import 'package:http/http.dart';
+import 'package:lunch_team/data/UserApi.dart';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -34,6 +35,12 @@ Future<String> loginApp(String username, String password) async {
         password,
         sessionId
     );
+    int userId = res['userId'];
+    if (userId != null && userId > 0) {
+      globals.userLogged = await detailsUser(userId);
+      print(globals.userLogged.displayName+' is logged');
+    } else
+      print('Brak userId');
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString('username', username);
     prefs.setString('password', password);
