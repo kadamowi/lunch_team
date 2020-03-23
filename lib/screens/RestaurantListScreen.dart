@@ -60,10 +60,13 @@ class _RestaurantListScreenState extends State<RestaurantListScreen> {
                                   color: Colors.white,
                                 ),
                                 child: Badge(
+                                    shape: BadgeShape.square,
+                                    toAnimate: true,
                                     badgeContent: Text(
-                                        snapshot.data[index].lunchCount.toString()
+                                        snapshot.data[index].lunchCount.toString(),
+                                        style: TextStyle(color: Colors.white)
                                     ),
-                                    badgeColor: Colors.orange[50],
+                                    badgeColor: Colors.orange[800],
                                     padding: EdgeInsets.all(8),
                                     child: ListTile(
                                         leading: Container(

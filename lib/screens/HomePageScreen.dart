@@ -36,7 +36,7 @@ class _HomeState extends State<Home> {
         currentIndex: _currentIndex, // new
         items: [
           new BottomNavigationBarItem(
-            icon: Icon(Icons.directions_car),
+            icon: Icon(Icons.shopping_cart),
             title: Text('Lunches'),
           ),
           new BottomNavigationBarItem(

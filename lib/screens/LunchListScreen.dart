@@ -66,10 +66,10 @@ class _LunchListScreenState extends State<LunchListScreen> {
                                 child: Badge(
                                   shape: BadgeShape.square,
                                   toAnimate: true,
-                                  badgeContent: Text(snapshot
-                                      .data[index].mealCount
-                                      .toString(),
-                                      style: TextStyle(color: Colors.white)),
+                                  badgeContent: Text(
+                                      snapshot.data[index].mealCount.toString(),
+                                      style: TextStyle(color: Colors.white)
+                                  ),
                                   badgeColor: Colors.orange[800],
                                   padding: EdgeInsets.all(8),
                                   child: FlatButton(
@@ -151,8 +151,12 @@ class _LunchListScreenState extends State<LunchListScreen> {
                                                   //),
                                                   Spacer(),
                                                   Visibility(
-                                                    visible: (snapshot.data[index].status == 'COLLECTING' || snapshot.data[index].status == 'DELIVERING'),
+                                                    visible: (snapshot.data[index].status == 'COLLECTING'),
                                                     child: Icon(Icons.timer),
+                                                  ),
+                                                  Visibility(
+                                                    visible: (snapshot.data[index].status == 'DELIVERING'),
+                                                    child: Icon(Icons.directions_car),
                                                   ),
                                                   Visibility(
                                                     visible: (snapshot.data[index].status == 'COLLECTING'),
