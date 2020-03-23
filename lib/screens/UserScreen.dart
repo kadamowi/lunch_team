@@ -15,7 +15,7 @@ class _UserScreenState extends State<UserScreen> {
   final GlobalKey<FormState> _formStateKey = GlobalKey<FormState>();
   LoginUser loginUser = new LoginUser(username: '', password: '');
   String secondPassword;
-  String message = "X";
+  String message = "";
   User user;
   PackageInfo _packageInfo = PackageInfo(
     appName: 'Unknown',

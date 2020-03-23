@@ -25,3 +25,17 @@ class LoginRequest {
     };
   }
 }
+
+class LogoutRequest {
+  String request;
+  String session;
+
+  LogoutRequest({this.request,this.session});
+
+  toJson() {
+    return {
+      'request': request,
+      'session': session,
+    };
+  }
+}

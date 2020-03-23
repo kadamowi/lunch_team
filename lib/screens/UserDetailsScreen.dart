@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:lunch_team/data/LoginApi.dart';
 import 'package:lunch_team/data/UserApi.dart';
 
 import 'package:lunch_team/model/globals.dart' as globals;
+import 'package:lunch_team/screens/LoginScreen.dart';
 import 'package:lunch_team/widgets/LunchTeamWidget.dart';
 
 class UserDetailsScreen extends StatefulWidget {
@@ -11,14 +13,11 @@ class UserDetailsScreen extends StatefulWidget {
 
 class _UserDetailsScreenState extends State<UserDetailsScreen> {
   final GlobalKey<FormState> _formStateKey = GlobalKey<FormState>();
-  String message = "X";
+  String message = '';
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('User details'),
-      ),
       body: SingleChildScrollView(
         child: Container(
           padding: const EdgeInsets.all(16.0),
@@ -167,7 +166,27 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                       ],
                     ),
                   ])),
-              //Spacer(),
+              Spacer(),
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 0.3,
+                child: RaisedButton(
+                  color: Colors.black,
+                  textColor: Colors.white,
+                  padding: const EdgeInsets.all(20.0),
+                  child: Text("Logout".toUpperCase()),
+                  onPressed: () {
+                    logoutApp().then((value) {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              LoginScreen(),
+                        ),
+                      );
+                    });
+                  },
+                ),
+              ),
               MessageError(message: message),
             ],
           ),

@@ -172,6 +172,7 @@ class _LunchListScreenState extends State<LunchListScreen> {
                                         );
                                       },
                                       onLongPress: () {
+                                        print(snapshot.data[index].userId.toString()+' '+globals.userLogged.userId.toString());
                                         if (snapshot.data[index].userId == globals.userLogged.userId) {
                                           globals.lunchSelected = snapshot.data[index];
                                           Navigator.push(

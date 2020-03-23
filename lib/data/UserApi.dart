@@ -34,13 +34,14 @@ Future<User> detailsUser(userId) async {
         userId: userId,
       )));
   // make POST request
+  //print('detailsUser request:'+reqJson);
   Response response = await post(urlApi, headers: headers, body: reqJson);
-  //print('statusCode:'+response.statusCode.toString());
+  //print('detailsUser statusCode:'+response.statusCode.toString());
   var result = jsonDecode(response.body);
   if (response.statusCode == 200) {
     var res = result['response'];
     if (res != null) {
-      //print(res);
+      //print('detailsUser:'+res.toString());
       var user = User.fromJson(res);
       return user;
     } else {
@@ -74,6 +75,7 @@ Future<String> editUser() async {
   if (response.statusCode == 200) {
     var res = result['response'];
     if (res != null) {
+      //print('detailsUser:'+res.toString());
       bool editUser = res['editUser'];
       if (editUser) {
         globals.userLogged = await detailsUser(globals.userLogged.userId);

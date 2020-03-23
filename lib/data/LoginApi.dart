@@ -35,10 +35,12 @@ Future<String> loginApp(String username, String password) async {
         password,
         sessionId
     );
+    //print('loginApp:'+res.toString());
     int userId = res['userId'];
     if (userId != null && userId > 0) {
       globals.userLogged = await detailsUser(userId);
-      print(globals.userLogged.displayName+' is logged');
+      print(globals.userLogged.displayName+' is logged ('+globals.userLogged.userId.toString()+')');
+      print('email:'+globals.userLogged.email);
     } else
       print('Brak userId');
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -50,6 +52,26 @@ Future<String> loginApp(String username, String password) async {
     for (Restaurant r in restaurants) {
       globals.restaurantSets[r.restaurantId] = r.restaurantName;
     }
+  } else {
+    return result.toString();
+  }
+  return null;
+}
+
+Future<String> logoutApp() async {
+  // prepare JSON for request
+  String reqJson = json.encode(LogoutRequest(
+      request: 'user.logout',
+      session: globals.sessionLunch.sessionId,
+      ));
+  // make POST request
+  Response response = await post(urlApi, headers: headers, body: reqJson);
+  var result = jsonDecode(response.body);
+  var res = result['response'];
+  if (res != null) {
+    bool logout = res['logout'];
+    if (!logout)
+      return 'Not logout';
   } else {
     return result.toString();
   }

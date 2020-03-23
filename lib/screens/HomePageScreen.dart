@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:lunch_team/screens/HungerListScreen.dart';
-import 'package:lunch_team/screens/LoginScreen.dart';
 import 'package:lunch_team/screens/LunchListScreen.dart';
 import 'package:lunch_team/screens/RestaurantListScreen.dart';
+import 'package:lunch_team/screens/UserDetailsScreen.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -17,7 +17,7 @@ class _HomeState extends State<Home> {
     LunchListScreen(),
     RestaurantListScreen(),
     HungerListScreen(),
-    LoginScreen(),
+    UserDetailsScreen(),
   ];
 
   void onTabTapped(int index) {
@@ -48,8 +48,8 @@ class _HomeState extends State<Home> {
               title: Text('Users')
           ),
           new BottomNavigationBarItem(
-              icon: Icon(Icons.add_to_home_screen),
-              title: Text('Logout')
+              icon: Icon(Icons.person),
+              title: Text('Profile')
           )
         ],
       ),
