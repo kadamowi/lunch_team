@@ -161,6 +161,7 @@ class _LunchListScreenState extends State<LunchListScreen> {
                                                   Visibility(
                                                     visible: (snapshot.data[index].status == 'COLLECTING'),
                                                     child: Text(
+                                                      //@todo: Dorobić formatowanie w postaci hh:mm
                                                       snapshot.data[index].lunchOrderTime.difference(DateTime.now()).inMinutes.toString(),
                                                       style: TextStyle(
                                                           color: Colors.grey[800],
@@ -172,6 +173,7 @@ class _LunchListScreenState extends State<LunchListScreen> {
                                                   Visibility(
                                                     visible: (snapshot.data[index].status == 'DELIVERING'),
                                                     child: Text(
+                                                      //@todo: Dorobić formatowanie w postaci hh:mm
                                                       snapshot.data[index].lunchLunchTime.difference(DateTime.now()).inMinutes.toString(),
                                                       style: TextStyle(
                                                           color: Colors.grey[800],

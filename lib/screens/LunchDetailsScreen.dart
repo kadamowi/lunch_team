@@ -184,6 +184,7 @@ class _LunchDetailsScreenState extends State<LunchDetailsScreen> {
                                                     ],
                                                   ),
                                                   subtitle: Text(
+                                                    //@todo dodać ikonę Icon(Icons.person)
                                                       snapshot.data[index].username+
                                                           ((snapshot.data[index].settled)?' - rozliczone':'')
                                                   ),
