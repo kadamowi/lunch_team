@@ -140,7 +140,7 @@ class _LunchDetailsScreenState extends State<LunchDetailsScreen> {
                                                 margin: const EdgeInsets.all(5),
                                                 //padding: const EdgeInsets.all(5),
                                                 decoration: BoxDecoration(
-                                                  color: (snapshot.data[index].settled) ? Colors.orange[50] : Colors.white,
+                                                  color: (snapshot.data[index].settled)?Colors.orange[50]:Colors.white,
                                                 ),
                                                 child: ListTile(
                                                   title: Row(
@@ -157,7 +157,11 @@ class _LunchDetailsScreenState extends State<LunchDetailsScreen> {
                                                       )
                                                     ],
                                                   ),
-                                                  subtitle: Text(snapshot.data[index].username + ((snapshot.data[index].settled) ? ' - rozliczone' : '')),
+                                                  subtitle: Text(
+                                                    //@todo dodać ikonę Icon(Icons.person)
+                                                      snapshot.data[index].username+
+                                                          ((snapshot.data[index].settled)?' - rozliczone':'')
+                                                  ),
                                                   onTap: () {
                                                     // User kliknął na swoje zamówienie
                                                     if (snapshot.data[index].userId == globals.userLogged.userId) {
