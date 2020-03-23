@@ -61,6 +61,7 @@ class _RestaurantListScreenState extends State<RestaurantListScreen> {
                                 ),
                                 child: Badge(
                                     shape: BadgeShape.square,
+                                    borderRadius: 5,
                                     toAnimate: true,
                                     badgeContent: Text(
                                         snapshot.data[index].lunchCount.toString(),

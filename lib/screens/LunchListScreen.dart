@@ -57,12 +57,13 @@ class _LunchListScreenState extends State<LunchListScreen> {
                               return Container(
                                 height: 100,
                                 margin: const EdgeInsets.all(5),
-                                padding: const EdgeInsets.all(5),
+                                padding: const EdgeInsets.all(0),
                                 decoration: BoxDecoration(
                                   color: Colors.white,
                                 ),
                                 child: Badge(
                                   shape: BadgeShape.square,
+                                  borderRadius: 5,
                                   toAnimate: true,
                                   badgeContent: Text(snapshot.data[index].mealCount.toString(), style: TextStyle(color: Colors.white)),
                                   badgeColor: Colors.orange[800],
@@ -75,7 +76,8 @@ class _LunchListScreenState extends State<LunchListScreen> {
                                         mainAxisAlignment: MainAxisAlignment.center,
                                         children: <Widget>[
                                           Container(
-                                            padding: EdgeInsets.all(8),
+                                            padding: EdgeInsets.all(5),
+                                            height: 100,
                                             margin: const EdgeInsets.all(0),
                                             color: globals.statusColors[snapshot.data[index].status],
                                             child: RotatedBox(
