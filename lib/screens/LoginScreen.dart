@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:package_info/package_info.dart';
 
 import 'package:lunch_team/model/globals.dart' as globals;
@@ -144,7 +143,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 );
                               } else {
                                 setState(() {
-                                  //message = value;
+                                  message = value;
                                 });
                               }
                             });
@@ -159,7 +158,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           child: RaisedButton(
                             color: Colors.grey[800],
                             textColor: Colors.white,
-                            padding: const EdgeInsets.all(20.0),
+                            padding: const EdgeInsets.all(10.0),
                             child: Text("Sign up".toUpperCase()),
                             onPressed: () {
                               if (_formStateKey.currentState.validate()) {
@@ -179,7 +178,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           child: RaisedButton(
                             color: Colors.grey[800],
                             textColor: Colors.white,
-                            padding: const EdgeInsets.all(20.0),
+                            padding: const EdgeInsets.all(10.0),
                             child: Text("Forgot password".toUpperCase()),
                             onPressed: () {
                             },
@@ -198,12 +197,5 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       ),
     );
-  }
-
-  Future<LoginUser> getSavedUser() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    return new LoginUser(
-        username: (prefs.getString('username') ?? ''),
-        password: (prefs.getString('password') ?? ''));
   }
 }

@@ -24,36 +24,51 @@ Future<String> loginApp(String username, String password) async {
         username: username,
         password: password,
       )));
+  //print('userLogin req:'+reqJson.toString());
   // make POST request
   Response response = await post(urlApi, headers: headers, body: reqJson);
-  var result = jsonDecode(response.body);
-  var res = result['response'];
-  if (res != null) {
-    String sessionId = res['session'];
-    globals.sessionLunch = SessionLunch(
-        username,
-        password,
-        sessionId
-    );
-    //print('loginApp:'+res.toString());
-    int userId = res['userId'];
-    if (userId != null && userId > 0) {
-      globals.userLogged = await detailsUser(userId);
-      print(globals.userLogged.displayName+' is logged ('+globals.userLogged.userId.toString()+')');
-      print('email:'+globals.userLogged.email);
-    } else
-      print('Brak userId');
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString('username', username);
-    prefs.setString('password', password);
-    // Pobranie listy restauracji
-    List<Restaurant> restaurants = await restaurantList();
-    globals.restaurantSets = new Map();
-    for (Restaurant r in restaurants) {
-      globals.restaurantSets[r.restaurantId] = r.restaurantName;
+  if (response.statusCode == 200) {
+    var result = jsonDecode(response.body);
+    var responseTag = result['response'];
+    if (responseTag != null) {
+      bool userLogin = responseTag['userLogin'];
+      if (userLogin) {
+        String sessionId = responseTag['session'];
+        globals.sessionLunch = SessionLunch(
+            username,
+            password,
+            sessionId
+        );
+        int userId = responseTag['userId'];
+        // Pobranie aktualnych danych usera
+        if (userId != null && userId > 0) {
+          globals.userLogged = await detailsUser(userId);
+          print(globals.userLogged.displayName+' is logged ('+globals.userLogged.userId.toString()+')');
+          print('email:'+globals.userLogged.email);
+        } else {
+          return 'No userId:'+responseTag.toString();
+        }
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        prefs.setString('username', username);
+        prefs.setString('password', password);
+        // Pobranie listy restauracji
+        List<Restaurant> restaurants = await restaurantList();
+        globals.restaurantSets = new Map();
+        for (Restaurant r in restaurants) {
+          globals.restaurantSets[r.restaurantId] = r.restaurantName;
+        }
+      } else {
+        return 'Not logged: '+responseTag.toString();
+      }
+    } else {
+      return 'No response: '+result.toString();
     }
   } else {
-    return result.toString();
+    if (response.statusCode == 400)
+      return 'Bad credentials';
+    else {
+      return 'Technical error: '+response.statusCode.toString();
+    }
   }
   return null;
 }

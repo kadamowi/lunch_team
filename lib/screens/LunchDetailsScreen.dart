@@ -49,7 +49,7 @@ class _LunchDetailsScreenState extends State<LunchDetailsScreen> {
                     return Container(
                         margin: const EdgeInsets.all(5),
                         //alignment: Alignment.topLeft,
-                        height: MediaQuery.of(context).size.height - 150,
+                        height: MediaQuery.of(context).size.height - 100,
                         child: Column(
                           children: <Widget>[
                             Row(

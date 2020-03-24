@@ -4,7 +4,6 @@ import 'package:package_info/package_info.dart';
 import 'package:lunch_team/model/User.dart';
 import 'package:lunch_team/request/LoginRequest.dart';
 import 'package:lunch_team/data/LoginApi.dart';
-import 'package:lunch_team/widgets/LunchTeamWidget.dart';
 
 class UserScreen extends StatefulWidget {
   @override
@@ -50,7 +49,7 @@ class _UserScreenState extends State<UserScreen> {
           child: Column(
             children: <Widget>[
               Container(
-                margin: const EdgeInsets.only(top: 40.0, bottom: 20.0),
+                margin: const EdgeInsets.only(top: 10.0, bottom: 10.0),
                 height: 180,
                 child: Image(
                   image: AssetImage('images/logo.png'),
@@ -62,6 +61,7 @@ class _UserScreenState extends State<UserScreen> {
                   autovalidate: false,
                   child: Column(children: <Widget>[
                     Container(
+                      height: 240,
                         color: Colors.white,
                         margin: EdgeInsets.all(10),
                         padding: EdgeInsets.all(10),
@@ -194,7 +194,7 @@ class _UserScreenState extends State<UserScreen> {
                     ),
                   ])),
               //Spacer(),
-              MessageError(message: message),
+              //MessageError(message: message),
               Text(
                 'Version '+_packageInfo.version,
               ),
