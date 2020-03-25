@@ -95,3 +95,33 @@ Future<String> editUser() async {
     }
   }
 }
+
+Future<String> passwordUser(String oldP, String newP) async {
+  // prepare JSON for request
+  String reqJson = json.encode(UserPasswordRequest(
+      request: 'user.changePassword',
+      session: globals.sessionLunch.sessionId,
+      arguments: UserPasswordArguments(
+        oldPassword: oldP,
+          newPassword: newP,
+      )));
+  // make POST request
+  Response response = await post(urlApi, headers: headers, body: reqJson);
+  //print('statusCode:'+response.statusCode.toString());
+  if (response.statusCode == 200) {
+    var result = jsonDecode(response.body);
+    var responseTag = result['response'];
+    if (responseTag != null) {
+      //print('detailsUser:'+res.toString());
+      bool changePass = responseTag['changePassword'];
+      if (!changePass) {
+        return 'Password not changed:'+responseTag.toString();
+      }
+    } else {
+      return 'No response: '+result.toString();
+    }
+  } else {
+    return 'Technical error: '+response.statusCode.toString();
+  }
+  return null;
+}

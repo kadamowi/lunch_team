@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:badges/badges.dart';
-import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
-import 'package:intl/intl.dart';
+//import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
+//import 'package:intl/intl.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
 import 'package:lunch_team/model/globals.dart' as globals;
@@ -215,6 +215,7 @@ class _LunchListScreenState extends State<LunchListScreen> {
                     }
                   }),
             ),
+            /*
             Container(
               margin: const EdgeInsets.all(5),
               padding: const EdgeInsets.all(5),
@@ -275,6 +276,7 @@ class _LunchListScreenState extends State<LunchListScreen> {
                 ],
               ),
             ),
+             */
             MessageError(message: globals.errorMessage),
           ],
         ),

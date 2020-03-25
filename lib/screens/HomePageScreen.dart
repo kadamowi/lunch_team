@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lunch_team/screens/HomeScreen.dart';
+//import 'package:lunch_team/screens/HomeScreen.dart';
 import 'package:lunch_team/screens/HungerListScreen.dart';
 import 'package:lunch_team/screens/LunchListScreen.dart';
 import 'package:lunch_team/screens/RestaurantListScreen.dart';
@@ -17,7 +17,7 @@ class _HomeState extends State<Home> {
   final List<Widget> _children = [
     LunchListScreen(),
     RestaurantListScreen(),
-    HomeScreen(),
+    //HomeScreen(),
     HungerListScreen(),
     UserDetailsScreen(),
   ];
@@ -39,7 +39,7 @@ class _HomeState extends State<Home> {
         items: [
           new BottomNavigationBarItem(icon: Icon(Icons.shopping_cart),  title: Text('Lunches')),
           new BottomNavigationBarItem(icon: Icon(Icons.restaurant),     title: Text('Restaurants')),
-          new BottomNavigationBarItem(icon: Icon(Icons.attach_money),   title: Text('Settlement')),
+          //new BottomNavigationBarItem(icon: Icon(Icons.attach_money),   title: Text('Settlement')),
           new BottomNavigationBarItem(icon: Icon(Icons.people),         title: Text('Users')),
           new BottomNavigationBarItem(icon: Icon(Icons.person),         title: Text('Profile'))
         ],
