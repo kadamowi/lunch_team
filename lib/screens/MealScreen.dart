@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart';
-import 'dart:convert';
+import 'package:lunch_team/data/MealApi.dart';
 
 import 'package:lunch_team/model/globals.dart' as globals;
-import 'package:lunch_team/model/LunchTeamCommon.dart';
 import 'package:lunch_team/widgets/LunchTeamWidget.dart';
 import 'package:lunch_team/model/Meal.dart';
-import 'package:lunch_team/request/MealRequest.dart';
 
 class MealScreen extends StatefulWidget {
   @override
@@ -112,7 +109,30 @@ class _MealScreenState extends State<MealScreen> {
                             padding: const EdgeInsets.all(20.0),
                             child: Text("Save".toUpperCase()),
                             onPressed: () {
-                              saveMeal(context);
+                              if (_formStateKey.currentState.validate()) {
+                                _formStateKey.currentState.save();
+                                if (meal.mealId == 0) {
+                                  createMeal(meal).then((value) {
+                                    if (value == null) {
+                                      Navigator.pop(context);
+                                    } else {
+                                      setState(() {
+                                        message = value;
+                                      });
+                                    }
+                                  });
+                                } else {
+                                  editMeal(meal).then((value) {
+                                    if (value == null) {
+                                      Navigator.pop(context);
+                                    } else {
+                                      setState(() {
+                                        message = value;
+                                      });
+                                    }
+                                  });
+                                }
+                              }
                             },
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10.0)),
@@ -126,7 +146,20 @@ class _MealScreenState extends State<MealScreen> {
                             padding: const EdgeInsets.all(20.0),
                             child: Text("Delete".toUpperCase()),
                             onPressed: () {
-                              deleteMeal(context);
+                              if (_formStateKey.currentState.validate()) {
+                                _formStateKey.currentState.save();
+                                if (meal.mealId > 0) {
+                                  deleteMeal(meal.mealId).then((value) {
+                                    if (value == null) {
+                                      Navigator.pop(context);
+                                    } else {
+                                      setState(() {
+                                        message = value;
+                                      });
+                                    }
+                                  });
+                                }
+                              }
                             },
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10.0)),
@@ -142,153 +175,5 @@ class _MealScreenState extends State<MealScreen> {
         ),
       ),
     );
-  }
-
-  Future saveMeal(BuildContext context) async {
-    if (_formStateKey.currentState.validate()) {
-      _formStateKey.currentState.save();
-    } else return;
-    globals.mealSelected = meal;
-    print('Save meal:'+globals.mealSelected.mealId.toString());
-    if (meal.mealId == 0) {
-      // prepare JSON for request
-      String reqJson = json.encode(MealCreateRequest(
-          request: 'meal.create',
-          session: globals.sessionLunch.sessionId,
-          arguments: MealCreateArguments(
-            lunchId: globals.lunchSelected.lunchId,
-            mealDescription: globals.mealSelected.mealName,
-            mealCost: globals.mealSelected.mealCost.toString(),
-          )));
-      // make POST request
-      print(reqJson);
-      Response response = await post(urlApi, headers: headers, body: reqJson);
-      print('statusCode:' + response.statusCode.toString());
-      var result = jsonDecode(response.body);
-      if (response.statusCode == 200) {
-        var res = result['response'];
-        if (res != null) {
-          bool createRestaurant = res['createMeal'];
-          if (createRestaurant) {
-            Navigator.pop(context);
-          } else {
-            setState(() {
-              message = res.toString();
-            });
-          }
-        } else {
-          setState(() {
-            message = 'Bad request';
-          });
-        }
-      } else {
-        var res = result['error'];
-        if (res != null) {
-          setState(() {
-            message = res.toString();
-          });
-        } else {
-          setState(() {
-            message = 'Bad request';
-          });
-        }
-      }
-    } else {
-      // prepare JSON for request
-      String reqJson = json.encode(MealEditRequest(
-          request: 'meal.edit',
-          session: globals.sessionLunch.sessionId,
-          arguments: MealEditArguments(
-            mealId: globals.mealSelected.mealId,
-            mealDescription: globals.mealSelected.mealName,
-            mealCost: globals.mealSelected.mealCost.toString(),
-          )));
-      // make POST request
-      print(reqJson);
-      Response response = await post(urlApi, headers: headers, body: reqJson);
-      print('statusCode:' + response.statusCode.toString());
-      var result = jsonDecode(response.body);
-      if (response.statusCode == 200) {
-        print(result);
-        var res = result['response'];
-        if (res != null) {
-          bool editMeal = res['editMeal'];
-          if (editMeal) {
-            //globals.lunchSelected = await detailsLunch(globals.lunchSelected.lunchId);
-            Navigator.pop(context);
-          } else {
-            setState(() {
-              message = res.toString();
-            });
-          }
-        } else {
-          setState(() {
-            message = 'Bad request';
-          });
-        }
-      } else {
-        var res = result['error'];
-        if (res != null) {
-          setState(() {
-            message = res.toString();
-          });
-        } else {
-          setState(() {
-            message = 'Bad request';
-          });
-        }
-      }
-    }
-  }
-
-  Future deleteMeal(BuildContext context) async {
-    //if (_formStateKey.currentState.validate()) {
-    //  _formStateKey.currentState.save();
-    //}
-    _formStateKey.currentState.save();
-    globals.mealSelected = meal;
-    if (meal.mealId != 0) {
-      // prepare JSON for request
-      String reqJson = json.encode(MealDeleteRequest(
-          request: 'meal.delete',
-          session: globals.sessionLunch.sessionId,
-          arguments: MealDeleteArguments(
-            mealId: globals.mealSelected.mealId,
-          )));
-      // make POST request
-      print(reqJson);
-      Response response = await post(urlApi, headers: headers, body: reqJson);
-      print('statusCode:' + response.statusCode.toString());
-      var result = jsonDecode(response.body);
-      if (response.statusCode == 200) {
-        var res = result['response'];
-        if (res != null) {
-          bool deleteRestaurant = res['deleteMeal'];
-          if (deleteRestaurant) {
-            //globals.lunchSelected = await detailsLunch(globals.lunchSelected.lunchId);
-            Navigator.pop(context);
-          } else {
-            setState(() {
-              message = res.toString();
-            });
-          }
-        } else {
-          setState(() {
-            message = 'Bad request';
-          });
-        }
-      } else {
-        var res = result['error'];
-        if (res != null) {
-          setState(() {
-            message = res.toString();
-          });
-        } else {
-          setState(() {
-            message = 'Bad request';
-          });
-        }
-      }
-    }
   }
 }

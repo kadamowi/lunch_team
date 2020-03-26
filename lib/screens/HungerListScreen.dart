@@ -55,11 +55,13 @@ class _HungerListScreenState extends State<HungerListScreen> {
                                   leading: Container(
                                     width: 60,
                                     height: 60,
-                                    child: CachedNetworkImage(
+                                    child: (snapshot.data[index].avatarUrl.length>0)?CachedNetworkImage(
                                         placeholder: (context, url) =>
                                             CircularProgressIndicator(),
                                         imageUrl: snapshot.data[index].avatarUrl
-                                            ),
+                                            ):Image(
+                                      image: AssetImage('images/avatar.png'),
+                                    ),
                                   ),
                                     title: Text(
                                       snapshot.data[index].displayName,

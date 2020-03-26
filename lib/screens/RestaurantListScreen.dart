@@ -73,11 +73,14 @@ class _RestaurantListScreenState extends State<RestaurantListScreen> {
                                         leading: Container(
                                           width: 60,
                                           height: 60,
-                                          child: CachedNetworkImage(
+                                          child: (snapshot.data[index]
+                                              .restaurantUrlLogo.length > 0)?CachedNetworkImage(
                                               placeholder: (context, url) =>
                                                   CircularProgressIndicator(),
                                               imageUrl: snapshot.data[index]
-                                                  .restaurantUrlLogo),
+                                                  .restaurantUrlLogo):Image(
+                                            image: AssetImage('images/restaurant.png'),
+                                          ),
                                         ),
                                         trailing: Icon(
                                           Icons.fastfood,

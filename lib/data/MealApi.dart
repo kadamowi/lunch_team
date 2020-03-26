@@ -6,7 +6,6 @@ import 'package:lunch_team/model/LunchTeamCommon.dart';
 import 'package:lunch_team/model/Meal.dart';
 import 'package:lunch_team/request/MealRequest.dart';
 
-
 Future<List<Meal>> fetchMealList(int lunchId) async {
   // prepare JSON for request
   String reqJson = json.encode(MealListRequest(
@@ -14,8 +13,7 @@ Future<List<Meal>> fetchMealList(int lunchId) async {
       session: globals.sessionLunch.sessionId,
       arguments: MealListArguments(
         lunchId: lunchId,
-      )
-  ));
+      )));
   // make POST request
   //print('fetch meal.list ...');
   Response response = await post(urlApi, headers: headers, body: reqJson);
@@ -38,8 +36,7 @@ Future<String> setSettled(int mealId) async {
       session: globals.sessionLunch.sessionId,
       arguments: MealSettledArguments(
         mealId: mealId,
-      )
-  ));
+      )));
   // make POST request
   //print('Set settlement:'+reqJson);
   Response response = await post(urlApi, headers: headers, body: reqJson);
@@ -49,11 +46,95 @@ Future<String> setSettled(int mealId) async {
   if (resp != null) {
     //print('resp:'+resp.toString());
     var settledMeal = resp['settledMeal'];
-    if (!settledMeal)
-      return 'Settlement problem';
+    if (!settledMeal) return 'Settlement problem';
   } else {
     //print('Technical problem');
     return 'Technical problem';
   }
+  return null;
+}
+
+Future<String> createMeal(Meal meal) async {
+  // prepare JSON for request
+  String reqJson = json.encode(MealCreateRequest(
+      request: 'meal.create',
+      session: globals.sessionLunch.sessionId,
+      arguments: MealCreateArguments(
+        lunchId: globals.lunchSelected.lunchId,
+        mealDescription: globals.mealSelected.mealName,
+        mealCost: globals.mealSelected.mealCost.toString(),
+      )));
+  //print('createMeal:'+reqJson);
+  // make POST request
+  Response response = await post(urlApi, headers: headers, body: reqJson);
+  if (response.statusCode == 200) {
+    var result = jsonDecode(response.body);
+    var responseTag = result['response'];
+    if (responseTag != null) {
+      bool createMeal = responseTag['createMeal'];
+      if (!createMeal) {
+        return 'Creating impossible:' + responseTag.toString();
+      }
+    } else
+      return 'No response: ' + result.toString();
+  } else
+    return 'Technical error: ' + response.statusCode.toString();
+  return null;
+}
+
+Future<String> editMeal(Meal meal) async {
+  // prepare JSON for request
+  String reqJson = json.encode(MealEditRequest(
+      request: 'meal.edit',
+      session: globals.sessionLunch.sessionId,
+      arguments: MealEditArguments(
+        mealId: globals.mealSelected.mealId,
+        mealDescription: globals.mealSelected.mealName,
+        mealCost: globals.mealSelected.mealCost.toString(),
+      )));
+  //print('editMeal:'+reqJson);
+  // make POST request
+  Response response = await post(urlApi, headers: headers, body: reqJson);
+
+  if (response.statusCode == 200) {
+    var result = jsonDecode(response.body);
+    var responseTag = result['response'];
+    if (responseTag != null) {
+      bool editMeal = responseTag['editMeal'];
+      if (!editMeal) {
+        return 'Edit impossible:' + responseTag.toString();
+      }
+    } else
+      return 'No response: ' + result.toString();
+  } else
+    return 'Technical error: ' + response.statusCode.toString();
+  return null;
+}
+
+Future<String> deleteMeal(int mealId) async {
+  // prepare JSON for request
+  String reqJson = json.encode(MealDeleteRequest(
+      request: 'meal.delete',
+      session: globals.sessionLunch.sessionId,
+      arguments: MealDeleteArguments(
+        mealId: globals.mealSelected.mealId,
+      )));
+  //print('deleteMeal:'+reqJson);
+  // make POST request
+  Response response = await post(urlApi, headers: headers, body: reqJson);
+
+  if (response.statusCode == 200) {
+    var result = jsonDecode(response.body);
+    var responseTag = result['response'];
+    if (responseTag != null) {
+      bool deleteMeal = responseTag['deleteMeal'];
+      if (!deleteMeal) {
+        return 'Delete impossible:' + responseTag.toString();
+      }
+    } else
+      return 'No response: ' + result.toString();
+  } else
+    return 'Technical error: ' + response.statusCode.toString();
+
   return null;
 }
