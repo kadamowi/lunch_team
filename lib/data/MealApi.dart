@@ -60,9 +60,9 @@ Future<String> createMeal(Meal meal) async {
       request: 'meal.create',
       session: globals.sessionLunch.sessionId,
       arguments: MealCreateArguments(
-        lunchId: globals.lunchSelected.lunchId,
-        mealDescription: globals.mealSelected.mealName,
-        mealCost: globals.mealSelected.mealCost.toString(),
+        lunchId: meal.lunchId,
+        mealDescription: meal.mealName,
+        mealCost: meal.mealCost.toString(),
       )));
   //print('createMeal:'+reqJson);
   // make POST request
