@@ -12,7 +12,8 @@ class UserDetailsScreen extends StatefulWidget {
 }
 
 class _UserDetailsScreenState extends State<UserDetailsScreen> {
-  final GlobalKey<FormState> _formStateKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _formStateKey1 = GlobalKey<FormState>();
+  final GlobalKey<FormState> _formStateKey2 = GlobalKey<FormState>();
   String message = '';
   String oldPass;
   String newPass;
@@ -28,7 +29,7 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
           child: Column(
             children: <Widget>[
               Form(
-                  key: _formStateKey,
+                  key: _formStateKey1,
                   autovalidate: false,
                   child: Column(children: <Widget>[
                     Container(
@@ -141,10 +142,10 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                             color: Colors.orange[800],
                             textColor: Colors.white,
                             padding: const EdgeInsets.all(5.0),
-                            child: Text("Save".toUpperCase()),
+                            child: Text("Save"),
                             onPressed: () {
-                              if (_formStateKey.currentState.validate()) {
-                                _formStateKey.currentState.save();
+                              if (_formStateKey1.currentState.validate()) {
+                                _formStateKey1.currentState.save();
                                 editUser().then((value) {
                                   if (value == null) {
                                     message = 'Data changed';
@@ -173,6 +174,11 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                         */
                       ],
                     ),
+                  ])),
+              Form(
+                  key: _formStateKey2,
+                  autovalidate: false,
+                  child: Column(children: <Widget>[
                     Container(
                         height: 240,
                         color: Colors.white,
@@ -286,10 +292,10 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                         color: Colors.orange[800],
                         textColor: Colors.white,
                         padding: const EdgeInsets.all(5.0),
-                        child: Text("Change password".toUpperCase()),
+                        child: Text("Change password"),
                         onPressed: () {
-                          if (_formStateKey.currentState.validate()) {
-                            _formStateKey.currentState.save();
+                          if (_formStateKey2.currentState.validate()) {
+                            _formStateKey2.currentState.save();
                             if (newPass == newPass2) {
                               passwordUser(oldPass,newPass).then((value) {
                                 if (value != null)
@@ -316,7 +322,7 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                   color: Colors.black,
                   textColor: Colors.white,
                   padding: const EdgeInsets.all(5.0),
-                  child: Text("Logout".toUpperCase()),
+                  child: Text("Logout"),
                   onPressed: () {
                     logoutApp().then((value) {
                       Navigator.pushReplacement(

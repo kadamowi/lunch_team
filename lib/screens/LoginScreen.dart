@@ -129,7 +129,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         color: Colors.orange[800],
                         textColor: Colors.white,
                         padding: const EdgeInsets.all(20.0),
-                        child: Text("Login".toUpperCase()),
+                        child: Text("Login"),
                         onPressed: () {
                           if (_formStateKey.currentState.validate()) {
                             _formStateKey.currentState.save();
@@ -159,7 +159,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             color: Colors.grey[800],
                             textColor: Colors.white,
                             padding: const EdgeInsets.all(10.0),
-                            child: Text("Sign up".toUpperCase()),
+                            child: Text("Sign up"),
                             onPressed: () {
                               if (_formStateKey.currentState.validate()) {
                                 _formStateKey.currentState.save();
@@ -179,7 +179,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             color: Colors.grey[800],
                             textColor: Colors.white,
                             padding: const EdgeInsets.all(10.0),
-                            child: Text("Forgot password".toUpperCase()),
+                            child: Text("Lost password"),
                             onPressed: () {
                             },
                           ),

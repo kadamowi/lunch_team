@@ -171,8 +171,8 @@ class _UserScreenState extends State<UserScreen> {
                       child: RaisedButton(
                         color: Colors.orange[800],
                         textColor: Colors.white,
-                        padding: const EdgeInsets.all(20.0),
-                        child: Text("Sign up".toUpperCase()),
+                        padding: const EdgeInsets.all(5.0),
+                        child: Text("Sign up"),
                         onPressed: () {
                           print(loginUser.username);
                           if (_formStateKey.currentState.validate()) {
