@@ -88,9 +88,9 @@ Future<String> editMeal(Meal meal) async {
       request: 'meal.edit',
       session: globals.sessionLunch.sessionId,
       arguments: MealEditArguments(
-        mealId: globals.mealSelected.mealId,
-        mealDescription: globals.mealSelected.mealName,
-        mealCost: globals.mealSelected.mealCost.toString(),
+        mealId: meal.mealId,
+        mealDescription: meal.mealName,
+        mealCost: meal.mealCost.toString(),
       )));
   //print('editMeal:'+reqJson);
   // make POST request
@@ -117,7 +117,7 @@ Future<String> deleteMeal(int mealId) async {
       request: 'meal.delete',
       session: globals.sessionLunch.sessionId,
       arguments: MealDeleteArguments(
-        mealId: globals.mealSelected.mealId,
+        mealId: mealId,
       )));
   //print('deleteMeal:'+reqJson);
   // make POST request
