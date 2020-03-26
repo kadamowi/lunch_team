@@ -39,12 +39,12 @@ class _LunchDetailsScreenState extends State<LunchDetailsScreen> {
           children: <Widget>[
             FutureBuilder<Lunch>(
               future: lunchDeetails(globals.lunchSelected.lunchId),
-              builder: (BuildContext context, AsyncSnapshot<Lunch> snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
+              builder: (BuildContext context, AsyncSnapshot<Lunch> snapshotLunch) {
+                if (snapshotLunch.connectionState == ConnectionState.waiting) {
                   return ProgressBar();
                 } else {
-                  if (snapshot.hasError) {
-                    return Center(child: Text('Error: ${snapshot.error}'));
+                  if (snapshotLunch.hasError) {
+                    return Center(child: Text('Error: ${snapshotLunch.error}'));
                   } else {
                     return Container(
                         margin: const EdgeInsets.all(5),
@@ -58,26 +58,26 @@ class _LunchDetailsScreenState extends State<LunchDetailsScreen> {
                                     alignment: Alignment.centerLeft,
                                     child: SizedBox(
                                       height: 100,
-                                      child: CachedNetworkImage(placeholder: (context, url) => CircularProgressIndicator(), imageUrl: snapshot.data.restaurantLogo),
+                                      child: CachedNetworkImage(placeholder: (context, url) => CircularProgressIndicator(), imageUrl: snapshotLunch.data.restaurantLogo),
                                     )),
                                 Expanded(
                                   child: Column(
                                     children: <Widget>[
                                       Align(
                                         alignment: Alignment.centerRight,
-                                        child: Text(snapshot.data.restaurantName, style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold)),
+                                        child: Text(snapshotLunch.data.restaurantName, style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold)),
                                       ),
                                       Align(
                                         alignment: Alignment.centerRight,
-                                        child: Text('Host: ' + snapshot.data.username, style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold)),
+                                        child: Text('Host: ' + snapshotLunch.data.username, style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold)),
                                       ),
                                       Align(
                                         alignment: Alignment.centerRight,
-                                        child: Text('Order time: ' + DateFormat('HH:mm').format(snapshot.data.lunchOrderTime), style: TextStyle(color: Colors.red)),
+                                        child: Text('Order time: ' + DateFormat('HH:mm').format(snapshotLunch.data.lunchOrderTime), style: TextStyle(color: Colors.red)),
                                       ),
                                       Align(
                                         alignment: Alignment.centerRight,
-                                        child: Text('Lunch time: ' + DateFormat('HH:mm').format(snapshot.data.lunchLunchTime)),
+                                        child: Text('Lunch time: ' + DateFormat('HH:mm').format(snapshotLunch.data.lunchLunchTime)),
                                       ),
                                     ],
                                   ),
@@ -91,14 +91,14 @@ class _LunchDetailsScreenState extends State<LunchDetailsScreen> {
                                 height: 50,
                               ),
                               onPressed: () {
-                                launch(snapshot.data.restaurantUrl);
+                                launch(snapshotLunch.data.restaurantUrl);
                               },
                             ),
                             Container(
                               margin: EdgeInsets.all(5.0),
                               padding: EdgeInsets.all(10.0),
                               width: MediaQuery.of(context).size.width,
-                              child: Text(snapshot.data.lunchDescription),
+                              child: Text(snapshotLunch.data.lunchDescription),
                               decoration: BoxDecoration(
                                 color: Colors.white,
                                 shape: BoxShape.rectangle,
@@ -121,26 +121,26 @@ class _LunchDetailsScreenState extends State<LunchDetailsScreen> {
                                 )),
                             Expanded(
                               child: FutureBuilder<List<Meal>>(
-                                  future: fetchMealList(snapshot.data.lunchId),
-                                  builder: (BuildContext context, AsyncSnapshot<List<Meal>> snapshot) {
-                                    if (snapshot.connectionState == ConnectionState.waiting) {
+                                  future: fetchMealList(snapshotLunch.data.lunchId),
+                                  builder: (BuildContext context, AsyncSnapshot<List<Meal>> snapshotMeal) {
+                                    if (snapshotMeal.connectionState == ConnectionState.waiting) {
                                       return ProgressBar();
                                     } else {
-                                      if (snapshot.hasError) {
-                                        return Center(child: Text('Error: ${snapshot.error}'));
+                                      if (snapshotMeal.hasError) {
+                                        return Center(child: Text('Error: ${snapshotMeal.error}'));
                                       } else
                                         return RefreshIndicator(
                                           onRefresh: refreshList,
                                           child: ListView.builder(
                                             scrollDirection: Axis.vertical,
                                             shrinkWrap: true,
-                                            itemCount: snapshot.data.length,
+                                            itemCount: snapshotMeal.data.length,
                                             itemBuilder: (context, index) {
                                               return Container(
                                                 margin: const EdgeInsets.all(5),
                                                 //padding: const EdgeInsets.all(5),
                                                 decoration: BoxDecoration(
-                                                  color: (snapshot.data[index].settled) ? Colors.orange[50] : Colors.white,
+                                                  color: (snapshotMeal.data[index].settled) ? Colors.orange[50] : Colors.white,
                                                 ),
                                                 child: ListTile(
                                                   title: Row(
@@ -148,34 +148,61 @@ class _LunchDetailsScreenState extends State<LunchDetailsScreen> {
                                                       Icon(Icons.person),
                                                       Expanded(
                                                         child: Text(
-                                                          snapshot.data[index].username,
-                                                          style: TextStyle(color: Colors.orange[800], fontWeight: FontWeight.bold),
+                                                          snapshotMeal.data[index].username,
+                                                          style: TextStyle(
+                                                              color: Colors.orange[800],
+                                                              fontWeight: FontWeight.bold
+                                                          ),
                                                           overflow: TextOverflow.ellipsis,
                                                         ),
                                                       ),
                                                       Container(
-                                                        child: Align(alignment: Alignment.centerRight, child: Text(snapshot.data[index].mealCost.toStringAsFixed(2))),
+                                                        child: Align(
+                                                            alignment: Alignment.centerRight,
+                                                            child: Text(snapshotMeal.data[index].mealCost.toStringAsFixed(2),
+                                                                style: TextStyle(
+                                                                  //fontWeight: FontWeight.bold,
+                                                                  fontSize: 14,
+                                                                )
+                                                            )
+                                                        ),
                                                       )
                                                     ],
                                                   ),
                                                   subtitle: Row(
                                                     children: <Widget>[
-                                                      Text(snapshot.data[index].mealName),
+                                                      Expanded(
+                                                        child: Text(snapshotMeal.data[index].mealName,
+                                                          //overflow: TextOverflow.ellipsis,
+                                                          //textWidthBasis: TextWidthBasis.longestLine,
+                                                          softWrap: true,
+                                                        ),
+                                                      ),
+                                                      Container(
+                                                        child: Align(
+                                                            alignment: Alignment.bottomRight,
+                                                            child: Text((snapshotMeal.data[index].mealCost+snapshotLunch.data.transportCost/snapshotLunch.data.mealCount).toStringAsFixed(2),
+                                                            style: TextStyle(
+                                                              fontWeight: FontWeight.bold,
+                                                              fontSize: 14,
+                                                            ),)
+                                                        ),
+                                                      )
                                                     ],
                                                   ),
                                                   onTap: () {
                                                     // User kliknął na swoje zamówienie
-                                                    if (snapshot.data[index].userId == globals.userLogged.userId) {
+                                                    if (snapshotMeal.data[index].userId == globals.userLogged.userId) {
                                                       // Czy jest jeszcze czas
                                                       if (globals.lunchSelected.lunchOrderTime.difference(DateTime.now()).inMinutes >= 0) {
-                                                        globals.mealSelected = snapshot.data[index];
+                                                        globals.mealSelected = snapshotMeal.data[index];
                                                         Navigator.push(
                                                           context,
                                                           MaterialPageRoute(
                                                             builder: (context) => MealScreen(),
                                                           ),
                                                         ).then((value) {
-                                                          if (globals.userLogged.userId == globals.lunchSelected.userId) setSettled(snapshot.data[index].mealId);
+                                                          if (globals.userLogged.userId == globals.lunchSelected.userId) setSettled(snapshotMeal.data[index].mealId);
                                                           setState(() {});
                                                         });
                                                       } else {
@@ -211,7 +238,7 @@ class _LunchDetailsScreenState extends State<LunchDetailsScreen> {
                                                                 new FlatButton(
                                                                   child: new Text("Yes"),
                                                                   onPressed: () {
-                                                                    setSettled(snapshot.data[index].mealId).then((value) {
+                                                                    setSettled(snapshotMeal.data[index].mealId).then((value) {
                                                                       setState(() {
                                                                         Navigator.of(context).pop();
                                                                       });
@@ -288,7 +315,7 @@ class _LunchDetailsScreenState extends State<LunchDetailsScreen> {
                                         child: Align(
                                           alignment: Alignment.centerRight,
                                           child: Text(
-                                            snapshot.data.lunchCost.toStringAsFixed(2),
+                                            snapshotLunch.data.lunchCost.toStringAsFixed(2),
                                           ),
                                         ),
                                       ),
@@ -305,7 +332,7 @@ class _LunchDetailsScreenState extends State<LunchDetailsScreen> {
                                         child: Align(
                                           alignment: Alignment.centerRight,
                                           child: Text(
-                                            snapshot.data.transportCost.toStringAsFixed(2),
+                                            snapshotLunch.data.transportCost.toStringAsFixed(2),
                                           ),
                                         ),
                                       ),
@@ -327,7 +354,7 @@ class _LunchDetailsScreenState extends State<LunchDetailsScreen> {
                                         child: Align(
                                           alignment: Alignment.centerRight,
                                           child: Text(
-                                            (snapshot.data.lunchCost + snapshot.data.transportCost).toStringAsFixed(2),
+                                            (snapshotLunch.data.lunchCost + snapshotLunch.data.transportCost).toStringAsFixed(2),
                                             style: TextStyle(
                                                 //fontSize: 16.0,
                                                 fontWeight: FontWeight.bold),
