@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lunch_team/model/globals.dart' as globals;
 
 class ProgressBar extends StatelessWidget {
   const ProgressBar({
@@ -45,3 +46,17 @@ class MessageError extends StatelessWidget {
     );
   }
 }
+
+class VersionText extends StatelessWidget {
+  const VersionText({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      'Version '+ globals.versionInfo.version,
+    );
+  }
+}
+

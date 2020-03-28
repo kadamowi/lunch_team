@@ -84,15 +84,18 @@ class _LunchDetailsScreenState extends State<LunchDetailsScreen> {
                                 ),
                               ],
                             ),
-                            FlatButton(
-                              padding: EdgeInsets.all(5),
-                              child: Image(
-                                image: AssetImage('images/menu.png'),
-                                height: 50,
+                            Visibility(
+                              visible: snapshotLunch.data.restaurantUrl.length > 0,
+                              child: FlatButton(
+                                padding: EdgeInsets.all(5),
+                                child:  Image(
+                                  image: AssetImage('images/menu.png'),
+                                  height: 50,
+                                ),
+                                onPressed: () {
+                                  launch(snapshotLunch.data.restaurantUrl);
+                                },
                               ),
-                              onPressed: () {
-                                launch(snapshotLunch.data.restaurantUrl);
-                              },
                             ),
                             Container(
                               margin: EdgeInsets.all(5.0),

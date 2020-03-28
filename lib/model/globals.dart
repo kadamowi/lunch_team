@@ -1,6 +1,7 @@
 library lunch_team.globals;
 
 import 'package:flutter/material.dart';
+import 'package:package_info/package_info.dart';
 import 'package:lunch_team/model/LunchTeamCommon.dart';
 import 'package:lunch_team/model/Restaurant.dart';
 import 'package:lunch_team/model/Lunch.dart';
@@ -8,6 +9,7 @@ import 'package:lunch_team/model/Meal.dart';
 import 'package:lunch_team/model/User.dart';
 
 bool isLogged = false;
+PackageInfo versionInfo;
 String errorMessage = 'OK';
 
 SessionLunch sessionLunch;

@@ -42,8 +42,10 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
+        reverse: true,
         child: Container(
           padding: const EdgeInsets.all(16.0),
+          //height: 600,
           height: MediaQuery.of(context).size.height,
           child: Column(
             children: <Widget>[
@@ -128,7 +130,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       child: RaisedButton(
                         color: Colors.orange[800],
                         textColor: Colors.white,
-                        padding: const EdgeInsets.all(20.0),
+                        padding: const EdgeInsets.all(5.0),
                         child: Text("Login"),
                         onPressed: () {
                           if (_formStateKey.currentState.validate()) {

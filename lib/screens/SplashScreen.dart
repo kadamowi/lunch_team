@@ -15,49 +15,54 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      //appBar: AppBar(
-      //  title: Text('Lunch Team'),
-      //),
-      body: Container(
-          height: double.infinity,
-          width: double.infinity,
-          child: FutureBuilder<LoginUser>(
-              future: getSavedUser(),
-              builder: (BuildContext context, AsyncSnapshot snapshot) {
-                if (snapshot.connectionState != ConnectionState.done) {
-                  return Image(
-                    image: AssetImage('images/splashscreen.png'),
-                  );
-                } else {
-                  if (snapshot.data.username != null &&
-                      snapshot.data.password != null) {
-                    return FutureBuilder<String>(
-                        future: loginApp(
-                            snapshot.data.username, snapshot.data.password),
-                        builder:
-                            (BuildContext context, AsyncSnapshot snapshot2) {
-                          if (snapshot2.connectionState != ConnectionState.done) {
-                            return Text(''); //Image(image: AssetImage('images/splashscreen.png'),);
+    return Container(
+        height: double.infinity,
+        width: double.infinity,
+        child: FutureBuilder<LoginUser>(
+            future: getSavedUser(),
+            builder: (BuildContext context, AsyncSnapshot snapshot) {
+              if (snapshot.connectionState != ConnectionState.done) {
+                return Image(
+                  image: AssetImage('images/splashscreen.png'),
+                );
+              } else {
+                if (snapshot.data.username != null &&
+                    snapshot.data.password != null) {
+                  return FutureBuilder<String>(
+                      future: loginApp(
+                          snapshot.data.username, snapshot.data.password),
+                      builder:
+                          (BuildContext context, AsyncSnapshot snapshot2) {
+                        if (snapshot2.connectionState != ConnectionState.done) {
+                          return Text(''); //Image(image: AssetImage('images/splashscreen.png'),);
+                        } else {
+                          if (snapshot2.data == null) {
+                            return Home();
                           } else {
-                            if (snapshot2.data == null) {
-                              return Home();
-                            } else {
-                              globals.sessionLunch = SessionLunch(
-                                  snapshot.data.username,
-                                  snapshot.data.password,
-                                  null
-                              );
-                              return LoginScreen();
-                            }
+                            globals.sessionLunch = SessionLunch(
+                                snapshot.data.username,
+                                snapshot.data.password,
+                                null
+                            );
+                            /*
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => LoginScreen(),
+                              ),
+                            );
+                            return null;
+
+                             */
+                            return LoginScreen();
                           }
-                        });
-                  } else {
-                    return LoginScreen();
-                  }
+                        }
+                      });
+                } else {
+                  return LoginScreen();
                 }
-              })
-          ),
+              }
+            })
     );
   }
 }

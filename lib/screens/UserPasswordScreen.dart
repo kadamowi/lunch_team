@@ -1,47 +1,37 @@
 import 'package:flutter/material.dart';
-import 'package:lunch_team/model/User.dart';
-import 'package:lunch_team/request/LoginRequest.dart';
-import 'package:lunch_team/data/LoginApi.dart';
+import 'package:lunch_team/data/UserApi.dart';
 import 'package:lunch_team/widgets/LunchTeamWidget.dart';
 
-class UserScreen extends StatefulWidget {
+class UserPasswordScreen extends StatefulWidget {
   @override
-  _UserScreenState createState() => _UserScreenState();
+  _UserPasswordScreenState createState() => _UserPasswordScreenState();
 }
 
-class _UserScreenState extends State<UserScreen> {
-  final GlobalKey<FormState> _formStateKey = GlobalKey<FormState>();
-  LoginUser loginUser = new LoginUser(username: '', password: '');
-  String secondPassword;
-  String message = "";
-  User user;
+class _UserPasswordScreenState extends State<UserPasswordScreen> {
+  final GlobalKey<FormState> _formStateKey2 = GlobalKey<FormState>();
+  String message = '';
+  String oldPass;
+  String newPass;
+  String newPass2;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      //appBar: AppBar(
-      //  title: Text('Registration'),
-      //),
+      appBar: AppBar(
+        title: Text('User details'),
+      ),
       body: SingleChildScrollView(
         child: Container(
-          padding: const EdgeInsets.all(16.0),
-          height: MediaQuery.of(context).size.height,
+          padding: const EdgeInsets.all(10.0),
+          height: MediaQuery.of(context).size.height - 50,
           child: Column(
             children: <Widget>[
-              Container(
-                margin: const EdgeInsets.only(top: 10.0, bottom: 10.0),
-                height: 180,
-                child: Image(
-                  image: AssetImage('images/logo.png'),
-                ),
-              ),
-              SizedBox(height: 20.0, width: double.infinity),
               Form(
-                  key: _formStateKey,
+                  key: _formStateKey2,
                   autovalidate: false,
                   child: Column(children: <Widget>[
                     Container(
-                      height: 240,
+                        height: 240,
                         color: Colors.white,
                         margin: EdgeInsets.all(10),
                         padding: EdgeInsets.all(10),
@@ -50,7 +40,7 @@ class _UserScreenState extends State<UserScreen> {
                             Align(
                               alignment: Alignment.topLeft,
                               child: Text(
-                                'Register new user',
+                                'Change password',
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 16,
@@ -62,56 +52,24 @@ class _UserScreenState extends State<UserScreen> {
                               decoration: InputDecoration(
                                 contentPadding: const EdgeInsets.all(16.0),
                                 prefixIcon: Container(
-                                    padding: const EdgeInsets.only(
-                                        top: 16.0, bottom: 16.0),
+                                    padding: const EdgeInsets.only(top: 16.0, bottom: 16.0),
                                     margin: const EdgeInsets.only(right: 8.0),
-                                    decoration:
-                                        BoxDecoration(color: Colors.grey[200]),
-                                    child: Icon(
-                                      Icons.person,
-                                      color: Colors.orange[800],
-                                    )),
-                                hintText: "enter your name",
-                                hintStyle: TextStyle(color: Colors.grey[800]),
-                                border: OutlineInputBorder(
-                                    borderSide: BorderSide.none),
-                                filled: true,
-                                fillColor: Colors.grey[200],
-                              ),
-                              validator: (value) {
-                                if (value.length == 0)
-                                  return "username is empty";
-                                return null;
-                              },
-                              onSaved: (value) => loginUser.username = value,
-                            ),
-                            SizedBox(height: 10.0),
-                            TextFormField(
-                              decoration: InputDecoration(
-                                contentPadding: const EdgeInsets.all(16.0),
-                                prefixIcon: Container(
-                                    padding: const EdgeInsets.only(
-                                        top: 16.0, bottom: 16.0),
-                                    margin: const EdgeInsets.only(right: 8.0),
-                                    decoration:
-                                        BoxDecoration(color: Colors.grey[200]),
+                                    decoration: BoxDecoration(color: Colors.grey[200]),
                                     child: Icon(
                                       Icons.lock,
                                       color: Colors.orange[800],
                                     )),
-                                hintText: "enter your password",
+                                hintText: "old password",
                                 hintStyle: TextStyle(color: Colors.grey[800]),
-                                border: OutlineInputBorder(
-                                    borderSide: BorderSide.none),
+                                border: OutlineInputBorder(borderSide: BorderSide.none),
                                 filled: true,
                                 fillColor: Colors.grey[200],
                               ),
                               validator: (value) {
-                                if (value.length == 0)
-                                  return "passwords is empty";
+                                if (value.length == 0) return "passwords is empty";
                                 return null;
                               },
-                              onSaved: (value) => loginUser.password = value,
+                              onSaved: (value) => oldPass = value,
                               obscureText: true,
                             ),
                             SizedBox(height: 10.0),
@@ -119,52 +77,76 @@ class _UserScreenState extends State<UserScreen> {
                               decoration: InputDecoration(
                                 contentPadding: const EdgeInsets.all(16.0),
                                 prefixIcon: Container(
-                                    padding: const EdgeInsets.only(
-                                        top: 16.0, bottom: 16.0),
+                                    padding: const EdgeInsets.only(top: 16.0, bottom: 16.0),
                                     margin: const EdgeInsets.only(right: 8.0),
-                                    decoration:
-                                        BoxDecoration(color: Colors.grey[200]),
+                                    decoration: BoxDecoration(color: Colors.grey[200]),
+                                    child: Icon(
+                                      Icons.lock,
+                                      color: Colors.orange[800],
+                                    )),
+                                hintText: "new password",
+                                hintStyle: TextStyle(color: Colors.grey[800]),
+                                border: OutlineInputBorder(borderSide: BorderSide.none),
+                                filled: true,
+                                fillColor: Colors.grey[200],
+                              ),
+                              validator: (value) {
+                                if (value.length == 0) return "passwords is empty";
+                                return null;
+                              },
+                              onSaved: (value) => newPass = value,
+                              obscureText: true,
+                            ),
+                            SizedBox(height: 10.0),
+                            TextFormField(
+                              decoration: InputDecoration(
+                                contentPadding: const EdgeInsets.all(16.0),
+                                prefixIcon: Container(
+                                    padding: const EdgeInsets.only(top: 16.0, bottom: 16.0),
+                                    margin: const EdgeInsets.only(right: 8.0),
+                                    decoration: BoxDecoration(color: Colors.grey[200]),
                                     child: Icon(
                                       Icons.lock,
                                       color: Colors.orange[800],
                                     )),
                                 hintText: "retype your password",
                                 hintStyle: TextStyle(color: Colors.grey[800]),
-                                border: OutlineInputBorder(
-                                    borderSide: BorderSide.none),
+                                border: OutlineInputBorder(borderSide: BorderSide.none),
                                 filled: true,
                                 fillColor: Colors.grey[200],
                               ),
                               validator: (value) {
-                                if (value.length == 0)
-                                  return "passwords is empty";
+                                if (value.length == 0) return "passwords is empty";
                                 return null;
                               },
-                              onSaved: (value) => secondPassword = value,
+                              onSaved: (value) => newPass2 = value,
                               obscureText: true,
                             ),
                           ],
                         )),
-                    SizedBox(height: 10.0),
+                    //SizedBox(height: 10.0),
                     SizedBox(
-                      width: double.infinity,
+                      width: MediaQuery.of(context).size.width * 0.5,
                       child: RaisedButton(
                         color: Colors.orange[800],
                         textColor: Colors.white,
                         padding: const EdgeInsets.all(5.0),
-                        child: Text("Sign up"),
+                        child: Text("Change password"),
                         onPressed: () {
-                          print(loginUser.username);
-                          if (_formStateKey.currentState.validate()) {
-                            _formStateKey.currentState.save();
-                            if (loginUser.password == secondPassword) {
-                              createAccount(loginUser).then((value) {
-                                if (value != null)
-                                  setState(() {
-                                    message = value;
-                                  });
-                                else
+                          if (_formStateKey2.currentState.validate()) {
+                            _formStateKey2.currentState.save();
+                            if (newPass == newPass2) {
+                              passwordUser(oldPass, newPass).then((value) {
+                                if (value == null) {
                                   Navigator.pop(context);
+                                } else {
+                                  message = value;
+                                  setState(() {});
+                                }
+                              });
+                            } else {
+                              setState(() {
+                                message = 'passwords not match';
                               });
                             }
                           }

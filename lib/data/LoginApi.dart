@@ -2,6 +2,7 @@ import 'package:http/http.dart';
 import 'package:lunch_team/data/UserApi.dart';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:package_info/package_info.dart';
 
 import 'package:lunch_team/model/LunchTeamCommon.dart';
 import 'package:lunch_team/request/LoginRequest.dart';
@@ -11,6 +12,7 @@ import 'package:lunch_team/model/globals.dart' as globals;
 
 Future<LoginUser> getSavedUser() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
+  globals.versionInfo = await PackageInfo.fromPlatform();
   return new LoginUser(
       username: (prefs.getString('username') ?? ''),
       password: (prefs.getString('password') ?? ''));

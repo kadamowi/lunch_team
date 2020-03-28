@@ -110,15 +110,18 @@ class _LunchScreenState extends State<LunchScreen> {
                                       CircularProgressIndicator(),
                                   imageUrl: snapshot.data.restaurantUrlLogo),
                             ),
-                            FlatButton(
-                              padding: EdgeInsets.all(5),
-                              child: Image(
-                                image: AssetImage('images/menu.png'),
-                                width: 150,
+                            Visibility(
+                              visible: globals.restaurantSelected.restaurantUrl.length > 0,
+                              child: FlatButton(
+                                padding: EdgeInsets.all(5),
+                                child:  Image(
+                                  image: AssetImage('images/menu.png'),
+                                  height: 50,
+                                ),
+                                onPressed: () {
+                                  launch(globals.restaurantSelected.restaurantUrl);
+                                },
                               ),
-                              onPressed: () {
-                                launch(globals.restaurantSelected.restaurantUrl);
-                              },
                             ),
                           ],
                         ),
