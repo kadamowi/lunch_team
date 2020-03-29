@@ -34,6 +34,8 @@ class _LunchScreenState extends State<LunchScreen> {
     //totalMeal: 0,
     //totalMealCost: 0.0,
   );
+  DateTime orderDate = DateTime.now();
+  DateTime lunchDate = DateTime.now();
 
   List<DropdownMenuItem<String>> _dropDownMenuItems;
   String _currentRestaurant;
@@ -69,6 +71,8 @@ class _LunchScreenState extends State<LunchScreen> {
       lunch = globals.lunchSelected;
       _currentRestaurantId = lunch.restaurantId;
       _currentRestaurant = globals.restaurantSets[_currentRestaurantId]; //_dropDownMenuItems[0].value;
+      orderDate = lunch.lunchOrderTime;
+      lunchDate = lunch.lunchLunchTime;
     }
 
     return Scaffold(
@@ -217,7 +221,29 @@ class _LunchScreenState extends State<LunchScreen> {
                                   decoration: BoxDecoration(
                                     color: Colors.grey[200],
                                   ),
-                                  child: Text('Collecting time: '),
+                                  child: Text('Collecting: '),
+                                ),
+                              ),
+                              Container(
+                                width: 140,
+                                child: DateTimeField(
+                                  decoration: InputDecoration(
+                                    contentPadding: const EdgeInsets.all(5.0),
+                                    border: OutlineInputBorder(borderSide: BorderSide.none),
+                                    filled: true,
+                                    fillColor: Colors.grey[200],
+                                  ),
+                                  format: DateFormat("yyyy-MM-dd"),
+                                  initialValue: orderDate,
+                                  onShowPicker: (context, currentValue) async {
+                                    final date = await showDatePicker(
+                                        context: context,
+                                        firstDate: DateTime(1900),
+                                        initialDate: orderDate,
+                                        lastDate: DateTime(2100));
+                                    orderDate = date;
+                                    return date;
+                                  },
                                 ),
                               ),
                               Container(
@@ -257,7 +283,29 @@ class _LunchScreenState extends State<LunchScreen> {
                                   decoration: BoxDecoration(
                                     color: Colors.grey[200],
                                   ),
-                                  child: Text('Lunch time: '),
+                                  child: Text('Lunch: '),
+                                ),
+                              ),
+                              Container(
+                                width: 140,
+                                child: DateTimeField(
+                                  decoration: InputDecoration(
+                                    contentPadding: const EdgeInsets.all(5.0),
+                                    border: OutlineInputBorder(borderSide: BorderSide.none),
+                                    filled: true,
+                                    fillColor: Colors.grey[200],
+                                  ),
+                                  format: DateFormat("yyyy-MM-dd"),
+                                  initialValue: lunchDate,
+                                  onShowPicker: (context, currentValue) async {
+                                    final date = await showDatePicker(
+                                        context: context,
+                                        firstDate: DateTime(1900),
+                                        initialDate: lunchDate,
+                                        lastDate: DateTime(2100));
+                                    lunchDate = date;
+                                    return date;
+                                  },
                                 ),
                               ),
                               Container(
@@ -292,34 +340,37 @@ class _LunchScreenState extends State<LunchScreen> {
                     SizedBox(
                       height: 10.0,
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: <Widget>[
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width * 0.3,
-                          child: RaisedButton(
-                            color: Colors.orange[800],
-                            textColor: Colors.white,
-                            padding: const EdgeInsets.all(20.0),
-                            child: Text("Save".toUpperCase()),
-                            onPressed: () {
-                              saveLunch(context);
-                            },
+                    Visibility(
+                      visible: lunch.status == 'COLLECTING' || lunch.status == 'DELIVERING',
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: <Widget>[
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.3,
+                            child: RaisedButton(
+                              color: Colors.orange[800],
+                              textColor: Colors.white,
+                              padding: const EdgeInsets.all(20.0),
+                              child: Text("Save".toUpperCase()),
+                              onPressed: () {
+                                saveLunch(context);
+                              },
+                            ),
                           ),
-                        ),
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width * 0.3,
-                          child: RaisedButton(
-                            color: Colors.orange[800],
-                            textColor: Colors.white,
-                            padding: const EdgeInsets.all(20.0),
-                            child: Text("Delete".toUpperCase()),
-                            onPressed: () {
-                              deleteLunch(context);
-                            },
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.3,
+                            child: RaisedButton(
+                              color: Colors.orange[800],
+                              textColor: Colors.white,
+                              padding: const EdgeInsets.all(20.0),
+                              child: Text("Delete".toUpperCase()),
+                              onPressed: () {
+                                deleteLunch(context);
+                              },
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                     MessageError(message: message),
                     SizedBox(height: 10.0),
@@ -337,6 +388,12 @@ class _LunchScreenState extends State<LunchScreen> {
     } else
       return;
 
+    lunch.lunchOrderTime = DateTime(
+        orderDate.year,orderDate.month,orderDate.day,
+        lunch.lunchOrderTime.hour,lunch.lunchOrderTime.minute);
+    lunch.lunchLunchTime = DateTime(
+        lunchDate.year,lunchDate.month,lunchDate.day,
+        lunch.lunchLunchTime.hour,lunch.lunchLunchTime.minute);
     globals.lunchSelected = lunch;
     if (lunch.lunchId == 0) {
       // prepare JSON for request
