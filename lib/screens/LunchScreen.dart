@@ -24,9 +24,7 @@ class _LunchScreenState extends State<LunchScreen> {
   String message = "";
   Lunch lunch = new Lunch(
     lunchId: 0,
-    restaurantId: (globals.restaurantSelected != null)
-        ? globals.restaurantSelected.restaurantId
-        : globals.restaurantSets.keys.first,
+    restaurantId: (globals.restaurantSelected != null) ? globals.restaurantSelected.restaurantId : globals.restaurantSets.keys.first,
     username: globals.sessionLunch.username,
     lunchType: 0,
     lunchDescription: '',
@@ -42,8 +40,7 @@ class _LunchScreenState extends State<LunchScreen> {
   int _currentRestaurantId = 0;
   List<DropdownMenuItem<String>> getDropDownMenuItems() {
     List<DropdownMenuItem<String>> items = new List();
-    globals.restaurantSets.values.forEach(
-            (v) => items.add(new DropdownMenuItem(value: v, child: new Text(v))));
+    globals.restaurantSets.values.forEach((v) => items.add(new DropdownMenuItem(value: v, child: new Text(v))));
     return items;
   }
 
@@ -52,16 +49,12 @@ class _LunchScreenState extends State<LunchScreen> {
     _dropDownMenuItems = getDropDownMenuItems();
     _currentRestaurantId = lunch.restaurantId;
     _currentRestaurant = globals.restaurantSets[_currentRestaurantId]; //_dropDownMenuItems[0].value;
-    _currentRestaurantId = globals.restaurantSets.keys.firstWhere(
-            (k) => globals.restaurantSets[k] == _currentRestaurant,
-        orElse: () => null);
+    _currentRestaurantId = globals.restaurantSets.keys.firstWhere((k) => globals.restaurantSets[k] == _currentRestaurant, orElse: () => null);
     super.initState();
   }
 
   void changedDropDownItem(String selectedRestaurant) {
-    var key = globals.restaurantSets.keys.firstWhere(
-            (k) => globals.restaurantSets[k] == selectedRestaurant,
-        orElse: () => null);
+    var key = globals.restaurantSets.keys.firstWhere((k) => globals.restaurantSets[k] == selectedRestaurant, orElse: () => null);
     if (key == null) key = 0;
     _currentRestaurantId = key;
     lunch.restaurantId = key;
@@ -90,8 +83,7 @@ class _LunchScreenState extends State<LunchScreen> {
             children: <Widget>[
               FutureBuilder<Restaurant>(
                 future: detailsRestaurant(_currentRestaurantId),
-                builder:
-                    (BuildContext context, AsyncSnapshot<Restaurant> snapshot) {
+                builder: (BuildContext context, AsyncSnapshot<Restaurant> snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return ProgressBar();
                   } else {
@@ -105,21 +97,18 @@ class _LunchScreenState extends State<LunchScreen> {
                           children: <Widget>[
                             Container(
                               height: 100,
-                              child: CachedNetworkImage(
-                                  placeholder: (context, url) =>
-                                      CircularProgressIndicator(),
-                                  imageUrl: snapshot.data.restaurantUrlLogo),
+                              child: CachedNetworkImage(placeholder: (context, url) => CircularProgressIndicator(), imageUrl: snapshot.data.restaurantUrlLogo),
                             ),
                             Visibility(
-                              visible: globals.restaurantSelected.restaurantUrl.length > 0,
+                              visible: snapshot.data.restaurantUrl.length > 0,
                               child: FlatButton(
                                 padding: EdgeInsets.all(5),
-                                child:  Image(
+                                child: Image(
                                   image: AssetImage('images/menu.png'),
                                   height: 50,
                                 ),
                                 onPressed: () {
-                                  launch(globals.restaurantSelected.restaurantUrl);
+                                  launch(snapshot.data.restaurantUrl);
                                 },
                               ),
                             ),
@@ -176,11 +165,7 @@ class _LunchScreenState extends State<LunchScreen> {
                               children: <Widget>[
                                 Text(
                                   'Restaurant: ',
-                                  style: TextStyle(
-                                      color: Colors.grey[800],
-                                      fontSize: 16.0,
-                                      fontWeight: FontWeight.bold
-                                  ),
+                                  style: TextStyle(color: Colors.grey[800], fontSize: 16.0, fontWeight: FontWeight.bold),
                                 ),
                                 DropdownButton(
                                   value: _currentRestaurant,
@@ -201,8 +186,7 @@ class _LunchScreenState extends State<LunchScreen> {
                               contentPadding: const EdgeInsets.all(16.0),
                               hintText: 'description',
                               hintStyle: TextStyle(color: Colors.grey[800]),
-                              border: OutlineInputBorder(
-                                  borderSide: BorderSide.none),
+                              border: OutlineInputBorder(borderSide: BorderSide.none),
                               filled: true,
                               fillColor: Colors.grey[200],
                             ),
@@ -216,73 +200,91 @@ class _LunchScreenState extends State<LunchScreen> {
                               contentPadding: const EdgeInsets.all(16.0),
                               hintText: 'transport cost',
                               hintStyle: TextStyle(color: Colors.grey[800]),
-                              border: OutlineInputBorder(
-                                  borderSide: BorderSide.none),
+                              border: OutlineInputBorder(borderSide: BorderSide.none),
                               filled: true,
                               fillColor: Colors.grey[200],
                             ),
-                            initialValue: (lunch.transportCost > 0)?lunch.transportCost.toString():'',
-                            onSaved: (value) => lunch.transportCost = double.tryParse(value??"0.00"),
-                            keyboardType:
-                            TextInputType.numberWithOptions(decimal: true),
+                            initialValue: (lunch.transportCost > 0) ? lunch.transportCost.toString() : '',
+                            onSaved: (value) => lunch.transportCost = double.tryParse(value ?? "0.00"),
+                            keyboardType: TextInputType.numberWithOptions(decimal: true),
                           ),
                           SizedBox(height: 10.0),
-                          DateTimeField(
-                            decoration: InputDecoration(
-                              contentPadding: const EdgeInsets.all(16.0),
-                              hintText: 'lunch order to',
-                              hintStyle: TextStyle(color: Colors.grey[800]),
-                              border: OutlineInputBorder(
-                                  borderSide: BorderSide.none),
-                              filled: true,
-                              fillColor: Colors.grey[200],
-                            ),
-                            format: DateFormat("HH:mm"),
-                            initialValue: lunch.lunchOrderTime,
-                            onShowPicker: (context, currentValue) async {
-                              final time = await showTimePicker(
-                                context: context,
-                                initialTime: TimeOfDay.fromDateTime(
-                                    lunch.lunchOrderTime),
-                                builder: (context, child) => MediaQuery(
-                                    data: MediaQuery.of(context)
-                                        .copyWith(alwaysUse24HourFormat: true),
-                                    child: child),
-                              );
-                              lunch.lunchOrderTime = DateTimeField.combine(
-                                  lunch.lunchOrderTime, time);
-                              return DateTimeField.convert(time);
-                            },
+                          Row(
+                            children: <Widget>[
+                              Expanded(
+                                child: Container(
+                                  padding: const EdgeInsets.all(16),
+                                  decoration: BoxDecoration(
+                                    color: Colors.grey[200],
+                                  ),
+                                  child: Text('Collecting time: '),
+                                ),
+                              ),
+                              Container(
+                                width: 100,
+                                child: DateTimeField(
+                                  decoration: InputDecoration(
+                                    contentPadding: const EdgeInsets.all(5.0),
+                                    hintText: 'lunch order to',
+                                    hintStyle: TextStyle(color: Colors.grey[800]),
+                                    border: OutlineInputBorder(borderSide: BorderSide.none),
+                                    filled: true,
+                                    fillColor: Colors.grey[200],
+                                  ),
+                                  format: DateFormat("HH:mm"),
+                                  initialValue: lunch.lunchOrderTime,
+                                  onShowPicker: (context, currentValue) async {
+                                    final time = await showTimePicker(
+                                      context: context,
+                                      initialTime: TimeOfDay.fromDateTime(lunch.lunchOrderTime),
+                                      builder: (context, child) => MediaQuery(data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true), child: child),
+                                    );
+                                    lunch.lunchOrderTime = DateTimeField.combine(lunch.lunchOrderTime, time);
+                                    return DateTimeField.convert(time);
+                                  },
+                                ),
+                              ),
+                            ],
                           ),
                           SizedBox(
                             height: 10.0,
                           ),
-                          DateTimeField(
-                            decoration: InputDecoration(
-                              contentPadding: const EdgeInsets.all(16.0),
-                              hintText: 'lunch time',
-                              hintStyle: TextStyle(color: Colors.grey[800]),
-                              border: OutlineInputBorder(
-                                  borderSide: BorderSide.none),
-                              filled: true,
-                              fillColor: Colors.grey[200],
-                            ),
-                            format: DateFormat("HH:mm"),
-                            initialValue: lunch.lunchLunchTime,
-                            onShowPicker: (context, currentValue) async {
-                              final time = await showTimePicker(
-                                context: context,
-                                initialTime: TimeOfDay.fromDateTime(
-                                    lunch.lunchLunchTime),
-                                builder: (context, child) => MediaQuery(
-                                    data: MediaQuery.of(context)
-                                        .copyWith(alwaysUse24HourFormat: true),
-                                    child: child),
-                              );
-                              lunch.lunchLunchTime = DateTimeField.combine(
-                                  lunch.lunchLunchTime, time);
-                              return DateTimeField.convert(time);
-                            },
+                          Row(
+                            children: <Widget>[
+                              Expanded(
+                                child: Container(
+                                  padding: const EdgeInsets.all(16),
+                                  decoration: BoxDecoration(
+                                    color: Colors.grey[200],
+                                  ),
+                                  child: Text('Lunch time: '),
+                                ),
+                              ),
+                              Container(
+                                width: 100,
+                                child: DateTimeField(
+                                  decoration: InputDecoration(
+                                    contentPadding: const EdgeInsets.all(5.0),
+                                    hintText: 'lunch time',
+                                    hintStyle: TextStyle(color: Colors.grey[800]),
+                                    border: OutlineInputBorder(borderSide: BorderSide.none),
+                                    filled: true,
+                                    fillColor: Colors.grey[200],
+                                  ),
+                                  format: DateFormat("HH:mm"),
+                                  initialValue: lunch.lunchLunchTime,
+                                  onShowPicker: (context, currentValue) async {
+                                    final time = await showTimePicker(
+                                      context: context,
+                                      initialTime: TimeOfDay.fromDateTime(lunch.lunchLunchTime),
+                                      builder: (context, child) => MediaQuery(data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true), child: child),
+                                    );
+                                    lunch.lunchLunchTime = DateTimeField.combine(lunch.lunchLunchTime, time);
+                                    return DateTimeField.convert(time);
+                                  },
+                                ),
+                              ),
+                            ],
                           ),
                         ],
                       ),
@@ -346,11 +348,9 @@ class _LunchScreenState extends State<LunchScreen> {
             restaurantId: lunch.restaurantId,
             lunchType: lunch.lunchType,
             lunchDescription: lunch.lunchDescription,
-            transportCost: (lunch.transportCost??'0.00').toString(),
-            orderTime:
-                DateFormat('yyyy-MM-dd HH:mm:ss').format(lunch.lunchOrderTime),
-            lunchTime:
-                DateFormat('yyyy-MM-dd HH:mm:ss').format(lunch.lunchLunchTime),
+            transportCost: (lunch.transportCost ?? '0.00').toString(),
+            orderTime: DateFormat('yyyy-MM-dd HH:mm:ss').format(lunch.lunchOrderTime),
+            lunchTime: DateFormat('yyyy-MM-dd HH:mm:ss').format(lunch.lunchLunchTime),
           ));
       //print('request: ' + r.toJson().toString());
       String reqJson = json.encode(r);
@@ -390,20 +390,17 @@ class _LunchScreenState extends State<LunchScreen> {
     } else {
       // prepare JSON for request
       LunchEditRequest r = LunchEditRequest(
-        request: 'lunch.edit',
-        session: globals.sessionLunch.sessionId,
-        arguments: LunchEditArguments(
-          lunchId: lunch.lunchId,
-          restaurantId: lunch.restaurantId,
-          lunchDescription: lunch.lunchDescription,
-          lunchType: lunch.lunchType??0,
-          transportCost: (lunch.transportCost??'0.00').toString(),
-          orderTime:
-          DateFormat('yyyy-MM-dd HH:mm:ss').format(lunch.lunchOrderTime),
-          lunchTime:
-          DateFormat('yyyy-MM-dd HH:mm:ss').format(lunch.lunchLunchTime),
-        )
-      );
+          request: 'lunch.edit',
+          session: globals.sessionLunch.sessionId,
+          arguments: LunchEditArguments(
+            lunchId: lunch.lunchId,
+            restaurantId: lunch.restaurantId,
+            lunchDescription: lunch.lunchDescription,
+            lunchType: lunch.lunchType ?? 0,
+            transportCost: (lunch.transportCost ?? '0.00').toString(),
+            orderTime: DateFormat('yyyy-MM-dd HH:mm:ss').format(lunch.lunchOrderTime),
+            lunchTime: DateFormat('yyyy-MM-dd HH:mm:ss').format(lunch.lunchLunchTime),
+          ));
       String reqJson = json.encode(r);
       // make POST request
       //print('lunch.edit:'+reqJson);
@@ -490,4 +487,3 @@ class _LunchScreenState extends State<LunchScreen> {
     }
   }
 }
-

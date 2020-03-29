@@ -130,7 +130,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       child: RaisedButton(
                         color: Colors.orange[800],
                         textColor: Colors.white,
-                        padding: const EdgeInsets.all(5.0),
+                        padding: const EdgeInsets.all(20.0),
                         child: Text("Login"),
                         onPressed: () {
                           if (_formStateKey.currentState.validate()) {
@@ -160,7 +160,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           child: RaisedButton(
                             color: Colors.grey[800],
                             textColor: Colors.white,
-                            padding: const EdgeInsets.all(10.0),
+                            padding: const EdgeInsets.all(20.0),
                             child: Text("Sign up"),
                             onPressed: () {
                               if (_formStateKey.currentState.validate()) {
@@ -180,7 +180,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           child: RaisedButton(
                             color: Colors.grey[800],
                             textColor: Colors.white,
-                            padding: const EdgeInsets.all(10.0),
+                            padding: const EdgeInsets.all(20.0),
                             child: Text("Lost password"),
                             onPressed: () {
                             },
