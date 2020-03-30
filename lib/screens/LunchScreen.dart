@@ -226,7 +226,7 @@ class _LunchScreenState extends State<LunchScreen> {
                                 ),
                               ),
                               Container(
-                                width: 140,
+                                width: 150,
                                 child: DateTimeField(
                                   decoration: InputDecoration(
                                     contentPadding: const EdgeInsets.all(5.0),
@@ -288,7 +288,7 @@ class _LunchScreenState extends State<LunchScreen> {
                                 ),
                               ),
                               Container(
-                                width: 140,
+                                width: 150,
                                 child: DateTimeField(
                                   decoration: InputDecoration(
                                     contentPadding: const EdgeInsets.all(5.0),
