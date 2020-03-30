@@ -14,6 +14,7 @@ class _MealScreenState extends State<MealScreen> {
   final GlobalKey<FormState> _formStateKey = GlobalKey<FormState>();
   String message = "";
   Meal meal = new Meal(
+    lunchId: globals.lunchSelected.lunchId,
     mealId: 0,
     mealName: '',
     mealCost: 0,

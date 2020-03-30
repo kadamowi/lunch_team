@@ -64,7 +64,7 @@ Future<String> createMeal(Meal meal) async {
         mealDescription: meal.mealName,
         mealCost: meal.mealCost.toString(),
       )));
-  //print('createMeal:'+reqJson);
+  print('createMeal:'+reqJson);
   // make POST request
   Response response = await post(urlApi, headers: headers, body: reqJson);
   if (response.statusCode == 200) {
@@ -77,8 +77,10 @@ Future<String> createMeal(Meal meal) async {
       }
     } else
       return 'No response: ' + result.toString();
-  } else
+  } else {
+    print(response.body);
     return 'Technical error: ' + response.statusCode.toString();
+  }
   return null;
 }
 
