@@ -33,6 +33,7 @@ class _LunchScreenState extends State<LunchScreen> {
     lunchLunchTime: DateTime.now().add(Duration(hours: 2)),
     //totalMeal: 0,
     //totalMealCost: 0.0,
+    status: 'COLLECTING'
   );
   DateTime orderDate = DateTime.now();
   DateTime lunchDate = DateTime.now();
@@ -221,7 +222,7 @@ class _LunchScreenState extends State<LunchScreen> {
                                   decoration: BoxDecoration(
                                     color: Colors.grey[200],
                                   ),
-                                  child: Text('Collecting: '),
+                                  child: Text('Collect'),
                                 ),
                               ),
                               Container(
@@ -283,7 +284,7 @@ class _LunchScreenState extends State<LunchScreen> {
                                   decoration: BoxDecoration(
                                     color: Colors.grey[200],
                                   ),
-                                  child: Text('Lunch: '),
+                                  child: Text('Lunch'),
                                 ),
                               ),
                               Container(

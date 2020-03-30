@@ -34,5 +34,5 @@ final Map statusColors = {
   'SETTLEMENTED': Colors.green,
 };
 
-DateTime dateFrom = DateTime.now().add(Duration(days: -3));
+DateTime dateFrom = DateTime.now().add(Duration(days: -5));
 DateTime dateTo = DateTime.now();
