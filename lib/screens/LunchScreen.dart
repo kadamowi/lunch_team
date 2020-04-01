@@ -241,6 +241,7 @@ class _LunchScreenState extends State<LunchScreen> {
                                       final time = await showTimePicker(
                                         context: context,
                                         initialTime: TimeOfDay.fromDateTime(lunch.lunchOrderTime),
+                                        builder: (context, child) => MediaQuery(data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true), child: child),
                                       );
                                       lunch.lunchOrderTime = DateTimeField.combine(date, time);
                                       return lunch.lunchOrderTime;
@@ -283,6 +284,7 @@ class _LunchScreenState extends State<LunchScreen> {
                                       final time = await showTimePicker(
                                         context: context,
                                         initialTime: TimeOfDay.fromDateTime(lunch.lunchLunchTime),
+                                        builder: (context, child) => MediaQuery(data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true), child: child),
                                       );
                                       lunch.lunchLunchTime = DateTimeField.combine(date, time);
                                       return lunch.lunchLunchTime;

@@ -128,11 +128,6 @@ class _LunchListScreenState extends State<LunchListScreen> {
                                                     snapshot.data[index].username,
                                                     style: TextStyle(color: Colors.grey[800], fontSize: 12, fontWeight: FontWeight.bold),
                                                   ),
-                                                  //Align(
-                                                  //  alignment:
-                                                  //  Alignment.topLeft,
-                                                  //  child:
-                                                  //),
                                                   Spacer(),
                                                   Visibility(
                                                     visible: (snapshot.data[index].status == 'COLLECTING'),
@@ -143,18 +138,27 @@ class _LunchListScreenState extends State<LunchListScreen> {
                                                     child: Icon(Icons.directions_car),
                                                   ),
                                                   Visibility(
+                                                    visible: (snapshot.data[index].status == 'TO SETTLEMENT' || snapshot.data[index].status == 'SETTLEMENTED'),
+                                                    child: Icon(Icons.date_range),
+                                                  ),
+                                                  Visibility(
                                                     visible: (snapshot.data[index].status == 'COLLECTING'),
                                                     child: Text(
-                                                      //@todo: Dorobić formatowanie w postaci hh:mm
-                                                      snapshot.data[index].lunchOrderTime.difference(DateTime.now()).inMinutes.toString(),
+                                                      snapshot.data[index].lunchOrderTime.difference(DateTime.now()).toString().padLeft(15,'0').substring(0,5),
                                                       style: TextStyle(color: Colors.grey[800], fontSize: 12, fontWeight: FontWeight.bold),
                                                     ),
                                                   ),
                                                   Visibility(
                                                     visible: (snapshot.data[index].status == 'DELIVERING'),
                                                     child: Text(
-                                                      //@todo: Dorobić formatowanie w postaci hh:mm
-                                                      snapshot.data[index].lunchLunchTime.difference(DateTime.now()).inMinutes.toString(),
+                                                      snapshot.data[index].lunchLunchTime.difference(DateTime.now()).toString().padLeft(15,'0').substring(0,5),
+                                                      style: TextStyle(color: Colors.grey[800], fontSize: 12, fontWeight: FontWeight.bold),
+                                                    ),
+                                                  ),
+                                                  Visibility(
+                                                    visible: (snapshot.data[index].status == 'TO SETTLEMENT' || snapshot.data[index].status == 'SETTLEMENTED'),
+                                                    child: Text(
+                                                      snapshot.data[index].lunchLunchTime.toString().substring(0,10),
                                                       style: TextStyle(color: Colors.grey[800], fontSize: 12, fontWeight: FontWeight.bold),
                                                     ),
                                                   ),
