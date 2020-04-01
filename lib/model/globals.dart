@@ -35,4 +35,4 @@ final Map statusColors = {
 };
 
 DateTime dateFrom = DateTime.now().add(Duration(days: -5));
-DateTime dateTo = DateTime.now();
+DateTime dateTo = DateTime.now().add(Duration(days: 2));

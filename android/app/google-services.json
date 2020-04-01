@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "988400277231",
+    "firebase_url": "https://lunch-team.firebaseio.com",
+    "project_id": "lunch-team",
+    "storage_bucket": "lunch-team.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:988400277231:android:17bc1f117e92c515eb6d1a",
+        "android_client_info": {
+          "package_name": "com.kris.lunch_team"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "988400277231-3gdjei8nitfse26e0q10alk5cra3d4l2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDDZZAW_mXU8c1l8pTYBQgiY45ZNw8qRj0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "988400277231-3gdjei8nitfse26e0q10alk5cra3d4l2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

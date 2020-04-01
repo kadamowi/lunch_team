@@ -23,18 +23,17 @@ class _LunchScreenState extends State<LunchScreen> {
   final GlobalKey<FormState> _formStateKey = GlobalKey<FormState>();
   String message = "";
   Lunch lunch = new Lunch(
-    lunchId: 0,
-    restaurantId: (globals.restaurantSelected != null) ? globals.restaurantSelected.restaurantId : globals.restaurantSets.keys.first,
-    username: globals.sessionLunch.username,
-    lunchType: 0,
-    lunchDescription: '',
-    transportCost: 0,
-    lunchOrderTime: DateTime.now().add(Duration(hours: 1)),
-    lunchLunchTime: DateTime.now().add(Duration(hours: 2)),
-    //totalMeal: 0,
-    //totalMealCost: 0.0,
-    status: 'COLLECTING'
-  );
+      lunchId: 0,
+      restaurantId: (globals.restaurantSelected != null) ? globals.restaurantSelected.restaurantId : globals.restaurantSets.keys.first,
+      username: globals.sessionLunch.username,
+      lunchType: 0,
+      lunchDescription: '',
+      transportCost: 0,
+      lunchOrderTime: DateTime.now().add(Duration(hours: 1)),
+      lunchLunchTime: DateTime.now().add(Duration(hours: 2)),
+      //totalMeal: 0,
+      //totalMealCost: 0.0,
+      status: 'COLLECTING');
   DateTime orderDate = DateTime.now();
   DateTime lunchDate = DateTime.now();
 
@@ -226,6 +225,96 @@ class _LunchScreenState extends State<LunchScreen> {
                                 ),
                               ),
                               Container(
+                                width: 185,
+                                child: DateTimeField(
+                                  decoration: InputDecoration(
+                                    contentPadding: const EdgeInsets.all(5.0),
+                                    border: OutlineInputBorder(borderSide: BorderSide.none),
+                                    filled: true,
+                                    fillColor: Colors.grey[200],
+                                  ),
+                                  format: DateFormat("yyyy-MM-dd HH:mm"),
+                                  onShowPicker: (context, currentValue) async {
+                                    final date = await showDatePicker(
+                                        context: context,
+                                        firstDate: DateTime.now(),
+                                        initialDate: lunch.lunchOrderTime,
+                                        lastDate: DateTime.now().add(Duration(days: 3)));
+                                    if (date != null) {
+                                      final time = await showTimePicker(
+                                        context: context,
+                                        initialTime:
+                                        TimeOfDay.fromDateTime(lunch.lunchOrderTime),
+                                      );
+                                      lunch.lunchOrderTime = DateTimeField.combine(date, time);
+                                      return lunch.lunchOrderTime;
+                                    } else {
+                                      return lunch.lunchOrderTime;
+                                    }
+                                  },
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 10.0,
+                          ),
+                          Row(
+                            children: <Widget>[
+                              Expanded(
+                                child: Container(
+                                  padding: const EdgeInsets.all(16),
+                                  decoration: BoxDecoration(
+                                    color: Colors.grey[200],
+                                  ),
+                                  child: Text('Lunch'),
+                                ),
+                              ),
+                              Container(
+                                width: 185,
+                                child: DateTimeField(
+                                  decoration: InputDecoration(
+                                    contentPadding: const EdgeInsets.all(5.0),
+                                    border: OutlineInputBorder(borderSide: BorderSide.none),
+                                    filled: true,
+                                    fillColor: Colors.grey[200],
+                                  ),
+                                  format: DateFormat("yyyy-MM-dd HH:mm"),
+                                  onShowPicker: (context, currentValue) async {
+                                    final date = await showDatePicker(
+                                        context: context,
+                                        firstDate: DateTime.now(),
+                                        initialDate: lunch.lunchLunchTime,
+                                        lastDate: DateTime.now().add(Duration(days: 3)));
+                                    if (date != null) {
+                                      final time = await showTimePicker(
+                                        context: context,
+                                        initialTime:
+                                        TimeOfDay.fromDateTime(lunch.lunchLunchTime),
+                                      );
+                                      lunch.lunchLunchTime = DateTimeField.combine(date, time);
+                                      return lunch.lunchLunchTime;
+                                    } else {
+                                      return lunch.lunchLunchTime;
+                                    }
+                                  },
+                                ),
+                              ),
+                            ],
+                          ),
+                          /*
+                          Row(
+                            children: <Widget>[
+                              Expanded(
+                                child: Container(
+                                  padding: const EdgeInsets.all(16),
+                                  decoration: BoxDecoration(
+                                    color: Colors.grey[200],
+                                  ),
+                                  child: Text('Collect'),
+                                ),
+                              ),
+                              Container(
                                 width: 150,
                                 child: DateTimeField(
                                   decoration: InputDecoration(
@@ -237,11 +326,7 @@ class _LunchScreenState extends State<LunchScreen> {
                                   format: DateFormat("yyyy-MM-dd"),
                                   initialValue: orderDate,
                                   onShowPicker: (context, currentValue) async {
-                                    final date = await showDatePicker(
-                                        context: context,
-                                        firstDate: DateTime(1900),
-                                        initialDate: orderDate,
-                                        lastDate: DateTime(2100));
+                                    final date = await showDatePicker(context: context, firstDate: DateTime(1900), initialDate: orderDate, lastDate: DateTime(2100));
                                     orderDate = date;
                                     return date;
                                   },
@@ -299,11 +384,7 @@ class _LunchScreenState extends State<LunchScreen> {
                                   format: DateFormat("yyyy-MM-dd"),
                                   initialValue: lunchDate,
                                   onShowPicker: (context, currentValue) async {
-                                    final date = await showDatePicker(
-                                        context: context,
-                                        firstDate: DateTime(1900),
-                                        initialDate: lunchDate,
-                                        lastDate: DateTime(2100));
+                                    final date = await showDatePicker(context: context, firstDate: DateTime(1900), initialDate: lunchDate, lastDate: DateTime(2100));
                                     lunchDate = date;
                                     return date;
                                   },
@@ -335,6 +416,7 @@ class _LunchScreenState extends State<LunchScreen> {
                               ),
                             ],
                           ),
+                          */
                         ],
                       ),
                     ),
@@ -389,12 +471,8 @@ class _LunchScreenState extends State<LunchScreen> {
     } else
       return;
 
-    lunch.lunchOrderTime = DateTime(
-        orderDate.year,orderDate.month,orderDate.day,
-        lunch.lunchOrderTime.hour,lunch.lunchOrderTime.minute);
-    lunch.lunchLunchTime = DateTime(
-        lunchDate.year,lunchDate.month,lunchDate.day,
-        lunch.lunchLunchTime.hour,lunch.lunchLunchTime.minute);
+    //lunch.lunchOrderTime = DateTime(orderDate.year, orderDate.month, orderDate.day, lunch.lunchOrderTime.hour, lunch.lunchOrderTime.minute);
+    //lunch.lunchLunchTime = DateTime(lunchDate.year, lunchDate.month, lunchDate.day, lunch.lunchLunchTime.hour, lunch.lunchLunchTime.minute);
     globals.lunchSelected = lunch;
     if (lunch.lunchId == 0) {
       // prepare JSON for request
