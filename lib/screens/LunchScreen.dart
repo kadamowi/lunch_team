@@ -225,7 +225,7 @@ class _LunchScreenState extends State<LunchScreen> {
                                 ),
                               ),
                               Container(
-                                width: 185,
+                                width: 200,
                                 child: DateTimeField(
                                   decoration: InputDecoration(
                                     contentPadding: const EdgeInsets.all(5.0),
@@ -234,17 +234,13 @@ class _LunchScreenState extends State<LunchScreen> {
                                     fillColor: Colors.grey[200],
                                   ),
                                   format: DateFormat("yyyy-MM-dd HH:mm"),
+                                  initialValue: lunch.lunchOrderTime,
                                   onShowPicker: (context, currentValue) async {
-                                    final date = await showDatePicker(
-                                        context: context,
-                                        firstDate: DateTime.now(),
-                                        initialDate: lunch.lunchOrderTime,
-                                        lastDate: DateTime.now().add(Duration(days: 3)));
+                                    final date = await showDatePicker(context: context, initialDate: lunch.lunchOrderTime, firstDate: DateTime(2000), lastDate: DateTime(2100));
                                     if (date != null) {
                                       final time = await showTimePicker(
                                         context: context,
-                                        initialTime:
-                                        TimeOfDay.fromDateTime(lunch.lunchOrderTime),
+                                        initialTime: TimeOfDay.fromDateTime(lunch.lunchOrderTime),
                                       );
                                       lunch.lunchOrderTime = DateTimeField.combine(date, time);
                                       return lunch.lunchOrderTime;
@@ -271,7 +267,7 @@ class _LunchScreenState extends State<LunchScreen> {
                                 ),
                               ),
                               Container(
-                                width: 185,
+                                width: 200,
                                 child: DateTimeField(
                                   decoration: InputDecoration(
                                     contentPadding: const EdgeInsets.all(5.0),
@@ -280,17 +276,13 @@ class _LunchScreenState extends State<LunchScreen> {
                                     fillColor: Colors.grey[200],
                                   ),
                                   format: DateFormat("yyyy-MM-dd HH:mm"),
+                                  initialValue: lunch.lunchLunchTime,
                                   onShowPicker: (context, currentValue) async {
-                                    final date = await showDatePicker(
-                                        context: context,
-                                        firstDate: DateTime.now(),
-                                        initialDate: lunch.lunchLunchTime,
-                                        lastDate: DateTime.now().add(Duration(days: 3)));
+                                    final date = await showDatePicker(context: context, initialDate: lunch.lunchLunchTime, firstDate: DateTime(2000), lastDate: DateTime(2100));
                                     if (date != null) {
                                       final time = await showTimePicker(
                                         context: context,
-                                        initialTime:
-                                        TimeOfDay.fromDateTime(lunch.lunchLunchTime),
+                                        initialTime: TimeOfDay.fromDateTime(lunch.lunchLunchTime),
                                       );
                                       lunch.lunchLunchTime = DateTimeField.combine(date, time);
                                       return lunch.lunchLunchTime;
