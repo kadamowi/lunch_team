@@ -14,6 +14,7 @@ class UserDetailsScreen extends StatefulWidget {
 
 class _UserDetailsScreenState extends State<UserDetailsScreen> {
   String message = '';
+  bool notification = false;
 
   @override
   Widget build(BuildContext context) {
@@ -140,7 +141,51 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                 },
               ),
               SizedBox(
-                height: 20,
+                height: 5,
+              ),
+              Container(
+                color: Colors.white,
+                margin: EdgeInsets.all(15),
+                padding: EdgeInsets.all(10),
+                //height: 200,
+                child: Column(
+                  children: <Widget>[
+                    Align(
+                      alignment: Alignment.topLeft,
+                      child: Text('Preferences',
+                        style: TextStyle(
+                            color: Colors.orange[800],
+                            fontWeight: FontWeight.bold
+                        )                        ),
+                    ),
+                    Row(
+                      children: <Widget>[
+                        Text('Notification about new lunches, settlements'),
+                        Switch(
+                          value: notification,
+                          onChanged: (value) {
+                            setState(() {
+                              notification = value;
+                            });
+                          },
+                          activeTrackColor: Colors.lightGreenAccent,
+                          activeColor: Colors.green,
+                        ),
+                      ],
+                    ),
+                    TextFormField(
+                      decoration: InputDecoration(
+                        contentPadding: const EdgeInsets.all(16.0),
+                        border: OutlineInputBorder(borderSide: BorderSide.none),
+                        filled: true,
+                        fillColor: Colors.grey[200],
+                      ),
+                      initialValue: globals.token,
+                      //keyboardType: TextInputType.multiline,
+                      //maxLines: null,
+                    ),
+                  ],
+                )
               ),
               SizedBox(
                 width: MediaQuery.of(context).size.width * 0.3,

@@ -6,7 +6,6 @@ import 'package:lunch_team/request/LoginRequest.dart';
 import 'package:lunch_team/screens/LoginScreen.dart';
 import 'package:lunch_team/model/globals.dart' as globals;
 
-
 class SplashScreen extends StatefulWidget {
   @override
   _SplashScreenState createState() => _SplashScreenState();

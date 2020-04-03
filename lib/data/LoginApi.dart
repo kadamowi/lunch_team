@@ -13,6 +13,7 @@ import 'package:lunch_team/model/globals.dart' as globals;
 Future<LoginUser> getSavedUser() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   globals.versionInfo = await PackageInfo.fromPlatform();
+  //return new LoginUser(username: '',password: '');
   return new LoginUser(
       username: (prefs.getString('username') ?? ''),
       password: (prefs.getString('password') ?? ''));
