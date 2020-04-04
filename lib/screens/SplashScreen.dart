@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lunch_team/data/LoginApi.dart';
 import 'package:lunch_team/screens/HomePageScreen.dart';
 import 'package:lunch_team/screens/LoginScreen.dart';
+import 'package:lunch_team/widgets/LunchTeamWidget.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -27,13 +28,17 @@ class _SplashScreenState extends State<SplashScreen> {
                       future: userSessionValidate(),
                       builder:
                           (BuildContext context, AsyncSnapshot snapshot2) {
-                        if (snapshot2.connectionState != ConnectionState.done) {
-                          return Text(''); //Image(image: AssetImage('images/splashscreen.png'),);
+                        if (snapshot2.connectionState == ConnectionState.waiting) {
+                          return ProgressBar();
                         } else {
-                          if (snapshot2.data) {
-                            return Home();
-                          } else {
-                            return LoginScreen();
+                          if (snapshot2.hasError)
+                            return Center(child: Text('Error: ${snapshot2.error}'));
+                          else {
+                            if (snapshot2.data) {
+                              return Home();
+                            } else {
+                              return LoginScreen();
+                            }
                           }
                         }
                       });

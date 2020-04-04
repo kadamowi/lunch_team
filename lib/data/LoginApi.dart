@@ -43,10 +43,10 @@ Future<String> loginApp(String username, String password) async {
         // Pobranie aktualnych danych usera
         if (userId != null && userId > 0) {
           globals.userLogged = await detailsUser(userId);
-          print(globals.userLogged.displayName+' is logged ('+globals.userLogged.userId.toString()+')');
-          print('email:'+globals.userLogged.email);
+          print(globals.userLogged.displayName + ' is logged (' + globals.userLogged.userId.toString() + ')');
+          print('email:' + globals.userLogged.email);
         } else {
-          return 'No userId:'+responseTag.toString();
+          return 'No userId:' + responseTag.toString();
         }
         SharedPreferences prefs = await SharedPreferences.getInstance();
         prefs.setString('username', username);
@@ -58,16 +58,16 @@ Future<String> loginApp(String username, String password) async {
           globals.restaurantSets[r.restaurantId] = r.restaurantName;
         }
       } else {
-        return 'Not logged: '+responseTag.toString();
+        return 'Not logged: ' + responseTag.toString();
       }
     } else {
-      return 'No response: '+result.toString();
+      return 'No response: ' + result.toString();
     }
   } else {
     if (response.statusCode == 400)
       return 'Bad credentials';
     else {
-      return 'Technical error: '+response.statusCode.toString();
+      return 'Technical error: ' + response.statusCode.toString();
     }
   }
   return null;
@@ -76,27 +76,25 @@ Future<String> loginApp(String username, String password) async {
 Future<String> logoutApp() async {
   // prepare JSON for request
   String reqJson = json.encode(LogoutRequest(
-      request: 'user.logout',
-      session: globals.sessionId,
-      ));
+    request: 'user.logout',
+    session: globals.sessionId,
+  ));
   // make POST request
   Response response = await post(urlApi, headers: headers, body: reqJson);
   var result = jsonDecode(response.body);
   var res = result['response'];
   if (res != null) {
     bool logout = res['logout'];
-    if (!logout)
-      return 'Not logout';
+    if (!logout) return 'Not logout';
   } else {
     return result.toString();
   }
   return null;
 }
 
-Future<String>  createAccount(LoginUser loginUser) async {
+Future<String> createAccount(LoginUser loginUser) async {
   // prepare JSON for request
-  String reqJson =
-      json.encode(LoginRequest(request: 'user.register', arguments: loginUser));
+  String reqJson = json.encode(LoginRequest(request: 'user.register', arguments: loginUser));
   // make POST request
   print(reqJson);
   Response response = await post(urlApi, headers: headers, body: reqJson);
@@ -121,12 +119,12 @@ Future<String>  createAccount(LoginUser loginUser) async {
   return null;
 }
 
-Future<bool>  userSessionValidate() async {
+Future<bool> userSessionValidate() async {
   // prepare JSON for request
-  String reqJson =
-  json.encode(SessionValidateRequest(
+  String reqJson = json.encode(SessionValidateRequest(
       request: 'user.session.validate',
-      session: globals.sessionId));
+      session: globals.sessionId
+  ));
   // make POST request
   Response response = await post(urlApi, headers: headers, body: reqJson);
 
@@ -135,10 +133,12 @@ Future<bool>  userSessionValidate() async {
     var responseTag = result['response'];
     if (responseTag != null) {
       bool sessionValidate = responseTag['sessionValidate'];
+      globals.userLogged = await detailsUser(0);
+      print(globals.userLogged.displayName + ' is logged (' + globals.userLogged.userId.toString() + ')');
+      print('email:' + globals.userLogged.email);
       return sessionValidate;
     } else
       return false;
   } else
     return false;
 }
-

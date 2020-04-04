@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:lunch_team/model/globals.dart' as globals;
 
 import 'package:lunch_team/widgets/LunchTeamWidget.dart';
 import 'package:lunch_team/model/User.dart';
 import 'package:lunch_team/data/UserApi.dart';
-import 'package:lunch_team/screens/UserDetailsScreen.dart';
 
 class HungerListScreen extends StatefulWidget {
   @override
@@ -78,20 +76,6 @@ class _HungerListScreenState extends State<HungerListScreen> {
                                         //fontWeight: FontWeight.bold
                                     ),
                                   ),
-                                  onTap: () {
-                                    if (snapshot.data[index].username == globals.sessionUser) {
-                                      globals.userLogged = snapshot.data[index];
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) =>
-                                              UserDetailsScreen(),
-                                        ),
-                                      ).then((value) {
-                                        setState(() {});
-                                      });
-                                    }
-                                  },
                                 ),
                               );
                             },

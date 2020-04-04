@@ -8,8 +8,7 @@ import 'package:lunch_team/request/TeamUsersRequest.dart';
 
 Future<List<User>> userList() async {
   // prepare JSON for request
-  String reqJson = json.encode(TeamUsersRequest(
-      request: 'user.list', session: globals.sessionId));
+  String reqJson = json.encode(TeamUsersRequest(request: 'user.list', session: globals.sessionId));
   // make POST request
   Response response = await post(urlApi, headers: headers, body: reqJson);
   var result = jsonDecode(response.body);
@@ -27,16 +26,23 @@ Future<List<User>> userList() async {
 
 Future<User> detailsUser(userId) async {
   // prepare JSON for request
-  String reqJson = json.encode(UserDetailsRequest(
+  String reqJson;
+  if (userId == 0)
+    reqJson = json.encode(UserDetailsRequest(
       request: 'user.details',
       session: globals.sessionId,
-      arguments: UserDetailsArguments(
-        userId: userId,
-      )));
+    ));
+  else
+    reqJson = json.encode(UserDetailsRequest(
+        request: 'user.details',
+        session: globals.sessionId,
+        arguments: UserDetailsArguments(
+          userId: userId,
+        )));
   // make POST request
-  //print('detailsUser request:'+reqJson);
+  print('detailsUser request:' + reqJson);
   Response response = await post(urlApi, headers: headers, body: reqJson);
-  //print('detailsUser statusCode:'+response.statusCode.toString());
+  print('detailsUser statusCode:' + response.statusCode.toString());
   var result = jsonDecode(response.body);
   if (response.statusCode == 200) {
     var res = result['response'];
@@ -64,11 +70,7 @@ Future<String> editUser() async {
   String reqJson = json.encode(UserEditRequest(
       request: 'user.edit',
       session: globals.sessionId,
-      arguments: UserEditArguments(
-        displayName: globals.userLogged.displayName,
-        email: globals.userLogged.email,
-        avatarUrl: globals.userLogged.avatarUrl
-      )));
+      arguments: UserEditArguments(displayName: globals.userLogged.displayName, email: globals.userLogged.email, avatarUrl: globals.userLogged.avatarUrl)));
   // make POST request
   Response response = await post(urlApi, headers: headers, body: reqJson);
   //print('statusCode:'+response.statusCode.toString());
@@ -81,8 +83,7 @@ Future<String> editUser() async {
       if (editUser) {
         globals.userLogged = await detailsUser(globals.userLogged.userId);
         return null;
-      }
-      else
+      } else
         return 'Not edited';
     } else {
       return 'No response';
@@ -104,7 +105,7 @@ Future<String> passwordUser(String oldP, String newP) async {
       session: globals.sessionId,
       arguments: UserPasswordArguments(
         oldPassword: oldP,
-          newPassword: newP,
+        newPassword: newP,
       )));
   // make POST request
   Response response = await post(urlApi, headers: headers, body: reqJson);
@@ -116,13 +117,13 @@ Future<String> passwordUser(String oldP, String newP) async {
       //print('detailsUser:'+res.toString());
       bool changePass = responseTag['changePassword'];
       if (!changePass) {
-        return 'Password not changed:'+responseTag.toString();
+        return 'Password not changed:' + responseTag.toString();
       }
     } else {
-      return 'No response: '+result.toString();
+      return 'No response: ' + result.toString();
     }
   } else {
-    return 'Technical error: '+response.statusCode.toString();
+    return 'Technical error: ' + response.statusCode.toString();
   }
   return null;
 }

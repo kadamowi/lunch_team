@@ -35,8 +35,8 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                     child: (globals.userLogged.avatarUrl.length > 0)
                         ? CachedNetworkImage(placeholder: (context, url) => CircularProgressIndicator(), imageUrl: globals.userLogged.avatarUrl)
                         : Image(
-                            image: AssetImage('images/avatar.png'),
-                          ),
+                      image: AssetImage('images/avatar.png'),
+                    ),
                   ),
                   Expanded(
                     child: Column(
@@ -77,10 +77,10 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                       Align(
                         alignment: Alignment.topLeft,
                         child: Text('User details',
-                        style: TextStyle(
-                          color: Colors.orange[800],
-                          fontWeight: FontWeight.bold
-                        ),),
+                          style: TextStyle(
+                              color: Colors.orange[800],
+                              fontWeight: FontWeight.bold
+                          ),),
                       ),
                       Expanded(
                         child: Align(
@@ -144,48 +144,48 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                 height: 5,
               ),
               Container(
-                color: Colors.white,
-                margin: EdgeInsets.all(15),
-                padding: EdgeInsets.all(10),
-                //height: 200,
-                child: Column(
-                  children: <Widget>[
-                    Align(
-                      alignment: Alignment.topLeft,
-                      child: Text('Preferences',
-                        style: TextStyle(
-                            color: Colors.orange[800],
-                            fontWeight: FontWeight.bold
-                        )                        ),
-                    ),
-                    Row(
-                      children: <Widget>[
-                        Text('Notification about new lunches, settlements'),
-                        Switch(
-                          value: notification,
-                          onChanged: (value) {
-                            setState(() {
-                              notification = value;
-                            });
-                          },
-                          activeTrackColor: Colors.lightGreenAccent,
-                          activeColor: Colors.green,
-                        ),
-                      ],
-                    ),
-                    TextFormField(
-                      decoration: InputDecoration(
-                        contentPadding: const EdgeInsets.all(16.0),
-                        border: OutlineInputBorder(borderSide: BorderSide.none),
-                        filled: true,
-                        fillColor: Colors.grey[200],
+                  color: Colors.white,
+                  margin: EdgeInsets.all(15),
+                  padding: EdgeInsets.all(10),
+                  //height: 200,
+                  child: Column(
+                    children: <Widget>[
+                      Align(
+                        alignment: Alignment.topLeft,
+                        child: Text('Preferences',
+                            style: TextStyle(
+                                color: Colors.orange[800],
+                                fontWeight: FontWeight.bold
+                            )                        ),
                       ),
-                      initialValue: globals.token,
-                      //keyboardType: TextInputType.multiline,
-                      //maxLines: null,
-                    ),
-                  ],
-                )
+                      Row(
+                        children: <Widget>[
+                          Text('Notification about new lunches, settlements'),
+                          Switch(
+                            value: notification,
+                            onChanged: (value) {
+                              setState(() {
+                                notification = value;
+                              });
+                            },
+                            activeTrackColor: Colors.lightGreenAccent,
+                            activeColor: Colors.green,
+                          ),
+                        ],
+                      ),
+                      TextFormField(
+                        decoration: InputDecoration(
+                          contentPadding: const EdgeInsets.all(16.0),
+                          border: OutlineInputBorder(borderSide: BorderSide.none),
+                          filled: true,
+                          fillColor: Colors.grey[200],
+                        ),
+                        initialValue: globals.token,
+                        //keyboardType: TextInputType.multiline,
+                        //maxLines: null,
+                      ),
+                    ],
+                  )
               ),
               SizedBox(
                 width: MediaQuery.of(context).size.width * 0.3,
