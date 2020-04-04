@@ -11,7 +11,7 @@ Future<Lunch> lunchDeetails(lunchId) async {
   // prepare JSON for request
   String reqJson = json.encode(LunchDetailsRequest(
       request: 'lunch.details',
-      session: globals.sessionLunch.sessionId,
+      session: globals.sessionId,
       arguments: LunchDetailsArguments(
         lunchId: lunchId,
       )));
@@ -37,6 +37,7 @@ Future<Lunch> lunchDeetails(lunchId) async {
       print('Bad request');
     }
   }
+  return null;
 }
 
 Future<List<Lunch>> lunchList(DateTime dateFrom, DateTime dateTo,
@@ -45,7 +46,7 @@ Future<List<Lunch>> lunchList(DateTime dateFrom, DateTime dateTo,
   // prepare JSON for request
   String reqJson = json.encode(LunchListRequest(
       request: 'lunch.list',
-      session: globals.sessionLunch.sessionId,
+      session: globals.sessionId,
       filters: LunchListFilters(
           dateFrom: DateFormat('yyyy-MM-dd').format(dateFrom),
           dateTo: DateFormat('yyyy-MM-dd').format(dateTo),

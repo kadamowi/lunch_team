@@ -172,7 +172,7 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
       // prepare JSON for request
       String reqJson = json.encode(RestaurantCreateRequest(
           request: 'restaurant.create',
-          session: globals.sessionLunch.sessionId,
+          session: globals.sessionId,
           arguments: RestaurantCreateArguments(
               restaurantName: globals.restaurantSelected.restaurantName,
               restaurantDescription:
@@ -223,7 +223,7 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
       // prepare JSON for request
       String reqJson = json.encode(RestaurantEditRequest(
           request: 'restaurant.edit',
-          session: globals.sessionLunch.sessionId,
+          session: globals.sessionId,
           arguments: Restaurant(
             restaurantId: globals.restaurantSelected.restaurantId,
               restaurantName: globals.restaurantSelected.restaurantName,
@@ -278,7 +278,7 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
       // prepare JSON for request
       String reqJson = json.encode(RestaurantDeleteRequest(
           request: 'restaurant.delete',
-          session: globals.sessionLunch.sessionId,
+          session: globals.sessionId,
           arguments: RestaurantDeleteArguments(
             restaurantId: globals.restaurantSelected.restaurantId,
           )));

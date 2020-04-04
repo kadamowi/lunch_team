@@ -3,11 +3,3 @@ final Map<String, String> headers = {
   "Content-type": "application/json",
   "Accept": "application/json",
 };
-
-class SessionLunch {
-  final String username;
-  final String password;
-  final String sessionId;
-
-  SessionLunch(this.username,this.password,this.sessionId);
-}

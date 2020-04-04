@@ -79,7 +79,7 @@ class _HungerListScreenState extends State<HungerListScreen> {
                                     ),
                                   ),
                                   onTap: () {
-                                    if (snapshot.data[index].username == globals.sessionLunch.username) {
+                                    if (snapshot.data[index].username == globals.sessionUser) {
                                       globals.userLogged = snapshot.data[index];
                                       Navigator.push(
                                         context,

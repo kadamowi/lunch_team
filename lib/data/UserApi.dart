@@ -9,7 +9,7 @@ import 'package:lunch_team/request/TeamUsersRequest.dart';
 Future<List<User>> userList() async {
   // prepare JSON for request
   String reqJson = json.encode(TeamUsersRequest(
-      request: 'user.list', session: globals.sessionLunch.sessionId));
+      request: 'user.list', session: globals.sessionId));
   // make POST request
   Response response = await post(urlApi, headers: headers, body: reqJson);
   var result = jsonDecode(response.body);
@@ -29,7 +29,7 @@ Future<User> detailsUser(userId) async {
   // prepare JSON for request
   String reqJson = json.encode(UserDetailsRequest(
       request: 'user.details',
-      session: globals.sessionLunch.sessionId,
+      session: globals.sessionId,
       arguments: UserDetailsArguments(
         userId: userId,
       )));
@@ -56,13 +56,14 @@ Future<User> detailsUser(userId) async {
       print('Bad request');
     }
   }
+  return null;
 }
 
 Future<String> editUser() async {
   // prepare JSON for request
   String reqJson = json.encode(UserEditRequest(
       request: 'user.edit',
-      session: globals.sessionLunch.sessionId,
+      session: globals.sessionId,
       arguments: UserEditArguments(
         displayName: globals.userLogged.displayName,
         email: globals.userLogged.email,
@@ -100,7 +101,7 @@ Future<String> passwordUser(String oldP, String newP) async {
   // prepare JSON for request
   String reqJson = json.encode(UserPasswordRequest(
       request: 'user.changePassword',
-      session: globals.sessionLunch.sessionId,
+      session: globals.sessionId,
       arguments: UserPasswordArguments(
         oldPassword: oldP,
           newPassword: newP,

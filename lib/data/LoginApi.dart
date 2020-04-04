@@ -10,13 +10,13 @@ import 'package:lunch_team/model/Restaurant.dart';
 import 'package:lunch_team/data/RestaurantApi.dart';
 import 'package:lunch_team/model/globals.dart' as globals;
 
-Future<LoginUser> getSavedUser() async {
+Future<String> getSavedUser() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   globals.versionInfo = await PackageInfo.fromPlatform();
-  //return new LoginUser(username: '',password: '');
-  return new LoginUser(
-      username: (prefs.getString('username') ?? ''),
-      password: (prefs.getString('password') ?? ''));
+  globals.sessionUser = prefs.getString('username') ?? '';
+  globals.sessionId = prefs.getString('session') ?? '';
+
+  return 'OK';
 }
 
 Future<String> loginApp(String username, String password) async {
@@ -37,11 +37,8 @@ Future<String> loginApp(String username, String password) async {
       bool userLogin = responseTag['userLogin'];
       if (userLogin) {
         String sessionId = responseTag['session'];
-        globals.sessionLunch = SessionLunch(
-            username,
-            password,
-            sessionId
-        );
+        globals.sessionUser = username;
+        globals.sessionId = sessionId;
         int userId = responseTag['userId'];
         // Pobranie aktualnych danych usera
         if (userId != null && userId > 0) {
@@ -53,7 +50,7 @@ Future<String> loginApp(String username, String password) async {
         }
         SharedPreferences prefs = await SharedPreferences.getInstance();
         prefs.setString('username', username);
-        prefs.setString('password', password);
+        prefs.setString('session', sessionId);
         // Pobranie listy restauracji
         List<Restaurant> restaurants = await restaurantList();
         globals.restaurantSets = new Map();
@@ -80,7 +77,7 @@ Future<String> logoutApp() async {
   // prepare JSON for request
   String reqJson = json.encode(LogoutRequest(
       request: 'user.logout',
-      session: globals.sessionLunch.sessionId,
+      session: globals.sessionId,
       ));
   // make POST request
   Response response = await post(urlApi, headers: headers, body: reqJson);
@@ -124,5 +121,24 @@ Future<String>  createAccount(LoginUser loginUser) async {
   return null;
 }
 
+Future<bool>  userSessionValidate() async {
+  // prepare JSON for request
+  String reqJson =
+  json.encode(SessionValidateRequest(
+      request: 'user.session.validate',
+      session: globals.sessionId));
+  // make POST request
+  Response response = await post(urlApi, headers: headers, body: reqJson);
 
+  if (response.statusCode == 200) {
+    var result = jsonDecode(response.body);
+    var responseTag = result['response'];
+    if (responseTag != null) {
+      bool sessionValidate = responseTag['sessionValidate'];
+      return sessionValidate;
+    } else
+      return false;
+  } else
+    return false;
+}
 

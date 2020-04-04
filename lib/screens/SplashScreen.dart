@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lunch_team/data/LoginApi.dart';
-import 'package:lunch_team/model/LunchTeamCommon.dart';
 import 'package:lunch_team/screens/HomePageScreen.dart';
-import 'package:lunch_team/request/LoginRequest.dart';
 import 'package:lunch_team/screens/LoginScreen.dart';
-import 'package:lunch_team/model/globals.dart' as globals;
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -17,7 +14,7 @@ class _SplashScreenState extends State<SplashScreen> {
     return Container(
         height: double.infinity,
         width: double.infinity,
-        child: FutureBuilder<LoginUser>(
+        child: FutureBuilder<String>(
             future: getSavedUser(),
             builder: (BuildContext context, AsyncSnapshot snapshot) {
               if (snapshot.connectionState != ConnectionState.done) {
@@ -25,34 +22,17 @@ class _SplashScreenState extends State<SplashScreen> {
                   image: AssetImage('images/splashscreen.png'),
                 );
               } else {
-                if (snapshot.data.username != null &&
-                    snapshot.data.password != null) {
-                  return FutureBuilder<String>(
-                      future: loginApp(
-                          snapshot.data.username, snapshot.data.password),
+                if (snapshot.data == 'OK') {
+                  return FutureBuilder<bool>(
+                      future: userSessionValidate(),
                       builder:
                           (BuildContext context, AsyncSnapshot snapshot2) {
                         if (snapshot2.connectionState != ConnectionState.done) {
                           return Text(''); //Image(image: AssetImage('images/splashscreen.png'),);
                         } else {
-                          if (snapshot2.data == null) {
+                          if (snapshot2.data) {
                             return Home();
                           } else {
-                            globals.sessionLunch = SessionLunch(
-                                snapshot.data.username,
-                                snapshot.data.password,
-                                null
-                            );
-                            /*
-                            Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => LoginScreen(),
-                              ),
-                            );
-                            return null;
-
-                             */
                             return LoginScreen();
                           }
                         }

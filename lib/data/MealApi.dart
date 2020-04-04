@@ -10,7 +10,7 @@ Future<List<Meal>> fetchMealList(int lunchId) async {
   // prepare JSON for request
   String reqJson = json.encode(MealListRequest(
       request: 'meal.list',
-      session: globals.sessionLunch.sessionId,
+      session: globals.sessionId,
       arguments: MealListArguments(
         lunchId: lunchId,
       )));
@@ -33,7 +33,7 @@ Future<String> setSettled(int mealId) async {
   // prepare JSON for request
   String reqJson = json.encode(MealSettledRequest(
       request: 'meal.settled',
-      session: globals.sessionLunch.sessionId,
+      session: globals.sessionId,
       arguments: MealSettledArguments(
         mealId: mealId,
       )));
@@ -58,7 +58,7 @@ Future<String> createMeal(Meal meal) async {
   // prepare JSON for request
   String reqJson = json.encode(MealCreateRequest(
       request: 'meal.create',
-      session: globals.sessionLunch.sessionId,
+      session: globals.sessionId,
       arguments: MealCreateArguments(
         lunchId: meal.lunchId,
         mealDescription: meal.mealName,
@@ -88,7 +88,7 @@ Future<String> editMeal(Meal meal) async {
   // prepare JSON for request
   String reqJson = json.encode(MealEditRequest(
       request: 'meal.edit',
-      session: globals.sessionLunch.sessionId,
+      session: globals.sessionId,
       arguments: MealEditArguments(
         mealId: meal.mealId,
         mealDescription: meal.mealName,
@@ -119,7 +119,7 @@ Future<String> deleteMeal(int mealId) async {
   // prepare JSON for request
   String reqJson = json.encode(MealDeleteRequest(
       request: 'meal.delete',
-      session: globals.sessionLunch.sessionId,
+      session: globals.sessionId,
       arguments: MealDeleteArguments(
         mealId: mealId,
       )));

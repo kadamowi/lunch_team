@@ -27,7 +27,7 @@ class _HomeScreenState extends State<HomeScreen> {
           children: <Widget>[
             Align(
               alignment: Alignment.topRight,
-              child: Text(globals.sessionLunch.username),
+              child: Text(globals.sessionUser),
             ),
             Container(
               margin: const EdgeInsets.only(top: 20.0, bottom: 20.0),

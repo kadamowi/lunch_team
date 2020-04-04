@@ -11,7 +11,7 @@ Future<Restaurant> detailsRestaurant(restaurantId) async {
   // prepare JSON for request
   String reqJson = json.encode(RestaurantDetailsRequest(
       request: 'restaurant.details',
-      session: globals.sessionLunch.sessionId,
+      session: globals.sessionId,
       arguments: RestaurantDetailsArguments(
         restaurantId: restaurantId,
       )));
@@ -37,13 +37,14 @@ Future<Restaurant> detailsRestaurant(restaurantId) async {
       print('Bad request');
     }
   }
+  return null;
 }
 
 Future<List<Restaurant>> restaurantList() async {
   // prepare JSON for request
   String reqJson = json.encode(RestaurantListRequest(
       request: 'restaurant.list',
-      session: globals.sessionLunch.sessionId));
+      session: globals.sessionId));
   // make POST request
   Response response = await post(urlApi, headers: headers, body: reqJson);
   var result = jsonDecode(response.body);

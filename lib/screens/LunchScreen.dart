@@ -25,7 +25,7 @@ class _LunchScreenState extends State<LunchScreen> {
   Lunch lunch = new Lunch(
       lunchId: 0,
       restaurantId: (globals.restaurantSelected != null) ? globals.restaurantSelected.restaurantId : globals.restaurantSets.keys.first,
-      username: globals.sessionLunch.username,
+      username: globals.sessionUser,
       lunchType: 0,
       lunchDescription: '',
       transportCost: 0,
@@ -473,7 +473,7 @@ class _LunchScreenState extends State<LunchScreen> {
       //print('prepare JSON');
       LunchCreateRequest r = LunchCreateRequest(
           request: 'lunch.create',
-          session: globals.sessionLunch.sessionId,
+          session: globals.sessionId,
           arguments: LunchCreateArguments(
             restaurantId: lunch.restaurantId,
             lunchType: lunch.lunchType,
@@ -521,7 +521,7 @@ class _LunchScreenState extends State<LunchScreen> {
       // prepare JSON for request
       LunchEditRequest r = LunchEditRequest(
           request: 'lunch.edit',
-          session: globals.sessionLunch.sessionId,
+          session: globals.sessionId,
           arguments: LunchEditArguments(
             lunchId: lunch.lunchId,
             restaurantId: lunch.restaurantId,
@@ -577,7 +577,7 @@ class _LunchScreenState extends State<LunchScreen> {
       // prepare JSON for request
       String reqJson = json.encode(LunchDeleteRequest(
           request: 'lunch.delete',
-          session: globals.sessionLunch.sessionId,
+          session: globals.sessionId,
           arguments: LunchDeleteArguments(
             lunchId: globals.lunchSelected.lunchId,
           )));

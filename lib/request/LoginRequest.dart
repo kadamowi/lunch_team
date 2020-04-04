@@ -39,3 +39,17 @@ class LogoutRequest {
     };
   }
 }
+
+class SessionValidateRequest {
+  String request;
+  String session;
+
+  SessionValidateRequest({this.request,this.session});
+
+  toJson() {
+    return {
+      'request': request,
+      'session': session,
+    };
+  }
+}
