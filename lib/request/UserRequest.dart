@@ -87,3 +87,65 @@ class UserPasswordRequest {
     };
   }
 }
+
+class UserSettingSetArguments {
+  String namespace;
+  String name;
+  String value;
+
+  UserSettingSetArguments({this.namespace, this.name, this.value});
+
+  toJson() {
+    return {
+      'namespace': namespace,
+      'name': name,
+      'value': value,
+    };
+  }
+}
+
+class UserSettingSetRequest {
+  String request;
+  String session;
+  UserSettingSetArguments arguments;
+
+  UserSettingSetRequest({this.request, this.session, this.arguments});
+
+  toJson() {
+    return {
+      'request': request,
+      'session': session,
+      'arguments': arguments,
+    };
+  }
+}
+
+class UserSettingGetArguments {
+  String namespace;
+  String name;
+
+  UserSettingGetArguments({this.namespace, this.name});
+
+  toJson() {
+    return {
+      'namespace': namespace,
+      'name': name,
+    };
+  }
+}
+
+class UserSettingGetRequest {
+  String request;
+  String session;
+  UserSettingGetArguments arguments;
+
+  UserSettingGetRequest({this.request, this.session, this.arguments});
+
+  toJson() {
+    return {
+      'request': request,
+      'session': session,
+      'arguments': arguments,
+    };
+  }
+}

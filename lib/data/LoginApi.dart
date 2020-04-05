@@ -57,6 +57,10 @@ Future<String> loginApp(String username, String password) async {
         for (Restaurant r in restaurants) {
           globals.restaurantSets[r.restaurantId] = r.restaurantName;
         }
+        String value = await userSettingGet('notification', 'lunch');
+        globals.notyfiLunch = (value == '1');
+        value = await userSettingGet('notification', 'settlement');
+        globals.notyfiSettlement = (value == '1');
       } else {
         return 'Not logged: ' + responseTag.toString();
       }
@@ -137,6 +141,16 @@ Future<bool> userSessionValidate() async {
         globals.userLogged = await detailsUser(0);
         print(globals.userLogged.displayName + ' is logged (' + globals.userLogged.userId.toString() + ')');
         print('email:' + globals.userLogged.email);
+        // Pobranie listy restauracji
+        List<Restaurant> restaurants = await restaurantList();
+        globals.restaurantSets = new Map();
+        for (Restaurant r in restaurants) {
+          globals.restaurantSets[r.restaurantId] = r.restaurantName;
+        }
+        String value = await userSettingGet('notification', 'lunch');
+        globals.notyfiLunch = (value == '1');
+        value = await userSettingGet('notification', 'settlement');
+        globals.notyfiSettlement = (value == '1');
       }
       return sessionValidate;
     } else

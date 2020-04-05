@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:lunch_team/data/LoginApi.dart';
+import 'package:lunch_team/data/UserApi.dart';
 import 'package:lunch_team/screens/LoginScreen.dart';
 import 'package:lunch_team/screens/UserPasswordScreen.dart';
 import 'package:lunch_team/screens/UserProfileScreen.dart';
@@ -14,8 +15,6 @@ class UserDetailsScreen extends StatefulWidget {
 
 class _UserDetailsScreenState extends State<UserDetailsScreen> {
   String message = '';
-  bool notyfiLunch = false;
-  bool notyfiSettlement = false;
 
   @override
   Widget build(BuildContext context) {
@@ -165,10 +164,11 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                             child: Text('Notification about new lunches'),
                           ),
                           Switch(
-                            value: notyfiLunch,
+                            value: globals.notyfiLunch,
                             onChanged: (value) {
                               setState(() {
-                                notyfiLunch = value;
+                                globals.notyfiLunch = value;
+                                userSettingSet('notification', 'lunch',value?'1':'0' );
                               });
                             },
                             activeTrackColor: Colors.lightGreenAccent,
@@ -182,10 +182,11 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                             child: Text('Notification about settlements'),
                           ),
                           Switch(
-                            value: notyfiSettlement,
+                            value: globals.notyfiSettlement,
                             onChanged: (value) {
                               setState(() {
-                                notyfiSettlement = value;
+                                globals.notyfiSettlement = value;
+                                userSettingSet('notification', 'settlement',value?'1':'0' );
                               });
                             },
                             activeTrackColor: Colors.lightGreenAccent,

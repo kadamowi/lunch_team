@@ -40,3 +40,6 @@ DateTime dateFrom = DateTime.now().add(Duration(days: -5));
 DateTime dateTo = DateTime.now().add(Duration(days: 2));
 String token = 'token';
 Map<String, dynamic> deviceData = <String, dynamic>{};
+
+bool notyfiLunch = false;
+bool notyfiSettlement = false;

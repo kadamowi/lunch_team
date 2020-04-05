@@ -127,3 +127,62 @@ Future<String> passwordUser(String oldP, String newP) async {
   }
   return null;
 }
+
+Future<String> userSettingSet(String namespace, String name, String value) async {
+  // prepare JSON for request
+  String reqJson = json.encode(UserSettingSetRequest(
+      request: 'user.setting.set',
+      session: globals.sessionId,
+      arguments: UserSettingSetArguments(
+        namespace: namespace,
+        name: name,
+        value: value
+      )));
+  // make POST request
+  Response response = await post(urlApi, headers: headers, body: reqJson);
+  //print('statusCode:'+response.statusCode.toString());
+  if (response.statusCode == 200) {
+    var result = jsonDecode(response.body);
+    var responseTag = result['response'];
+    if (responseTag != null) {
+      bool settingSet = responseTag['settingSet'];
+      if (!settingSet) {
+        return 'Setting not saved:' + responseTag.toString();
+      }
+    } else {
+      return 'No response: ' + result.toString();
+    }
+  } else {
+    return 'Technical error: ' + response.statusCode.toString();
+  }
+  return null;
+}
+
+Future<String> userSettingGet(String namespace, String name) async {
+  // prepare JSON for request
+  String reqJson = json.encode(UserSettingGetRequest(
+      request: 'user.setting.get',
+      session: globals.sessionId,
+      arguments: UserSettingGetArguments(
+          namespace: namespace,
+          name: name,
+      )));
+  // make POST request
+  Response response = await post(urlApi, headers: headers, body: reqJson);
+  //print('statusCode:'+response.statusCode.toString());
+  if (response.statusCode == 200) {
+    var result = jsonDecode(response.body);
+    var responseTag = result['response'];
+    if (responseTag != null) {
+      String value = responseTag['value'];
+      if (value == null) {
+        return 'Setting not saved:' + responseTag.toString();
+      } else
+        return value;
+    } else {
+      return 'No response: ' + result.toString();
+    }
+  } else {
+    return 'Technical error: ' + response.statusCode.toString();
+  }
+}
