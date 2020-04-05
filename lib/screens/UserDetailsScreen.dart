@@ -14,7 +14,8 @@ class UserDetailsScreen extends StatefulWidget {
 
 class _UserDetailsScreenState extends State<UserDetailsScreen> {
   String message = '';
-  bool notification = false;
+  bool notyfiLunch = false;
+  bool notyfiSettlement = false;
 
   @override
   Widget build(BuildContext context) {
@@ -160,12 +161,14 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                       ),
                       Row(
                         children: <Widget>[
-                          Text('Notification about new lunches, settlements'),
+                          Expanded(
+                            child: Text('Notification about new lunches'),
+                          ),
                           Switch(
-                            value: notification,
+                            value: notyfiLunch,
                             onChanged: (value) {
                               setState(() {
-                                notification = value;
+                                notyfiLunch = value;
                               });
                             },
                             activeTrackColor: Colors.lightGreenAccent,
@@ -173,6 +176,24 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                           ),
                         ],
                       ),
+                      Row(
+                        children: <Widget>[
+                          Expanded(
+                            child: Text('Notification about settlements'),
+                          ),
+                          Switch(
+                            value: notyfiSettlement,
+                            onChanged: (value) {
+                              setState(() {
+                                notyfiSettlement = value;
+                              });
+                            },
+                            activeTrackColor: Colors.lightGreenAccent,
+                            activeColor: Colors.green,
+                          ),
+                        ],
+                      ),
+                      /*
                       TextFormField(
                         decoration: InputDecoration(
                           contentPadding: const EdgeInsets.all(16.0),
@@ -184,6 +205,18 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                         //keyboardType: TextInputType.multiline,
                         //maxLines: null,
                       ),
+                      TextFormField(
+                        decoration: InputDecoration(
+                          contentPadding: const EdgeInsets.all(16.0),
+                          border: OutlineInputBorder(borderSide: BorderSide.none),
+                          filled: true,
+                          fillColor: Colors.grey[200],
+                        ),
+                        initialValue: globals.deviceData==null?'Brak':globals.deviceData.toString(),
+                        //keyboardType: TextInputType.multiline,
+                        //maxLines: null,
+                      ),
+                       */
                     ],
                   )
               ),

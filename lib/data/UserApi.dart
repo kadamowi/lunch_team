@@ -40,9 +40,9 @@ Future<User> detailsUser(userId) async {
           userId: userId,
         )));
   // make POST request
-  print('detailsUser request:' + reqJson);
+  //print('detailsUser request:' + reqJson);
   Response response = await post(urlApi, headers: headers, body: reqJson);
-  print('detailsUser statusCode:' + response.statusCode.toString());
+  //print('detailsUser statusCode:' + response.statusCode.toString());
   var result = jsonDecode(response.body);
   if (response.statusCode == 200) {
     var res = result['response'];
