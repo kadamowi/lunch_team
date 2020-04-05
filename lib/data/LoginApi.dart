@@ -133,9 +133,11 @@ Future<bool> userSessionValidate() async {
     var responseTag = result['response'];
     if (responseTag != null) {
       bool sessionValidate = responseTag['sessionValidate'];
-      globals.userLogged = await detailsUser(0);
-      print(globals.userLogged.displayName + ' is logged (' + globals.userLogged.userId.toString() + ')');
-      print('email:' + globals.userLogged.email);
+      if (sessionValidate) {
+        globals.userLogged = await detailsUser(0);
+        print(globals.userLogged.displayName + ' is logged (' + globals.userLogged.userId.toString() + ')');
+        print('email:' + globals.userLogged.email);
+      }
       return sessionValidate;
     } else
       return false;
