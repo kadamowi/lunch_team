@@ -13,6 +13,7 @@ import 'package:lunch_team/model/Restaurant.dart';
 import 'package:lunch_team/data/RestaurantApi.dart';
 import 'package:lunch_team/model/Lunch.dart';
 import 'package:lunch_team/request/LunchRequest.dart';
+import 'package:lunch_team/data/NotifyApi.dart';
 
 class LunchScreen extends StatefulWidget {
   @override
@@ -492,9 +493,16 @@ class _LunchScreenState extends State<LunchScreen> {
       if (response.statusCode == 200) {
         var res = result['response'];
         if (res != null) {
-          bool createRestaurant = res['createLunch'];
-          if (createRestaurant) {
-            Navigator.pop(context);
+          bool createLunch = res['createLunch'];
+          if (createLunch) {
+            sendNotification(lunch.username, lunch.lunchDescription, '/topics/lunch', lunch.lunchId.toString()).then((value) {
+              if (value == 'OK')
+                Navigator.pop(context);
+              else
+                setState(() {
+                  message = value;
+                });
+            });
           } else {
             setState(() {
               message = res.toString();
@@ -540,9 +548,16 @@ class _LunchScreenState extends State<LunchScreen> {
       if (response.statusCode == 200) {
         var res = result['response'];
         if (res != null) {
-          bool createRestaurant = res['editLunch'];
-          if (createRestaurant) {
-            Navigator.pop(context);
+          bool editLunch = res['editLunch'];
+          if (editLunch) {
+            sendNotification(lunch.username, lunch.lunchDescription, '/topics/lunch', lunch.lunchId.toString()).then((value) {
+              if (value == 'OK')
+                Navigator.pop(context);
+              else
+                setState(() {
+                  message = value;
+                });
+            });
           } else {
             setState(() {
               message = res.toString();

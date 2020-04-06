@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:device_info/device_info.dart';
 
 import 'package:lunch_team/data/LoginApi.dart';
+import 'package:lunch_team/model/LunchTeamCommon.dart';
 import 'package:lunch_team/screens/HomePageScreen.dart';
 import 'package:lunch_team/screens/LoginScreen.dart';
 import 'package:lunch_team/widgets/LunchTeamWidget.dart';
@@ -27,6 +28,8 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   Map<String, dynamic> _readAndroidBuildData(AndroidDeviceInfo build) {
+    headers['User-Agent'] = build.manufacturer + '/' + build.model + '/' + build.product + '/' + build.version.release + '/' + build.id + '/' + build.androidId;
+    print('User-Agent:' + headers['User-Agent']);
     return <String, dynamic>{
       'version.securityPatch': build.version.securityPatch,
       'version.sdkInt': build.version.sdkInt,
@@ -74,8 +77,7 @@ class _SplashScreenState extends State<SplashScreen> {
                 if (snapshot.data == 'OK') {
                   return FutureBuilder<bool>(
                       future: userSessionValidate(),
-                      builder:
-                          (BuildContext context, AsyncSnapshot snapshot2) {
+                      builder: (BuildContext context, AsyncSnapshot snapshot2) {
                         if (snapshot2.connectionState == ConnectionState.waiting) {
                           return ProgressBar();
                         } else {
@@ -94,7 +96,6 @@ class _SplashScreenState extends State<SplashScreen> {
                   return LoginScreen();
                 }
               }
-            })
-    );
+            }));
   }
 }

@@ -39,25 +39,64 @@ class _HomeState extends State<Home> {
     _firebaseMessaging.configure(
       onMessage: (Map<String, dynamic> message) async {
         print("onMessage: $message");
-        AlertDialog(
-          content: Text("Message from firebase:"),
-          actions: <Widget>[
-            FlatButton(
-              child: const Text('CLOSE'),
-              onPressed: () {
-                Navigator.pop(context, false);
-              },
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            content: ListTile(
+              title: Text(message['notification']['title']),
+              subtitle: Text(message['notification']['body'] + ' (' + message['data']['id'] + ')'),
             ),
-          ],
+            actions: <Widget>[
+              FlatButton(
+                child: Text('onMessage'),
+                onPressed: () => Navigator.of(context).pop(),
+              ),
+            ],
+          ),
         );
       },
       onLaunch: (Map<String, dynamic> message) async {
         print("onLaunch: $message");
+        /*
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            content: ListTile(
+              title: Text(message['notification']['title']),
+              subtitle: Text(message['notification']['body']+' ('+message['data']['id']+')'),
+            ),
+            actions: <Widget>[
+              FlatButton(
+                child: Text('onLaunch'),
+                onPressed: () => Navigator.of(context).pop(),
+              ),
+            ],
+          ),
+        );
+                 */
       },
       onResume: (Map<String, dynamic> message) async {
         print("onResume: $message");
+        /*
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            content: ListTile(
+              title: Text(message['notification']['title']),
+              subtitle: Text(message['notification']['body']+' ('+message['data']['id']+')'),
+            ),
+            actions: <Widget>[
+              FlatButton(
+                child: Text('onResume'),
+                onPressed: () => Navigator.of(context).pop(),
+              ),
+            ],
+          ),
+        );
+                 */
       },
     );
+    /*
     _firebaseMessaging.requestNotificationPermissions(
         const IosNotificationSettings(
             sound: true, badge: true, alert: true, provisional: true));
@@ -65,14 +104,19 @@ class _HomeState extends State<Home> {
         .listen((IosNotificationSettings settings) {
       print("Settings registered: $settings");
     });
+     */
     _firebaseMessaging.getToken().then((String token) {
       assert(token != null);
       setState(() {
         //_homeScreenText = "Push Messaging token: $token";
         globals.token = token;
       });
-      print('FCM Token:'+token);
+      //print('FCM Token:' + token);
     });
+    if (globals.notyfiLunch)
+      _firebaseMessaging.subscribeToTopic('lunch');
+    else
+      _firebaseMessaging.unsubscribeFromTopic('lunch');
   }
 
   @override
@@ -84,11 +128,11 @@ class _HomeState extends State<Home> {
         onTap: onTabTapped, // new
         currentIndex: _currentIndex, // new
         items: [
-          new BottomNavigationBarItem(icon: Icon(Icons.shopping_cart),  title: Text('Lunches')),
-          new BottomNavigationBarItem(icon: Icon(Icons.restaurant),     title: Text('Restaurants')),
+          new BottomNavigationBarItem(icon: Icon(Icons.shopping_cart), title: Text('Lunches')),
+          new BottomNavigationBarItem(icon: Icon(Icons.restaurant), title: Text('Restaurants')),
           //new BottomNavigationBarItem(icon: Icon(Icons.attach_money),   title: Text('Settlement')),
-          new BottomNavigationBarItem(icon: Icon(Icons.people),         title: Text('Users')),
-          new BottomNavigationBarItem(icon: Icon(Icons.person),         title: Text('Profile'))
+          new BottomNavigationBarItem(icon: Icon(Icons.people), title: Text('Users')),
+          new BottomNavigationBarItem(icon: Icon(Icons.person), title: Text('Profile'))
         ],
       ),
     );

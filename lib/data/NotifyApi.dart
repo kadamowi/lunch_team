@@ -1,48 +1,39 @@
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:http/http.dart';
 import 'dart:async';
 import 'dart:convert';
 
-// Replace with server token from firebase console settings.
-final String serverToken = '<Server-Token>';
-final FirebaseMessaging firebaseMessaging = FirebaseMessaging();
+import 'package:lunch_team/request/NotifyRequest.dart';
 
-Future<Map<String, dynamic>> sendAndRetrieveMessage(String title, String body) async {
-  await firebaseMessaging.requestNotificationPermissions(
-    const IosNotificationSettings(sound: true, badge: true, alert: true, provisional: false),
-  );
+final String serverToken = 'AAAA5iE_Vu8:APA91bEyakz36eDrkR22SA9jC7y23mVgfWRzbTl430Jyg6ykMw63_biCTo4Xln_uGRheq7kDlPiL45jpoQfzwEpo1bpwBkXPaE3_9_iBzvqNFUV1ZCRuKmm4urDMMB1F0ar1x8-TaU5o';
 
-  await post(
-    'https://fcm.googleapis.com/fcm/send',
-    headers: <String, String>{
-      'Content-Type': 'application/json',
-      'Authorization': 'key=$serverToken',
-    },
-    body: json.encode(
-      <String, dynamic>{
-        'notification': <String, dynamic>{
-          'body': body,
-          'title': title
-        },
-        'priority': 'high',
-        'data': <String, dynamic>{
-          'click_action': 'FLUTTER_NOTIFICATION_CLICK',
-          'id': '1',
-          'status': 'done'
-        },
-        'to': await firebaseMessaging.getToken(),
-      },
+Future<String> sendNotification(String title, String body, String device, String id) async {
+  // prepare JSON for request
+  String reqJson = json.encode(SendNotificationRequest(
+    notification: Notification(body: body, title: title),
+    priority: 'high',
+    data: NotificationData(
+      clickAction: 'FLUTTER_NOTIFICATION_CLICK',
+      id: id,
+      status: 'done',
     ),
-  );
+    device: device,
+  ));
+  print('sendNotification:' + reqJson);
+  // make POST request
+  Response response = await post('https://fcm.googleapis.com/fcm/send',
+      headers: <String, String>{
+        'Content-Type': 'application/json',
+        'Authorization': 'key=$serverToken',
+      },
+      body: reqJson);
 
-  final Completer<Map<String, dynamic>> completer =
-  Completer<Map<String, dynamic>>();
-
-  firebaseMessaging.configure(
-    onMessage: (Map<String, dynamic> message) async {
-      completer.complete(message);
-    },
-  );
-
-  return completer.future;
+  if (response.statusCode == 200) {
+    var result = jsonDecode(response.body);
+    var messageId = result['message_id'];
+    if (messageId != null) {
+      return 'OK';
+    } else
+      return 'No response: ' + result.toString();
+  } else
+    return 'Technical error: ' + response.statusCode.toString();
 }

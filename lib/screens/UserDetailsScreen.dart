@@ -194,7 +194,6 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                           ),
                         ],
                       ),
-                      /*
                       TextFormField(
                         decoration: InputDecoration(
                           contentPadding: const EdgeInsets.all(16.0),
@@ -206,6 +205,7 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                         //keyboardType: TextInputType.multiline,
                         //maxLines: null,
                       ),
+                      /*
                       TextFormField(
                         decoration: InputDecoration(
                           contentPadding: const EdgeInsets.all(16.0),
