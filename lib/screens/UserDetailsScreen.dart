@@ -152,7 +152,7 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                     children: <Widget>[
                       Align(
                         alignment: Alignment.topLeft,
-                        child: Text('Preferences',
+                        child: Text('Notification',
                             style: TextStyle(
                                 color: Colors.orange[800],
                                 fontWeight: FontWeight.bold
@@ -161,7 +161,7 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                       Row(
                         children: <Widget>[
                           Expanded(
-                            child: Text('Notification about new lunches'),
+                            child: Text('About new lunches'),
                           ),
                           Switch(
                             value: globals.notyfiLunch,
@@ -171,15 +171,15 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                                 userSettingSet('notification', 'lunch',value?'1':'0' );
                               });
                             },
-                            activeTrackColor: Colors.lightGreenAccent,
-                            activeColor: Colors.green,
+                            activeTrackColor: Colors.orange[200],
+                            activeColor: Colors.orange[800],
                           ),
                         ],
                       ),
                       Row(
                         children: <Widget>[
                           Expanded(
-                            child: Text('Notification about settlements'),
+                            child: Text('About settlements'),
                           ),
                           Switch(
                             value: globals.notyfiSettlement,
@@ -189,8 +189,8 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                                 userSettingSet('notification', 'settlement',value?'1':'0' );
                               });
                             },
-                            activeTrackColor: Colors.lightGreenAccent,
-                            activeColor: Colors.green,
+                            activeTrackColor: Colors.orange[200],
+                            activeColor: Colors.orange[800],
                           ),
                         ],
                       ),
