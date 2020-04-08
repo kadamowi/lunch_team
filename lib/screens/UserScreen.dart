@@ -158,7 +158,7 @@ class _UserScreenState extends State<UserScreen> {
                           if (_formStateKey.currentState.validate()) {
                             _formStateKey.currentState.save();
                             if (loginUser.password == secondPassword) {
-                              createAccount(loginUser).then((value) {
+                              registerUser(loginUser).then((value) {
                                 if (value != null)
                                   setState(() {
                                     message = value;

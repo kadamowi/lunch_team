@@ -164,10 +164,10 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                             child: Text('About new lunches'),
                           ),
                           Switch(
-                            value: globals.notyfiLunch,
+                            value: globals.notificationLunch,
                             onChanged: (value) {
                               setState(() {
-                                globals.notyfiLunch = value;
+                                globals.notificationLunch = value;
                                 userSettingSet('notification', 'lunch',value?'1':'0' );
                               });
                             },
@@ -182,11 +182,15 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                             child: Text('About settlements'),
                           ),
                           Switch(
-                            value: globals.notyfiSettlement,
+                            value: globals.notificationSettlement,
                             onChanged: (value) {
                               setState(() {
-                                globals.notyfiSettlement = value;
+                                globals.notificationSettlement = value;
                                 userSettingSet('notification', 'settlement',value?'1':'0' );
+                                if (globals.notificationLunch)
+                                  globals.firebaseMessaging.subscribeToTopic('lunch');
+                                else
+                                  globals.firebaseMessaging.unsubscribeFromTopic('lunch');
                               });
                             },
                             activeTrackColor: Colors.orange[200],
@@ -194,6 +198,7 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                           ),
                         ],
                       ),
+                      /*
                       TextFormField(
                         decoration: InputDecoration(
                           contentPadding: const EdgeInsets.all(16.0),
@@ -205,7 +210,6 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                         //keyboardType: TextInputType.multiline,
                         //maxLines: null,
                       ),
-                      /*
                       TextFormField(
                         decoration: InputDecoration(
                           contentPadding: const EdgeInsets.all(16.0),

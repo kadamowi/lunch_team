@@ -2,6 +2,7 @@ library lunch_team.globals;
 
 import 'package:flutter/material.dart';
 import 'package:package_info/package_info.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:lunch_team/model/Restaurant.dart';
 import 'package:lunch_team/model/Lunch.dart';
 import 'package:lunch_team/model/Meal.dart';
@@ -38,8 +39,8 @@ final Map statusColors = {
 
 DateTime dateFrom = DateTime.now().add(Duration(days: -5));
 DateTime dateTo = DateTime.now().add(Duration(days: 2));
-String token = 'token';
-Map<String, dynamic> deviceData = <String, dynamic>{};
 
-bool notyfiLunch = false;
-bool notyfiSettlement = false;
+final FirebaseMessaging firebaseMessaging = FirebaseMessaging();
+String token = 'token';
+bool notificationLunch = false;
+bool notificationSettlement = false;

@@ -1,13 +1,9 @@
 import 'package:flutter/material.dart';
-//import 'dart:async';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:lunch_team/screens/HungerListScreen.dart';
 import 'package:lunch_team/screens/LunchListScreen.dart';
 import 'package:lunch_team/screens/RestaurantListScreen.dart';
 import 'package:lunch_team/screens/UserDetailsScreen.dart';
 import 'package:lunch_team/model/globals.dart' as globals;
-
-//Klucz API AIzaSyBPF6Qf-h28b56r3Ac_VVs5egeG0csI39I
 
 class Home extends StatefulWidget {
   @override
@@ -25,18 +21,10 @@ class _HomeState extends State<Home> {
     UserDetailsScreen(),
   ];
 
-  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
-
-  void onTabTapped(int index) {
-    setState(() {
-      _currentIndex = index;
-    });
-  }
-
   @override
   void initState() {
     super.initState();
-    _firebaseMessaging.configure(
+    globals.firebaseMessaging.configure(
       onMessage: (Map<String, dynamic> message) async {
         print("onMessage: $message");
         showDialog(
@@ -96,27 +84,17 @@ class _HomeState extends State<Home> {
                  */
       },
     );
-    /*
-    _firebaseMessaging.requestNotificationPermissions(
-        const IosNotificationSettings(
-            sound: true, badge: true, alert: true, provisional: true));
-    _firebaseMessaging.onIosSettingsRegistered
-        .listen((IosNotificationSettings settings) {
-      print("Settings registered: $settings");
-    });
-     */
-    _firebaseMessaging.getToken().then((String token) {
-      assert(token != null);
-      setState(() {
-        //_homeScreenText = "Push Messaging token: $token";
-        globals.token = token;
-      });
-      //print('FCM Token:' + token);
-    });
-    if (globals.notyfiLunch)
-      _firebaseMessaging.subscribeToTopic('lunch');
+    if (globals.notificationLunch)
+      globals.firebaseMessaging.subscribeToTopic('lunch');
     else
-      _firebaseMessaging.unsubscribeFromTopic('lunch');
+      globals.firebaseMessaging.unsubscribeFromTopic('lunch');
+  }
+
+
+  void onTabTapped(int index) {
+    setState(() {
+      _currentIndex = index;
+    });
   }
 
   @override

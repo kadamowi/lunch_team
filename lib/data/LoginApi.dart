@@ -26,14 +26,16 @@ Future<String> loginApp(String username, String password) async {
       arguments: LoginUser(
         username: username,
         password: password,
+        hardwareKey: globals.token,
       )));
-  //print('userLogin req:'+reqJson.toString());
+  print('userLogin req:'+reqJson.toString());
   // make POST request
   Response response = await post(urlApi, headers: headers, body: reqJson);
   if (response.statusCode == 200) {
     var result = jsonDecode(response.body);
     var responseTag = result['response'];
     if (responseTag != null) {
+      print('response:'+responseTag.toString());
       bool userLogin = responseTag['userLogin'];
       if (userLogin) {
         String sessionId = responseTag['session'];
@@ -58,9 +60,9 @@ Future<String> loginApp(String username, String password) async {
           globals.restaurantSets[r.restaurantId] = r.restaurantName;
         }
         String value = await userSettingGet('notification', 'lunch');
-        globals.notyfiLunch = (value == '1');
+        globals.notificationLunch = (value == '1');
         value = await userSettingGet('notification', 'settlement');
-        globals.notyfiSettlement = (value == '1');
+        globals.notificationSettlement = (value == '1');
       } else {
         return 'Not logged: ' + responseTag.toString();
       }
@@ -96,30 +98,33 @@ Future<String> logoutApp() async {
   return null;
 }
 
-Future<String> createAccount(LoginUser loginUser) async {
+Future<String> registerUser(LoginUser loginUser) async {
   // prepare JSON for request
-  String reqJson = json.encode(LoginRequest(request: 'user.register', arguments: loginUser));
+  String reqJson = json.encode(RegisterRequest(
+      request: 'user.register',
+      arguments: RegisterUser(
+        username: loginUser.username,
+        password: loginUser.password
+      )
+  ));
   // make POST request
-  print(reqJson);
+  print('createAccountReq:'+reqJson);
   Response response = await post(urlApi, headers: headers, body: reqJson);
-  var result = jsonDecode(response.body);
-  var resp = result['response'];
-  print(resp);
-  if (resp != null) {
-    bool registerUser = resp['registerUser'];
-    print('registerUser:' + registerUser.toString());
-    if (!registerUser) {
-      globals.errorMessage = 'User "' + loginUser.username + '" not registered';
-      return globals.errorMessage;
-    }
-  } else {
-    resp = result['error'];
-    if (resp != null)
-      globals.errorMessage = 'Register error ' + resp.toString();
-    else
-      globals.errorMessage = 'Register error ' + result.toString();
-    return globals.errorMessage;
-  }
+
+  if (response.statusCode == 200) {
+    var result = jsonDecode(response.body);
+    var responseTag = result['response'];
+    if (responseTag != null) {
+      print('createAccountResp:'+responseTag.toString());
+      bool registerUser = responseTag['registerUser'];
+      if (!registerUser) {
+        return 'Register impossible:' + responseTag.toString();
+      }
+    } else
+      return 'No response: ' + result.toString();
+  } else
+    return 'Technical error: ' + response.statusCode.toString();
+
   return null;
 }
 
@@ -148,9 +153,9 @@ Future<bool> userSessionValidate() async {
           globals.restaurantSets[r.restaurantId] = r.restaurantName;
         }
         String value = await userSettingGet('notification', 'lunch');
-        globals.notyfiLunch = (value == '1');
+        globals.notificationLunch = (value == '1');
         value = await userSettingGet('notification', 'settlement');
-        globals.notyfiSettlement = (value == '1');
+        globals.notificationSettlement = (value == '1');
       }
       return sessionValidate;
     } else
