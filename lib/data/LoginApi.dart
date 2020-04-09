@@ -28,14 +28,14 @@ Future<String> loginApp(String username, String password) async {
         password: password,
         hardwareKey: globals.token,
       )));
-  print('userLogin req:'+reqJson.toString());
+  //print('userLogin req:'+reqJson.toString());
   // make POST request
   Response response = await post(urlApi, headers: headers, body: reqJson);
   if (response.statusCode == 200) {
     var result = jsonDecode(response.body);
     var responseTag = result['response'];
     if (responseTag != null) {
-      print('response:'+responseTag.toString());
+      //print('response:'+responseTag.toString());
       bool userLogin = responseTag['userLogin'];
       if (userLogin) {
         String sessionId = responseTag['session'];
@@ -144,8 +144,8 @@ Future<bool> userSessionValidate() async {
       bool sessionValidate = responseTag['sessionValidate'];
       if (sessionValidate) {
         globals.userLogged = await detailsUser(0);
-        print(globals.userLogged.displayName + ' is logged (' + globals.userLogged.userId.toString() + ')');
-        print('email:' + globals.userLogged.email);
+        //print(globals.userLogged.displayName + ' is logged (' + globals.userLogged.userId.toString() + ')');
+        //print('email:' + globals.userLogged.email);
         // Pobranie listy restauracji
         List<Restaurant> restaurants = await restaurantList();
         globals.restaurantSets = new Map();
@@ -153,7 +153,7 @@ Future<bool> userSessionValidate() async {
           globals.restaurantSets[r.restaurantId] = r.restaurantName;
         }
         String value = await userSettingGet('notification', 'lunch');
-        globals.notificationLunch = (value == '1');
+        globals.notificationLunch = true; //(value == '1');
         value = await userSettingGet('notification', 'settlement');
         globals.notificationSettlement = (value == '1');
       }

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:lunch_team/data/LunchApi.dart';
+import 'package:lunch_team/screens/LunchDetailsScreen.dart';
 import 'package:lunch_team/screens/HungerListScreen.dart';
 import 'package:lunch_team/screens/LunchListScreen.dart';
 import 'package:lunch_team/screens/RestaurantListScreen.dart';
@@ -13,6 +15,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  final GlobalKey<NavigatorState> navigatorKey = GlobalKey(debugLabel: "Main Navigator");
   int _currentIndex = 0;
   final List<Widget> _children = [
     LunchListScreen(),
@@ -24,9 +27,26 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
+    print('firebaseMessaging.configure');
     globals.firebaseMessaging.configure(
       onMessage: (Map<String, dynamic> message) async {
         print("onMessage: $message");
+        int lunchId = message['data']['id'];
+        print('LunchId = '+lunchId.toString());
+        await lunchDeetails(lunchId).then((value) {
+          print('Lunch user = '+value.username);
+          if (value.username != globals.sessionUser) {
+            globals.lunchSelected = value;
+            print('push');
+            Navigator.push(
+              navigatorKey.currentContext,
+              MaterialPageRoute(
+                builder: (_) => LunchDetailsScreen(),
+              ),
+            );
+          }
+        });
+        /*
         showDialog(
           context: context,
           builder: (context) => AlertDialog(
@@ -36,58 +56,29 @@ class _HomeState extends State<Home> {
             ),
             actions: <Widget>[
               FlatButton(
-                child: Text('onMessage'),
+                child: Text('close'),
                 onPressed: () => Navigator.of(context).pop(),
               ),
             ],
           ),
         );
+        */
       },
       onLaunch: (Map<String, dynamic> message) async {
         print("onLaunch: $message");
-        /*
-        showDialog(
-          context: context,
-          builder: (context) => AlertDialog(
-            content: ListTile(
-              title: Text(message['notification']['title']),
-              subtitle: Text(message['notification']['body']+' ('+message['data']['id']+')'),
-            ),
-            actions: <Widget>[
-              FlatButton(
-                child: Text('onLaunch'),
-                onPressed: () => Navigator.of(context).pop(),
-              ),
-            ],
-          ),
-        );
-                 */
       },
       onResume: (Map<String, dynamic> message) async {
         print("onResume: $message");
-        /*
-        showDialog(
-          context: context,
-          builder: (context) => AlertDialog(
-            content: ListTile(
-              title: Text(message['notification']['title']),
-              subtitle: Text(message['notification']['body']+' ('+message['data']['id']+')'),
-            ),
-            actions: <Widget>[
-              FlatButton(
-                child: Text('onResume'),
-                onPressed: () => Navigator.of(context).pop(),
-              ),
-            ],
-          ),
-        );
-                 */
       },
     );
-    if (globals.notificationLunch)
+    if (globals.notificationLunch) {
+      print('Subscribe');
       globals.firebaseMessaging.subscribeToTopic('lunch');
-    else
+    }
+    else {
+      print('Unsubscribe');
       globals.firebaseMessaging.unsubscribeFromTopic('lunch');
+    }
   }
 
 
@@ -100,6 +91,7 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: navigatorKey,
       body: _children[_currentIndex], // new
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,

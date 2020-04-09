@@ -169,6 +169,10 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                               setState(() {
                                 globals.notificationLunch = value;
                                 userSettingSet('notification', 'lunch',value?'1':'0' );
+                                if (globals.notificationLunch)
+                                  globals.firebaseMessaging.subscribeToTopic('lunch');
+                                else
+                                  globals.firebaseMessaging.unsubscribeFromTopic('lunch');
                               });
                             },
                             activeTrackColor: Colors.orange[200],
@@ -187,10 +191,6 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                               setState(() {
                                 globals.notificationSettlement = value;
                                 userSettingSet('notification', 'settlement',value?'1':'0' );
-                                if (globals.notificationLunch)
-                                  globals.firebaseMessaging.subscribeToTopic('lunch');
-                                else
-                                  globals.firebaseMessaging.unsubscribeFromTopic('lunch');
                               });
                             },
                             activeTrackColor: Colors.orange[200],

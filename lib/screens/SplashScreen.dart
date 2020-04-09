@@ -24,10 +24,9 @@ class _SplashScreenState extends State<SplashScreen> {
     globals.firebaseMessaging.getToken().then((String token) {
       assert(token != null);
       setState(() {
-        //_homeScreenText = "Push Messaging token: $token";
         globals.token = token;
       });
-      print('FCM Token:' + token);
+      //print('FCM Token:' + token);
     });
   }
 

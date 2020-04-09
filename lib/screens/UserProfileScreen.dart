@@ -99,6 +99,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                               initialValue: globals.userLogged.avatarUrl,
                               onSaved: (value) =>
                               globals.userLogged.avatarUrl = value,
+                              keyboardType: TextInputType.url,
                             ),
                             SizedBox(height: 5.0),
                             TextFormField(

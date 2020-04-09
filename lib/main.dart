@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lunch_team/screens/LoginScreen.dart';
 import 'screens/SplashScreen.dart';
 
 void main() {

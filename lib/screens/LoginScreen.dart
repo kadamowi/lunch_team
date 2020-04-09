@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:package_info/package_info.dart';
+import 'package:keyboard_avoider/keyboard_avoider.dart';
 
 import 'package:lunch_team/model/globals.dart' as globals;
 import 'package:lunch_team/widgets/LunchTeamWidget.dart';
@@ -50,7 +51,7 @@ class _LoginScreenState extends State<LoginScreen> {
           child: Column(
             children: <Widget>[
               Container(
-                margin: const EdgeInsets.only(top: 80.0, bottom: 20.0),
+                margin: const EdgeInsets.only(top: 40.0, bottom: 20.0),
                 height: 180,
                 child: Image(
                   image: AssetImage('images/logo.png'),
@@ -71,8 +72,8 @@ class _LoginScreenState extends State<LoginScreen> {
                               alignment: Alignment.topLeft,
                               child: Text('Login',
                                 style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16,
                                 ),),
                             ),
                             SizedBox(height: 5.0),
@@ -96,6 +97,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               ),
                               initialValue: globals.sessionUser,
                               onSaved: (value) => loginUser.username = value.trim(),
+                              keyboardType: TextInputType.text,
                             ),
                             SizedBox(height: 10.0),
                             TextFormField(
@@ -140,8 +142,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                 Navigator.pushReplacement(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => Home(),
-                                      ),
+                                    builder: (context) => Home(),
+                                  ),
                                 );
                               } else {
                                 setState(() {
@@ -192,7 +194,7 @@ class _LoginScreenState extends State<LoginScreen> {
               Spacer(),
               MessageError(message: message),
               Text(
-                  'Version '+_packageInfo.version,
+                'Version '+_packageInfo.version,
               ),
             ],
           ),
