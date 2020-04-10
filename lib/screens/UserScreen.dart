@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lunch_team/model/User.dart';
 import 'package:lunch_team/request/LoginRequest.dart';
 import 'package:lunch_team/data/LoginApi.dart';
+import 'package:lunch_team/screens/LoginScreen.dart';
 import 'package:lunch_team/widgets/LunchTeamWidget.dart';
 
 class UserScreen extends StatefulWidget {
@@ -29,7 +30,7 @@ class _UserScreenState extends State<UserScreen> {
           child: Column(
             children: <Widget>[
               Container(
-                margin: const EdgeInsets.only(top: 10.0, bottom: 10.0),
+                margin: const EdgeInsets.only(top: 40.0, bottom: 20.0),
                 height: 180,
                 child: Image(
                   image: AssetImage('images/logo.png'),
@@ -169,8 +170,43 @@ class _UserScreenState extends State<UserScreen> {
                             }
                           }
                         },
-                        shape: RoundedRectangleBorder(),
+                       // shape: RoundedRectangleBorder(),
                       ),
+                    ),
+                    SizedBox(height: 10,),
+                    Row(
+                      children: <Widget>[
+                        Expanded(
+                          child: RaisedButton(
+                            color: Colors.grey[800],
+                            textColor: Colors.white,
+                            padding: const EdgeInsets.all(20.0),
+                            child: Text("Login"),
+                            onPressed: () {
+                              if (_formStateKey.currentState.validate()) {
+                                _formStateKey.currentState.save();
+                              }
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => LoginScreen(),
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                        SizedBox(width: 10,),
+                        Expanded(
+                          child: RaisedButton(
+                            color: Colors.grey[800],
+                            textColor: Colors.white,
+                            padding: const EdgeInsets.all(20.0),
+                            child: Text("Lost password"),
+                            onPressed: () {
+                            },
+                          ),
+                        ),
+                      ],
                     ),
                   ])),
               Spacer(),
