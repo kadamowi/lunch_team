@@ -381,47 +381,51 @@ class _LunchDetailsScreenState extends State<LunchDetailsScreen> {
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          globals.mealSelected = Meal(
-            mealId: 0,
-            lunchId: globals.lunchSelected.lunchId,
-            mealName: '',
-            mealCost: 0,
-          );
-          //print('lunchOrderTime:'+globals.lunchSelected.lunchOrderTime.toString());
-          //print('difference:'+globals.lunchSelected.lunchOrderTime.difference(DateTime.now()).inMinutes.toString());
-          if (globals.lunchSelected.lunchOrderTime.difference(DateTime.now()).inMinutes >= 0) {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => MealScreen(),
-              ),
-            ).then((value) {
-              setState(() {});
-            });
-          } else {
-            showDialog(
-              context: context,
-              builder: (BuildContext context) {
-                // return object of type Dialog
-                return AlertDialog(
-                  title: Text('It is to late, maybe next time'),
-                  actions: <Widget>[
-                    new FlatButton(
-                      child: new Text("Close"),
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                    ),
-                  ],
-                );
-              },
+
+      floatingActionButton: Visibility(
+        visible: globals.lunchSelected.status == 'COLLECTING',
+        child: FloatingActionButton(
+          onPressed: () {
+            globals.mealSelected = Meal(
+              mealId: 0,
+              lunchId: globals.lunchSelected.lunchId,
+              mealName: '',
+              mealCost: 0,
             );
-          }
-        },
-        tooltip: 'Add lunch order',
-        child: Icon(Icons.add),
+            //print('lunchOrderTime:'+globals.lunchSelected.lunchOrderTime.toString());
+            //print('difference:'+globals.lunchSelected.lunchOrderTime.difference(DateTime.now()).inMinutes.toString());
+            if (globals.lunchSelected.lunchOrderTime.difference(DateTime.now()).inMinutes >= 0) {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => MealScreen(),
+                ),
+              ).then((value) {
+                setState(() {});
+              });
+            } else {
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  // return object of type Dialog
+                  return AlertDialog(
+                    title: Text('It is to late, maybe next time'),
+                    actions: <Widget>[
+                      new FlatButton(
+                        child: new Text("Close"),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                    ],
+                  );
+                },
+              );
+            }
+          },
+          tooltip: 'Add lunch order',
+          child: Icon(Icons.add),
+        ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
