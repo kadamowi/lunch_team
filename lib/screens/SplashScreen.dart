@@ -32,44 +32,46 @@ class _SplashScreenState extends State<SplashScreen> {
 
   Future<void> initPlatformState() async {
     AndroidDeviceInfo device = await deviceInfoPlugin.androidInfo;
-    headers['User-Agent'] = device.manufacturer + '/' +device.model + '/' + device.product + '/' + device.version.release + '/' + device.id + '/' + device.androidId;
+    headers['User-Agent'] = device.manufacturer + '/' + device.model + '/' + device.product + '/' + device.version.release + '/' + device.id + '/' + device.androidId;
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        height: double.infinity,
-        width: double.infinity,
-        child: FutureBuilder<String>(
-            future: getSavedUser(),
-            builder: (BuildContext context, AsyncSnapshot snapshot) {
-              if (snapshot.connectionState != ConnectionState.done) {
-                return Image(
-                  image: AssetImage('images/splashscreen.png'),
-                );
-              } else {
-                if (snapshot.data == 'OK') {
-                  return FutureBuilder<bool>(
-                      future: userSessionValidate(),
-                      builder: (BuildContext context, AsyncSnapshot snapshot2) {
-                        if (snapshot2.connectionState == ConnectionState.waiting) {
-                          return ProgressBar();
-                        } else {
-                          if (snapshot2.hasError)
-                            return Center(child: Text('Error: ${snapshot2.error}'));
-                          else {
-                            if (snapshot2.data) {
-                              return Home();
-                            } else {
-                              return LoginScreen();
+    return Scaffold(
+      body: Container(
+          height: double.infinity,
+          width: double.infinity,
+          child: FutureBuilder<String>(
+              future: getSavedUser(),
+              builder: (BuildContext context, AsyncSnapshot snapshot) {
+                if (snapshot.connectionState != ConnectionState.done) {
+                  return Image(
+                    image: AssetImage('images/splashscreen.png'),
+                  );
+                } else {
+                  if (snapshot.data == 'OK') {
+                    return FutureBuilder<bool>(
+                        future: userSessionValidate(),
+                        builder: (BuildContext context, AsyncSnapshot snapshot2) {
+                          if (snapshot2.connectionState == ConnectionState.waiting) {
+                            return ProgressBar();
+                          } else {
+                            if (snapshot2.hasError)
+                              return Center(child: Text('Error: ${snapshot2.error}'));
+                            else {
+                              if (snapshot2.data) {
+                                return Home();
+                              } else {
+                                return LoginScreen();
+                              }
                             }
                           }
-                        }
-                      });
-                } else {
-                  return LoginScreen();
+                        });
+                  } else {
+                    return LoginScreen();
+                  }
                 }
-              }
-            }));
+              })),
+    );
   }
 }

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:package_info/package_info.dart';
-import 'package:keyboard_avoider/keyboard_avoider.dart';
 
 import 'package:lunch_team/model/globals.dart' as globals;
 import 'package:lunch_team/widgets/LunchTeamWidget.dart';
@@ -156,41 +155,41 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     ),
                     SizedBox(height: 10,),
-                    Row(
-                      children: <Widget>[
-                        Expanded(
-                          child: RaisedButton(
-                            color: Colors.grey[800],
-                            textColor: Colors.white,
-                            padding: const EdgeInsets.all(20.0),
-                            child: Text("Sign up"),
-                            onPressed: () {
-                              if (_formStateKey.currentState.validate()) {
-                                _formStateKey.currentState.save();
-                              }
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => UserScreen(),
-                                ),
-                              );
-                            },
-                          ),
-                        ),
-                        SizedBox(width: 10,),
-                        Expanded(
-                          child: RaisedButton(
-                            color: Colors.grey[800],
-                            textColor: Colors.white,
-                            padding: const EdgeInsets.all(20.0),
-                            child: Text("Lost password"),
-                            onPressed: () {
-                            },
-                          ),
-                        ),
-                      ],
-                    ),
                   ])),
+              Row(
+                children: <Widget>[
+                  Expanded(
+                    child: RaisedButton(
+                      color: Colors.grey[800],
+                      textColor: Colors.white,
+                      padding: const EdgeInsets.all(20.0),
+                      child: Text("Sign up"),
+                      onPressed: () {
+                        if (_formStateKey.currentState.validate()) {
+                          _formStateKey.currentState.save();
+                        }
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => UserScreen(),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                  SizedBox(width: 10,),
+                  Expanded(
+                    child: RaisedButton(
+                      color: Colors.grey[800],
+                      textColor: Colors.white,
+                      padding: const EdgeInsets.all(20.0),
+                      child: Text("Lost password"),
+                      onPressed: () {
+                      },
+                    ),
+                  ),
+                ],
+              ),
               Spacer(),
               MessageError(message: message),
               Text(
