@@ -42,7 +42,6 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
-        reverse: true,
         child: Container(
           padding: const EdgeInsets.all(16.0),
           //height: 600,
@@ -192,9 +191,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               Spacer(),
               MessageError(message: message),
-              Text(
-                'Version '+_packageInfo.version,
-              ),
+              //Text('Version '+_packageInfo.version,),
             ],
           ),
         ),
