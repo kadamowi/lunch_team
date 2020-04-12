@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:image_picker/image_picker.dart';
+import 'dart:io';
 import 'package:lunch_team/data/LoginApi.dart';
 import 'package:lunch_team/data/UserApi.dart';
 import 'package:lunch_team/screens/LoginScreen.dart';
@@ -15,6 +17,15 @@ class UserDetailsScreen extends StatefulWidget {
 
 class _UserDetailsScreenState extends State<UserDetailsScreen> {
   String message = '';
+  File _image;
+
+  Future getImage() async {
+    var image = await ImagePicker.pickImage(source: ImageSource.camera);
+
+    setState(() {
+      _image = image;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,11 +43,13 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                     padding: const EdgeInsets.all(10.0),
                     margin: const EdgeInsets.all(20.0),
                     height: 80,
-                    child: (globals.userLogged.avatarUrl.length > 0)
-                        ? CachedNetworkImage(placeholder: (context, url) => CircularProgressIndicator(), imageUrl: globals.userLogged.avatarUrl)
-                        : Image(
-                      image: AssetImage('images/avatar.png'),
-                    ),
+                    child: (_image == null)
+                        ? ((globals.userLogged.avatarUrl.length > 0)
+                            ? CachedNetworkImage(placeholder: (context, url) => CircularProgressIndicator(), imageUrl: globals.userLogged.avatarUrl)
+                            : Image(
+                                image: AssetImage('images/avatar.png'),
+                              ))
+                        : Image.file(_image),
                   ),
                   Expanded(
                     child: Column(
@@ -76,18 +89,18 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                     children: <Widget>[
                       Align(
                         alignment: Alignment.topLeft,
-                        child: Text('User details',
-                          style: TextStyle(
-                              color: Colors.orange[800],
-                              fontWeight: FontWeight.bold
-                          ),),
+                        child: Text(
+                          'User details',
+                          style: TextStyle(color: Colors.orange[800], fontWeight: FontWeight.bold),
+                        ),
                       ),
                       Expanded(
                         child: Align(
                           alignment: Alignment.bottomRight,
-                          child: Text('Edit',
-                            style: TextStyle(
-                            ),),
+                          child: Text(
+                            'Edit',
+                            style: TextStyle(),
+                          ),
                         ),
                       ),
                     ],
@@ -114,18 +127,18 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                     children: <Widget>[
                       Align(
                         alignment: Alignment.topLeft,
-                        child: Text('Password',
-                          style: TextStyle(
-                              color: Colors.orange[800],
-                              fontWeight: FontWeight.bold
-                          ),),
+                        child: Text(
+                          'Password',
+                          style: TextStyle(color: Colors.orange[800], fontWeight: FontWeight.bold),
+                        ),
                       ),
                       Expanded(
                         child: Align(
                           alignment: Alignment.bottomRight,
-                          child: Text('Change',
-                            style: TextStyle(
-                            ),),
+                          child: Text(
+                            'Change',
+                            style: TextStyle(),
+                          ),
                         ),
                       ),
                     ],
@@ -152,11 +165,7 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                     children: <Widget>[
                       Align(
                         alignment: Alignment.topLeft,
-                        child: Text('Notification',
-                            style: TextStyle(
-                                color: Colors.orange[800],
-                                fontWeight: FontWeight.bold
-                            )                        ),
+                        child: Text('Notification', style: TextStyle(color: Colors.orange[800], fontWeight: FontWeight.bold)),
                       ),
                       Row(
                         children: <Widget>[
@@ -168,7 +177,7 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                             onChanged: (value) {
                               setState(() {
                                 globals.notificationLunch = value;
-                                userSettingSet('notification', 'lunch',value?'1':'0' );
+                                userSettingSet('notification', 'lunch', value ? '1' : '0');
                                 if (globals.notificationLunch)
                                   globals.firebaseMessaging.subscribeToTopic('lunch');
                                 else
@@ -190,7 +199,7 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                             onChanged: (value) {
                               setState(() {
                                 globals.notificationSettlement = value;
-                                userSettingSet('notification', 'settlement',value?'1':'0' );
+                                userSettingSet('notification', 'settlement', value ? '1' : '0');
                               });
                             },
                             activeTrackColor: Colors.orange[200],
@@ -223,8 +232,7 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                       ),
                        */
                     ],
-                  )
-              ),
+                  )),
               SizedBox(
                 width: MediaQuery.of(context).size.width * 0.3,
                 child: RaisedButton(
@@ -250,6 +258,11 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
             ],
           ),
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: getImage,
+        tooltip: 'Pick Image',
+        child: Icon(Icons.add_a_photo),
       ),
     );
   }
