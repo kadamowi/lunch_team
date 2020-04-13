@@ -1,14 +1,16 @@
 class LoginUser {
   String username;
   String password;
+  String email;
   String hardwareKey;
 
-  LoginUser({this.username, this.password, this.hardwareKey});
+  LoginUser({this.username, this.password, this.email, this.hardwareKey});
 
   toJson() {
     return {
       'username': username,
       'password': password,
+      'email': email,
       'hardwareKey': hardwareKey
     };
   }
@@ -59,13 +61,15 @@ class SessionValidateRequest {
 class RegisterUser {
   String username;
   String password;
+  String email;
 
-  RegisterUser({this.username, this.password});
+  RegisterUser({this.username, this.password, this.email});
 
   toJson() {
     return {
       'username': username,
       'password': password,
+      'email': email,
     };
   }
 }

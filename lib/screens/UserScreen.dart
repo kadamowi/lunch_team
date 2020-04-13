@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:lunch_team/model/User.dart';
 import 'package:lunch_team/request/LoginRequest.dart';
 import 'package:lunch_team/data/LoginApi.dart';
-import 'package:lunch_team/screens/LoginScreen.dart';
 import 'package:lunch_team/widgets/LunchTeamWidget.dart';
 
 class UserScreen extends StatefulWidget {
@@ -42,7 +41,7 @@ class _UserScreenState extends State<UserScreen> {
                   autovalidate: false,
                   child: Column(children: <Widget>[
                     Container(
-                      height: 240,
+                      height: 300,
                         color: Colors.white,
                         margin: EdgeInsets.all(10),
                         padding: EdgeInsets.all(10),
@@ -84,7 +83,35 @@ class _UserScreenState extends State<UserScreen> {
                                   return "username is empty";
                                 return null;
                               },
-                              onSaved: (value) => loginUser.username = value,
+                              onSaved: (value) => loginUser.username = value.trim(),
+                            ),
+                            SizedBox(height: 10.0),
+                            TextFormField(
+                              decoration: InputDecoration(
+                                contentPadding: const EdgeInsets.all(16.0),
+                                prefixIcon: Container(
+                                    padding: const EdgeInsets.only(
+                                        top: 16.0, bottom: 16.0),
+                                    margin: const EdgeInsets.only(right: 8.0),
+                                    decoration:
+                                    BoxDecoration(color: Colors.grey[200]),
+                                    child: Icon(
+                                      Icons.email,
+                                      color: Colors.orange[800],
+                                    )),
+                                hintText: "email",
+                                hintStyle: TextStyle(color: Colors.grey[800]),
+                                border: OutlineInputBorder(
+                                    borderSide: BorderSide.none),
+                                filled: true,
+                                fillColor: Colors.grey[200],
+                              ),
+                              validator: (value) {
+                                if (value.length == 0)
+                                  return "email is empty";
+                                return null;
+                              },
+                              onSaved: (value) => loginUser.email = value.trim(),
                             ),
                             SizedBox(height: 10.0),
                             TextFormField(
@@ -112,7 +139,7 @@ class _UserScreenState extends State<UserScreen> {
                                   return "passwords is empty";
                                 return null;
                               },
-                              onSaved: (value) => loginUser.password = value,
+                              onSaved: (value) => loginUser.password = value.trim(),
                               obscureText: true,
                             ),
                             SizedBox(height: 10.0),
@@ -141,7 +168,7 @@ class _UserScreenState extends State<UserScreen> {
                                   return "passwords is empty";
                                 return null;
                               },
-                              onSaved: (value) => secondPassword = value,
+                              onSaved: (value) => secondPassword = value.trim(),
                               obscureText: true,
                             ),
                           ],
@@ -174,6 +201,7 @@ class _UserScreenState extends State<UserScreen> {
                       ),
                     ),
                     SizedBox(height: 10,),
+                    /*
                     Row(
                       children: <Widget>[
                         Expanded(
@@ -208,6 +236,7 @@ class _UserScreenState extends State<UserScreen> {
                         ),
                       ],
                     ),
+                     */
                   ])),
               Spacer(),
               MessageError(message: message),

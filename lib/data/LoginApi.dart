@@ -104,26 +104,29 @@ Future<String> registerUser(LoginUser loginUser) async {
       request: 'user.register',
       arguments: RegisterUser(
         username: loginUser.username,
-        password: loginUser.password
+        password: loginUser.password,
+        email: loginUser.email,
       )
   ));
   // make POST request
-  print('createAccountReq:'+reqJson);
+  //print('createAccountReq:'+reqJson);
   Response response = await post(urlApi, headers: headers, body: reqJson);
 
   if (response.statusCode == 200) {
     var result = jsonDecode(response.body);
     var responseTag = result['response'];
     if (responseTag != null) {
-      print('createAccountResp:'+responseTag.toString());
+      //print('createAccountResp:'+responseTag.toString());
       bool registerUser = responseTag['registerUser'];
       if (!registerUser) {
         return 'Register impossible:' + responseTag.toString();
       }
     } else
       return 'No response: ' + result.toString();
-  } else
+  } else {
+    //print('createAccountResp:'+response.body.toString());
     return 'Technical error: ' + response.statusCode.toString();
+  }
 
   return null;
 }
