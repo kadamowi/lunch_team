@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:image_picker/image_picker.dart';
-import 'dart:io';
+import 'dart:convert';
 import 'package:lunch_team/data/LoginApi.dart';
 import 'package:lunch_team/data/UserApi.dart';
 import 'package:lunch_team/screens/LoginScreen.dart';
@@ -17,13 +17,14 @@ class UserDetailsScreen extends StatefulWidget {
 
 class _UserDetailsScreenState extends State<UserDetailsScreen> {
   String message = '';
-  File _image;
 
   Future getImage() async {
-    var image = await ImagePicker.pickImage(source: ImageSource.camera);
+    var image = await ImagePicker.pickImage(source: ImageSource.camera, maxHeight: 128, maxWidth: 128);
+    final bytes = image.readAsBytesSync();
+    String img64 = base64Encode(bytes);
+    await userUploadAvatar(img64);
 
     setState(() {
-      _image = image;
     });
   }
 
@@ -43,13 +44,19 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                     padding: const EdgeInsets.all(10.0),
                     margin: const EdgeInsets.all(20.0),
                     height: 80,
-                    child: (_image == null)
+                    child: CachedNetworkImage(
+                        placeholder: (context, url) => CircularProgressIndicator(),
+                        imageUrl: globals.userLogged.avatarUrl
+                    )
+                    /*
+                    (_image == null)
                         ? ((globals.userLogged.avatarUrl.length > 0)
                             ? CachedNetworkImage(placeholder: (context, url) => CircularProgressIndicator(), imageUrl: globals.userLogged.avatarUrl)
                             : Image(
                                 image: AssetImage('images/avatar.png'),
                               ))
                         : Image.file(_image),
+                     */
                   ),
                   Expanded(
                     child: Column(

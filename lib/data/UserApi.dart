@@ -186,3 +186,35 @@ Future<String> userSettingGet(String namespace, String name) async {
     return 'Technical error: ' + response.statusCode.toString();
   }
 }
+
+Future<String> userUploadAvatar(String avatar) async {
+  // prepare JSON for request
+  String reqJson = json.encode(UserEditUploadAvatarRequest(
+      request: 'user.edit.uploadAvatar',
+      session: globals.sessionId,
+      arguments: UserEditUploadAvatarArguments(
+        avatarData: avatar,
+      )));
+  // make POST request
+  Response response = await post(urlApi, headers: headers, body: reqJson);
+  print('statusCode:'+response.statusCode.toString());
+  if (response.statusCode == 200) {
+    var result = jsonDecode(response.body);
+    print(result.toString());
+    var responseTag = result['response'];
+    if (responseTag != null) {
+      bool avatarUploaded  = responseTag['avatarUploaded'];
+      if (avatarUploaded) {
+        globals.userLogged.avatarUrl = responseTag['avatarURL'];
+      } else {
+        return 'Image not uploaded:' + responseTag.toString();
+      }
+    } else {
+      return 'No response: ' + result.toString();
+    }
+  } else {
+    print('Technical error: ' + response.statusCode.toString());
+    return 'Technical error: ' + response.statusCode.toString();
+  }
+  return null;
+}

@@ -29,7 +29,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                   autovalidate: false,
                   child: Column(children: <Widget>[
                     Container(
-                        height: 240,
+                        height: 175,
                         color: Colors.white,
                         margin: EdgeInsets.all(10),
                         padding: EdgeInsets.all(10),
@@ -76,6 +76,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                               globals.userLogged.displayName = value,
                             ),
                             SizedBox(height: 5.0),
+                            /*
                             TextFormField(
                               decoration: InputDecoration(
                                 contentPadding: const EdgeInsets.all(16.0),
@@ -102,6 +103,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                               keyboardType: TextInputType.url,
                             ),
                             SizedBox(height: 5.0),
+                             */
                             TextFormField(
                               decoration: InputDecoration(
                                 contentPadding: const EdgeInsets.all(16.0),

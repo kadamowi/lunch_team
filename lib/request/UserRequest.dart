@@ -149,3 +149,32 @@ class UserSettingGetRequest {
     };
   }
 }
+
+class UserEditUploadAvatarArguments {
+  String avatarData;
+
+  UserEditUploadAvatarArguments({this.avatarData});
+
+  toJson() {
+    return {
+      'avatarData': avatarData,
+    };
+  }
+}
+
+class UserEditUploadAvatarRequest {
+  String request;
+  String session;
+  UserEditUploadAvatarArguments arguments;
+
+  UserEditUploadAvatarRequest({this.request, this.session, this.arguments});
+
+  toJson() {
+    return {
+      'request': request,
+      'session': session,
+      'arguments': arguments,
+    };
+  }
+}
+
