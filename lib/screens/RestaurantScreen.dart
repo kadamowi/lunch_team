@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart';
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:lunch_team/model/globals.dart' as globals;
 import 'package:lunch_team/model/LunchTeamCommon.dart';
@@ -22,9 +24,21 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
     restaurantName: '',
     restaurantDescription: '',
     restaurantUrl: '',
-    restaurantUrlLogo:
-        '',
+    restaurantUrlLogo: '',
   );
+
+  File _image;
+
+  Future getImage() async {
+    var image = await ImagePicker.pickImage(source: ImageSource.gallery, maxHeight: 128, maxWidth: 128);
+    final bytes = image.readAsBytesSync();
+    String img64 = base64Encode(bytes);
+    //await userUploadAvatar(img64);
+
+    setState(() {
+      _image = image;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +60,7 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                   margin: const EdgeInsets.only(top: 20.0, bottom: 20.0),
                   height: 128,
                   child: Image(
-                    image: NetworkImage(restaurant.restaurantUrlLogo),
+                    image: (_image == null) ? NetworkImage(restaurant.restaurantUrlLogo) : Image.file(_image),
                   )),
               Form(
                   key: _formStateKey,
@@ -60,11 +74,13 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                         children: <Widget>[
                           Align(
                             alignment: Alignment.topLeft,
-                            child: Text('Restaurant details',
+                            child: Text(
+                              'Restaurant details',
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 16,
-                              ),),
+                              ),
+                            ),
                           ),
                           SizedBox(height: 5.0),
                           TextFormField(
@@ -90,8 +106,7 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                               fillColor: Colors.grey[200],
                             ),
                             initialValue: restaurant.restaurantDescription,
-                            onSaved: (value) =>
-                            restaurant.restaurantDescription = value,
+                            onSaved: (value) => restaurant.restaurantDescription = value,
                           ),
                           SizedBox(height: 10.0),
                           TextFormField(
@@ -158,6 +173,13 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
           ),
         ),
       ),
+      /*
+      floatingActionButton: FloatingActionButton(
+        onPressed: getImage,
+        tooltip: 'Pick Image',
+        child: Icon(Icons.image),
+      ),
+      */
     );
   }
 
@@ -165,7 +187,7 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
     if (_formStateKey.currentState.validate()) {
       _formStateKey.currentState.save();
     }
-    if (restaurant.restaurantUrlLogo==null || restaurant.restaurantUrlLogo.length==0)
+    if (restaurant.restaurantUrlLogo == null || restaurant.restaurantUrlLogo.length == 0)
       restaurant.restaurantUrlLogo = 'https://image.freepik.com/free-vector/chef-restaurant-logo-template-design_4549-1.jpg';
     globals.restaurantSelected = restaurant;
     if (restaurant.restaurantId == 0) {
@@ -175,11 +197,9 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
           session: globals.sessionId,
           arguments: RestaurantCreateArguments(
               restaurantName: globals.restaurantSelected.restaurantName,
-              restaurantDescription:
-                  globals.restaurantSelected.restaurantDescription,
+              restaurantDescription: globals.restaurantSelected.restaurantDescription,
               restaurantUrl: globals.restaurantSelected.restaurantUrl,
-              restaurantUrlLogo:
-                  globals.restaurantSelected.restaurantUrlLogo)));
+              restaurantUrlLogo: globals.restaurantSelected.restaurantUrlLogo)));
       // make POST request
       print(reqJson);
       Response response = await post(urlApi, headers: headers, body: reqJson);
@@ -225,13 +245,11 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
           request: 'restaurant.edit',
           session: globals.sessionId,
           arguments: Restaurant(
-            restaurantId: globals.restaurantSelected.restaurantId,
+              restaurantId: globals.restaurantSelected.restaurantId,
               restaurantName: globals.restaurantSelected.restaurantName,
-              restaurantDescription:
-              globals.restaurantSelected.restaurantDescription,
+              restaurantDescription: globals.restaurantSelected.restaurantDescription,
               restaurantUrl: globals.restaurantSelected.restaurantUrl,
-              restaurantUrlLogo:
-              globals.restaurantSelected.restaurantUrlLogo)));
+              restaurantUrlLogo: globals.restaurantSelected.restaurantUrlLogo)));
       // make POST request
       print(reqJson);
       Response response = await post(urlApi, headers: headers, body: reqJson);

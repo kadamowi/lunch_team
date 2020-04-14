@@ -191,7 +191,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               Spacer(),
               MessageError(message: message),
-              //Text('Version '+_packageInfo.version,),
+              Text('Version '+_packageInfo.version,),
             ],
           ),
         ),
