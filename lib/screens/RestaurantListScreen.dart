@@ -52,7 +52,7 @@ class _RestaurantListScreenState extends State<RestaurantListScreen> {
                             itemCount: snapshot.data.length,
                             itemBuilder: (context, index) {
                               return Container(
-                                height: 100,
+                                //height: 100,
                                 margin: const EdgeInsets.all(5),
                                 padding: const EdgeInsets.all(5),
                                 decoration: BoxDecoration(
@@ -69,6 +69,7 @@ class _RestaurantListScreenState extends State<RestaurantListScreen> {
                                     ),
                                     badgeColor: Colors.orange[800],
                                     padding: EdgeInsets.all(8),
+                                    showBadge: snapshot.data[index].lunchCount > 0,
                                     child: ListTile(
                                         leading: Container(
                                           width: 60,
@@ -82,10 +83,12 @@ class _RestaurantListScreenState extends State<RestaurantListScreen> {
                                             image: AssetImage('images/restaurant.png'),
                                           ),
                                         ),
+                                        /*
                                         trailing: Icon(
                                           Icons.fastfood,
                                           color: Colors.orange[800],
                                         ),
+                                        */
                                         title: Text(
                                           snapshot.data[index].restaurantName,
                                           style: TextStyle(
@@ -94,7 +97,7 @@ class _RestaurantListScreenState extends State<RestaurantListScreen> {
                                           overflow: TextOverflow.ellipsis,
                                         ),
                                         subtitle: Container(
-                                          height: 50,
+                                          //height: 50,
                                           child: Text(
                                               snapshot.data[index]
                                                   .restaurantDescription,

@@ -2,9 +2,10 @@ class LoginUser {
   String username;
   String password;
   String email;
+  String phone;
   String hardwareKey;
 
-  LoginUser({this.username, this.password, this.email, this.hardwareKey});
+  LoginUser({this.username, this.password, this.email, this.phone, this.hardwareKey});
 
   toJson() {
     return {
@@ -62,14 +63,16 @@ class RegisterUser {
   String username;
   String password;
   String email;
+  String phone;
 
-  RegisterUser({this.username, this.password, this.email});
+  RegisterUser({this.username, this.password, this.email, this.phone});
 
   toJson() {
     return {
       'username': username,
       'password': password,
       'email': email,
+      'phone': phone,
     };
   }
 }

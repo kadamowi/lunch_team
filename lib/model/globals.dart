@@ -37,7 +37,7 @@ final Map statusColors = {
   'SETTLEMENTED': Colors.green,
 };
 
-DateTime dateFrom = DateTime.now().add(Duration(days: -5));
+DateTime dateFrom = DateTime.now().add(Duration(days: -3));
 DateTime dateTo = DateTime.now().add(Duration(days: 2));
 
 final FirebaseMessaging firebaseMessaging = FirebaseMessaging();

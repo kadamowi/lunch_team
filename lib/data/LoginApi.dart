@@ -48,7 +48,7 @@ Future<String> loginApp(String username, String password) async {
           print(globals.userLogged.displayName + ' is logged (' + globals.userLogged.userId.toString() + ')');
           print('email:' + globals.userLogged.email);
         } else {
-          return 'No userId:' + responseTag.toString();
+          return 'Technical error: (no user)';
         }
         SharedPreferences prefs = await SharedPreferences.getInstance();
         prefs.setString('username', username);
@@ -64,10 +64,14 @@ Future<String> loginApp(String username, String password) async {
         value = await userSettingGet('notification', 'settlement');
         globals.notificationSettlement = (value == '1');
       } else {
-        return 'Not logged: ' + responseTag.toString();
+        String error = responseTag['error'];
+        if (error == null)
+          return 'Login impossible';
+        else
+          return error;
       }
     } else {
-      return 'No response: ' + result.toString();
+      return 'Technical error: (no response)';
     }
   } else {
     if (response.statusCode == 400)
@@ -106,8 +110,8 @@ Future<String> registerUser(LoginUser loginUser) async {
         username: loginUser.username,
         password: loginUser.password,
         email: loginUser.email,
-      )
-  ));
+        phone: loginUser.phone,
+      )));
   // make POST request
   //print('createAccountReq:'+reqJson);
   Response response = await post(urlApi, headers: headers, body: reqJson);
@@ -119,10 +123,14 @@ Future<String> registerUser(LoginUser loginUser) async {
       //print('createAccountResp:'+responseTag.toString());
       bool registerUser = responseTag['registerUser'];
       if (!registerUser) {
-        return 'Register impossible:' + responseTag.toString();
+        String error = responseTag['error'];
+        if (error == null)
+          return 'Register impossible';
+        else
+          return error;
       }
     } else
-      return 'No response: ' + result.toString();
+      return 'Technical error: no response';
   } else {
     //print('createAccountResp:'+response.body.toString());
     return 'Technical error: ' + response.statusCode.toString();
@@ -133,10 +141,7 @@ Future<String> registerUser(LoginUser loginUser) async {
 
 Future<bool> userSessionValidate() async {
   // prepare JSON for request
-  String reqJson = json.encode(SessionValidateRequest(
-      request: 'user.session.validate',
-      session: globals.sessionId
-  ));
+  String reqJson = json.encode(SessionValidateRequest(request: 'user.session.validate', session: globals.sessionId));
   // make POST request
   Response response = await post(urlApi, headers: headers, body: reqJson);
 

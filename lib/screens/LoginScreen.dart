@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:package_info/package_info.dart';
-
 import 'package:lunch_team/model/globals.dart' as globals;
 import 'package:lunch_team/widgets/LunchTeamWidget.dart';
 import 'package:lunch_team/request/LoginRequest.dart';
@@ -18,25 +16,6 @@ class _LoginScreenState extends State<LoginScreen> {
   final GlobalKey<FormState> _formStateKey = GlobalKey<FormState>();
   String message = "";
   LoginUser loginUser = new LoginUser(username: '', password: '');
-  PackageInfo _packageInfo = PackageInfo(
-    appName: 'Unknown',
-    packageName: 'Unknown',
-    version: 'Unknown',
-    buildNumber: 'Unknown',
-  );
-
-  @override
-  void initState() {
-    super.initState();
-    _initPackageInfo();
-  }
-
-  Future<void> _initPackageInfo() async {
-    final PackageInfo info = await PackageInfo.fromPlatform();
-    setState(() {
-      _packageInfo = info;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +37,7 @@ class _LoginScreenState extends State<LoginScreen> {
               SizedBox(height: 20.0,width: double.infinity),
               Form(
                   key: _formStateKey,
-                  autovalidate: true,
+                  autovalidate: false,
                   child: Column(children: <Widget>[
                     Container(
                         color: Colors.white,
@@ -94,7 +73,11 @@ class _LoginScreenState extends State<LoginScreen> {
                                 fillColor: Colors.grey[200],
                               ),
                               initialValue: globals.sessionUser,
-                              onSaved: (value) => loginUser.username = value.trim(),
+                              validator: (value) {
+                                if (value.length == 0) return "username is empty";
+                                return null;
+                              },
+                              onSaved: (value) => loginUser.username = value.trim().toLowerCase(),
                               keyboardType: TextInputType.text,
                             ),
                             SizedBox(height: 10.0),
@@ -117,7 +100,10 @@ class _LoginScreenState extends State<LoginScreen> {
                                 filled: true,
                                 fillColor: Colors.grey[200],
                               ),
-                              //initialValue: globals.password,
+                              validator: (value) {
+                                if (value.length == 0) return "password is empty";
+                                return null;
+                              },
                               onSaved: (value) => loginUser.password = value.trim(),
                               obscureText: true,
                             ),
@@ -128,6 +114,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     SizedBox(
                       width: double.infinity,
                       child: RaisedButton(
+                        elevation: 5,
+                        splashColor: Colors.yellow,
+                        animationDuration: Duration(seconds: 2),
                         color: Colors.orange[800],
                         textColor: Colors.white,
                         padding: const EdgeInsets.all(20.0),
@@ -191,7 +180,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               Spacer(),
               MessageError(message: message),
-              Text('Version '+_packageInfo.version,),
+              VersionText(),
             ],
           ),
         ),

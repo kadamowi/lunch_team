@@ -5,6 +5,111 @@ import 'package:lunch_team/model/globals.dart' as globals;
 import 'package:lunch_team/model/LunchTeamCommon.dart';
 import 'package:lunch_team/model/Lunch.dart';
 import 'package:lunch_team/request/LunchRequest.dart';
+import 'package:lunch_team/data/NotifyApi.dart';
+
+Future<String> createLunch(Lunch lunch) async {
+  // prepare JSON for request
+  String reqJson = json.encode(LunchCreateRequest(
+      request: 'lunch.create',
+      session: globals.sessionId,
+      arguments: LunchCreateArguments(
+        restaurantId: lunch.restaurantId,
+        lunchType: lunch.lunchType,
+        lunchDescription: lunch.lunchDescription,
+        transportCost: (lunch.transportCost ?? '0.00').toString(),
+        orderTime: DateFormat('yyyy-MM-dd HH:mm:ss').format(lunch.lunchOrderTime),
+        lunchTime: DateFormat('yyyy-MM-dd HH:mm:ss').format(lunch.lunchLunchTime),
+      )));
+  //print('createLunch:'+reqJson);
+  // make POST request
+  Response response = await post(urlApi, headers: headers, body: reqJson);
+  if (response.statusCode == 200) {
+    var result = jsonDecode(response.body);
+    var responseTag = result['response'];
+    if (responseTag != null) {
+      bool createLunch = responseTag['createLunch'];
+      if (!createLunch) {
+        return 'Creating lunch impossible';
+      }
+    } else
+      return 'Technical error: (no response)';
+  } else {
+    //print(response.body);
+    return 'Technical error: ' + response.statusCode.toString();
+  }
+  await sendNotification(
+      lunch.username,
+      lunch.lunchDescription,
+      '/topics/lunch',
+      lunch.lunchId.toString());
+  return null;
+}
+
+Future<String> editLunch(Lunch lunch) async {
+  // prepare JSON for request
+  String reqJson = json.encode(LunchEditRequest(
+      request: 'lunch.edit',
+      session: globals.sessionId,
+      arguments: LunchEditArguments(
+        lunchId: lunch.lunchId,
+        restaurantId: lunch.restaurantId,
+        lunchDescription: lunch.lunchDescription,
+        lunchType: lunch.lunchType ?? 0,
+        transportCost: (lunch.transportCost ?? '0.00').toString(),
+        orderTime: DateFormat('yyyy-MM-dd HH:mm:ss').format(lunch.lunchOrderTime),
+        lunchTime: DateFormat('yyyy-MM-dd HH:mm:ss').format(lunch.lunchLunchTime),
+      )));
+  //print('editLunch:'+reqJson);
+  // make POST request
+  Response response = await post(urlApi, headers: headers, body: reqJson);
+  if (response.statusCode == 200) {
+    var result = jsonDecode(response.body);
+    var responseTag = result['response'];
+    if (responseTag != null) {
+      bool editLunch = responseTag['editLunch'];
+      if (!editLunch) {
+        return 'Edit impossible';
+      }
+    } else
+      return 'Technical error: (no response)';
+  } else {
+    //print(response.body);
+    return 'Technical error: ' + response.statusCode.toString();
+  }
+  await sendNotification(
+      lunch.username,
+      lunch.lunchDescription,
+      '/topics/lunch',
+      lunch.lunchId.toString());
+  return null;
+}
+
+Future<String> deleteLunch(int lunchId) async {
+  // prepare JSON for request
+  String reqJson = json.encode(LunchDeleteRequest(
+      request: 'lunch.delete',
+      session: globals.sessionId,
+      arguments: LunchDeleteArguments(
+        lunchId: lunchId,
+      )));
+  //print('deleteLunch:'+reqJson);
+  // make POST request
+  Response response = await post(urlApi, headers: headers, body: reqJson);
+
+  if (response.statusCode == 200) {
+    var result = jsonDecode(response.body);
+    var responseTag = result['response'];
+    if (responseTag != null) {
+      bool deleteLunch = responseTag['deleteLunch'];
+      if (!deleteLunch) {
+        return 'Delete impossible';
+      }
+    } else
+      return 'Technical error: (no response)';
+  } else
+    return 'Technical error: ' + response.statusCode.toString();
+  return null;
+}
 
 Future<Lunch> lunchDeetails(lunchId) async {
   //print('detailsLunch for ' + lunchId.toString());

@@ -3,14 +3,10 @@ class User {
   String username;
   String displayName;
   String email;
+  String phone;
   String avatarUrl;
 
-  User(
-      {this.userId,
-      this.username,
-      this.displayName,
-      this.email,
-      this.avatarUrl});
+  User({this.userId, this.username, this.displayName, this.email, this.phone, this.avatarUrl});
 
   toJson() {
     return {
@@ -18,6 +14,7 @@ class User {
       'username': username,
       'userDisplayName': displayName,
       'userEmail': email,
+      'userPhone': phone,
       'userAvatarUrl': avatarUrl,
     };
   }
@@ -28,6 +25,7 @@ class User {
       username: parsedJson['username'],
       displayName: parsedJson['userDisplayName'],
       email: parsedJson['userEmail'],
+      phone: parsedJson['userPhone'],
       avatarUrl: parsedJson['userAvatarUrl'],
     );
   }

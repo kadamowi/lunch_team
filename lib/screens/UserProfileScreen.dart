@@ -21,7 +21,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
       body: SingleChildScrollView(
         child: Container(
           padding: const EdgeInsets.all(10.0),
-          height: MediaQuery.of(context).size.height-50,
+          height: MediaQuery.of(context).size.height-100,
           child: Column(
             children: <Widget>[
               Form(
@@ -29,7 +29,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                   autovalidate: false,
                   child: Column(children: <Widget>[
                     Container(
-                        height: 175,
+                        //height: 175,
                         color: Colors.white,
                         margin: EdgeInsets.all(10),
                         padding: EdgeInsets.all(10),
@@ -50,30 +50,25 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                               decoration: InputDecoration(
                                 contentPadding: const EdgeInsets.all(16.0),
                                 prefixIcon: Container(
-                                    padding: const EdgeInsets.only(
-                                        top: 16.0, bottom: 16.0),
+                                    padding: const EdgeInsets.only(top: 16.0, bottom: 16.0),
                                     margin: const EdgeInsets.only(right: 8.0),
-                                    decoration:
-                                    BoxDecoration(color: Colors.grey[200]),
+                                    decoration: BoxDecoration(color: Colors.grey[200]),
                                     child: Icon(
                                       Icons.person,
                                       color: Colors.orange[800],
                                     )),
                                 hintText: "display name",
                                 hintStyle: TextStyle(color: Colors.grey[800]),
-                                border: OutlineInputBorder(
-                                    borderSide: BorderSide.none),
+                                border: OutlineInputBorder(borderSide: BorderSide.none),
                                 filled: true,
                                 fillColor: Colors.grey[200],
                               ),
                               initialValue: globals.userLogged.displayName,
                               validator: (value) {
-                                if (value.length == 0)
-                                  return "display name is empty";
+                                if (value.length == 0) return "display name is empty";
                                 return null;
                               },
-                              onSaved: (value) =>
-                              globals.userLogged.displayName = value,
+                              onSaved: (value) => globals.userLogged.displayName = value.trim(),
                             ),
                             SizedBox(height: 5.0),
                             /*
@@ -108,59 +103,73 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                               decoration: InputDecoration(
                                 contentPadding: const EdgeInsets.all(16.0),
                                 prefixIcon: Container(
-                                    padding: const EdgeInsets.only(
-                                        top: 16.0, bottom: 16.0),
+                                    padding: const EdgeInsets.only(top: 16.0, bottom: 16.0),
                                     margin: const EdgeInsets.only(right: 8.0),
-                                    decoration:
-                                    BoxDecoration(color: Colors.grey[200]),
+                                    decoration: BoxDecoration(color: Colors.grey[200]),
                                     child: Icon(
                                       Icons.email,
                                       color: Colors.orange[800],
                                     )),
                                 hintText: "email",
                                 hintStyle: TextStyle(color: Colors.grey[800]),
-                                border: OutlineInputBorder(
-                                    borderSide: BorderSide.none),
+                                border: OutlineInputBorder(borderSide: BorderSide.none),
                                 filled: true,
                                 fillColor: Colors.grey[200],
                               ),
                               initialValue: globals.userLogged.email,
-                              onSaved: (value) =>
-                              globals.userLogged.email = value,
+                              onSaved: (value) => globals.userLogged.email = value.trim(),
                             ),
                             SizedBox(height: 10.0),
+                            TextFormField(
+                              decoration: InputDecoration(
+                                contentPadding: const EdgeInsets.all(16.0),
+                                prefixIcon: Container(
+                                    padding: const EdgeInsets.only(top: 16.0, bottom: 16.0),
+                                    margin: const EdgeInsets.only(right: 8.0),
+                                    decoration: BoxDecoration(color: Colors.grey[200]),
+                                    child: Icon(
+                                      Icons.phone,
+                                      color: Colors.orange[800],
+                                    )),
+                                hintText: "phone",
+                                hintStyle: TextStyle(color: Colors.grey[800]),
+                                border: OutlineInputBorder(borderSide: BorderSide.none),
+                                filled: true,
+                                fillColor: Colors.grey[200],
+                              ),
+                              initialValue: globals.userLogged.phone,
+                              onSaved: (value) => globals.userLogged.phone = value.trim(),
+                            ),
                           ],
                         )),
-                    //SizedBox(height: 10.0),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: <Widget>[
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width * 0.3,
-                          child: RaisedButton(
-                            color: Colors.orange[800],
-                            textColor: Colors.white,
-                            padding: const EdgeInsets.all(5.0),
-                            child: Text("Save"),
-                            onPressed: () {
-                              if (_formStateKey1.currentState.validate()) {
-                                _formStateKey1.currentState.save();
-                                editUser().then((value) {
-                                  if (value == null) {
-                                    Navigator.pop(context);
-                                  }
-                                  else {
-                                    message = value;
-                                    setState(() {});
-                                  }
-                                });
-                              }
-                            },
-                          ),
-                        ),
-                      ],
-                    ),
                   ])),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: <Widget>[
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.3,
+                    child: RaisedButton(
+                      color: Colors.orange[800],
+                      textColor: Colors.white,
+                      padding: const EdgeInsets.all(5.0),
+                      child: Text("Save"),
+                      onPressed: () {
+                        if (_formStateKey1.currentState.validate()) {
+                          _formStateKey1.currentState.save();
+                          editUser().then((value) {
+                            if (value == null) {
+                              Navigator.pop(context);
+                            } else {
+                              message = value;
+                              setState(() {});
+                            }
+                          });
+                        }
+                      },
+                    ),
+                  ),
+                ],
+              ),
               Spacer(),
               MessageError(message: message),
               VersionText(),

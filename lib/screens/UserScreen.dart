@@ -30,7 +30,7 @@ class _UserScreenState extends State<UserScreen> {
             children: <Widget>[
               Container(
                 margin: const EdgeInsets.only(top: 40.0, bottom: 20.0),
-                height: 180,
+                height: 150,
                 child: Image(
                   image: AssetImage('images/logo.png'),
                 ),
@@ -41,7 +41,7 @@ class _UserScreenState extends State<UserScreen> {
                   autovalidate: false,
                   child: Column(children: <Widget>[
                     Container(
-                      height: 300,
+                        //height: 300,
                         color: Colors.white,
                         margin: EdgeInsets.all(10),
                         padding: EdgeInsets.all(10),
@@ -62,53 +62,45 @@ class _UserScreenState extends State<UserScreen> {
                               decoration: InputDecoration(
                                 contentPadding: const EdgeInsets.all(16.0),
                                 prefixIcon: Container(
-                                    padding: const EdgeInsets.only(
-                                        top: 16.0, bottom: 16.0),
+                                    padding: const EdgeInsets.only(top: 16.0, bottom: 16.0),
                                     margin: const EdgeInsets.only(right: 8.0),
-                                    decoration:
-                                        BoxDecoration(color: Colors.grey[200]),
+                                    decoration: BoxDecoration(color: Colors.grey[200]),
                                     child: Icon(
                                       Icons.person,
                                       color: Colors.orange[800],
                                     )),
                                 hintText: "enter your name",
                                 hintStyle: TextStyle(color: Colors.grey[800]),
-                                border: OutlineInputBorder(
-                                    borderSide: BorderSide.none),
+                                border: OutlineInputBorder(borderSide: BorderSide.none),
                                 filled: true,
                                 fillColor: Colors.grey[200],
                               ),
                               validator: (value) {
-                                if (value.length == 0)
-                                  return "username is empty";
+                                if (value.length == 0) return "username is empty";
                                 return null;
                               },
-                              onSaved: (value) => loginUser.username = value.trim(),
+                              onSaved: (value) => loginUser.username = value.trim().toLowerCase(),
                             ),
                             SizedBox(height: 10.0),
                             TextFormField(
                               decoration: InputDecoration(
                                 contentPadding: const EdgeInsets.all(16.0),
                                 prefixIcon: Container(
-                                    padding: const EdgeInsets.only(
-                                        top: 16.0, bottom: 16.0),
+                                    padding: const EdgeInsets.only(top: 16.0, bottom: 16.0),
                                     margin: const EdgeInsets.only(right: 8.0),
-                                    decoration:
-                                    BoxDecoration(color: Colors.grey[200]),
+                                    decoration: BoxDecoration(color: Colors.grey[200]),
                                     child: Icon(
                                       Icons.email,
                                       color: Colors.orange[800],
                                     )),
                                 hintText: "email",
                                 hintStyle: TextStyle(color: Colors.grey[800]),
-                                border: OutlineInputBorder(
-                                    borderSide: BorderSide.none),
+                                border: OutlineInputBorder(borderSide: BorderSide.none),
                                 filled: true,
                                 fillColor: Colors.grey[200],
                               ),
                               validator: (value) {
-                                if (value.length == 0)
-                                  return "email is empty";
+                                if (value.length == 0) return "email is empty";
                                 return null;
                               },
                               onSaved: (value) => loginUser.email = value.trim(),
@@ -118,25 +110,41 @@ class _UserScreenState extends State<UserScreen> {
                               decoration: InputDecoration(
                                 contentPadding: const EdgeInsets.all(16.0),
                                 prefixIcon: Container(
-                                    padding: const EdgeInsets.only(
-                                        top: 16.0, bottom: 16.0),
+                                    padding: const EdgeInsets.only(top: 16.0, bottom: 16.0),
                                     margin: const EdgeInsets.only(right: 8.0),
-                                    decoration:
-                                        BoxDecoration(color: Colors.grey[200]),
+                                    decoration: BoxDecoration(color: Colors.grey[200]),
+                                    child: Icon(
+                                      Icons.phone,
+                                      color: Colors.orange[800],
+                                    )),
+                                hintText: "phone",
+                                hintStyle: TextStyle(color: Colors.grey[800]),
+                                border: OutlineInputBorder(borderSide: BorderSide.none),
+                                filled: true,
+                                fillColor: Colors.grey[200],
+                              ),
+                              onSaved: (value) => loginUser.phone = value.trim(),
+                            ),
+                            SizedBox(height: 10.0),
+                            TextFormField(
+                              decoration: InputDecoration(
+                                contentPadding: const EdgeInsets.all(16.0),
+                                prefixIcon: Container(
+                                    padding: const EdgeInsets.only(top: 16.0, bottom: 16.0),
+                                    margin: const EdgeInsets.only(right: 8.0),
+                                    decoration: BoxDecoration(color: Colors.grey[200]),
                                     child: Icon(
                                       Icons.lock,
                                       color: Colors.orange[800],
                                     )),
                                 hintText: "enter your password",
                                 hintStyle: TextStyle(color: Colors.grey[800]),
-                                border: OutlineInputBorder(
-                                    borderSide: BorderSide.none),
+                                border: OutlineInputBorder(borderSide: BorderSide.none),
                                 filled: true,
                                 fillColor: Colors.grey[200],
                               ),
                               validator: (value) {
-                                if (value.length == 0)
-                                  return "passwords is empty";
+                                if (value.length == 0) return "passwords is empty";
                                 return null;
                               },
                               onSaved: (value) => loginUser.password = value.trim(),
@@ -147,25 +155,21 @@ class _UserScreenState extends State<UserScreen> {
                               decoration: InputDecoration(
                                 contentPadding: const EdgeInsets.all(16.0),
                                 prefixIcon: Container(
-                                    padding: const EdgeInsets.only(
-                                        top: 16.0, bottom: 16.0),
+                                    padding: const EdgeInsets.only(top: 16.0, bottom: 16.0),
                                     margin: const EdgeInsets.only(right: 8.0),
-                                    decoration:
-                                        BoxDecoration(color: Colors.grey[200]),
+                                    decoration: BoxDecoration(color: Colors.grey[200]),
                                     child: Icon(
                                       Icons.lock,
                                       color: Colors.orange[800],
                                     )),
                                 hintText: "retype your password",
                                 hintStyle: TextStyle(color: Colors.grey[800]),
-                                border: OutlineInputBorder(
-                                    borderSide: BorderSide.none),
+                                border: OutlineInputBorder(borderSide: BorderSide.none),
                                 filled: true,
                                 fillColor: Colors.grey[200],
                               ),
                               validator: (value) {
-                                if (value.length == 0)
-                                  return "passwords is empty";
+                                if (value.length == 0) return "passwords is empty";
                                 return null;
                               },
                               onSaved: (value) => secondPassword = value.trim(),
@@ -197,10 +201,12 @@ class _UserScreenState extends State<UserScreen> {
                             }
                           }
                         },
-                       // shape: RoundedRectangleBorder(),
+                        // shape: RoundedRectangleBorder(),
                       ),
                     ),
-                    SizedBox(height: 10,),
+                    SizedBox(
+                      height: 10,
+                    ),
                     /*
                     Row(
                       children: <Widget>[
