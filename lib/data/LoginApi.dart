@@ -64,6 +64,7 @@ Future<String> loginApp(String username, String password) async {
         value = await userSettingGet('notification', 'settlement');
         globals.notificationSettlement = (value == '1');
       } else {
+        print('responseTag: '+responseTag);
         String error = responseTag['error'];
         if (error == null)
           return 'Login impossible';
@@ -75,7 +76,7 @@ Future<String> loginApp(String username, String password) async {
     }
   } else {
     if (response.statusCode == 400)
-      return 'Bad credentials';
+      return 'Incorrect login or password';
     else {
       return 'Technical error: ' + response.statusCode.toString();
     }

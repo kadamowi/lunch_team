@@ -150,26 +150,29 @@ class _RestaurantListScreenState extends State<RestaurantListScreen> {
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          globals.restaurantSelected = Restaurant(
-            restaurantId: 0,
-            restaurantName: '',
-            restaurantDescription: '',
-            restaurantUrl: '',
-            restaurantUrlLogo: '',
-          );
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => RestaurantScreen(),
-            ),
-          ).then((value) {
-            setState(() {});
-          });
-        },
-        tooltip: 'Add restaurant',
-        child: Icon(Icons.add),
+      floatingActionButton: Visibility(
+        visible: globals.sessionUser=='kris',
+        child: FloatingActionButton(
+          onPressed: () {
+            globals.restaurantSelected = Restaurant(
+              restaurantId: 0,
+              restaurantName: '',
+              restaurantDescription: '',
+              restaurantUrl: '',
+              restaurantUrlLogo: '',
+            );
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => RestaurantScreen(),
+              ),
+            ).then((value) {
+              setState(() {});
+            });
+          },
+          tooltip: 'Add restaurant',
+          child: Icon(Icons.add),
+        ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );

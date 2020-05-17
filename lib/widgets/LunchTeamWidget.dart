@@ -11,10 +11,11 @@ class ProgressBar extends StatelessWidget {
     return SizedBox(
       width: 200,
       height: 200,
-      child: CircularProgressIndicator(
-        valueColor: AlwaysStoppedAnimation(Colors.orange),
-        strokeWidth: 10,
-      ),
+      child: Text(''),
+      //child: CircularProgressIndicator(
+      //  valueColor: AlwaysStoppedAnimation(Colors.orange),
+      //  strokeWidth: 10,
+      //),
     );
   }
 }
